@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Simulation width="6" height="6" type="GameOfLife" defaultState="DEAD">
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>1</xPos>
+		<yPos>1</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>1</xPos>
+		<yPos>2</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>2</xPos>
+		<yPos>1</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>2</xPos>
+		<yPos>2</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>3</xPos>
+		<yPos>3</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>3</xPos>
+		<yPos>4</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>4</xPos>
+		<yPos>3</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>4</xPos>
+		<yPos>4</yPos>
+	</Cell>
+</Simulation>
