@@ -1,5 +1,9 @@
 package GameOfLife;
 
+
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+
 /**
  * Created by th174 on 1/29/2017.
  */
@@ -13,15 +17,11 @@ public final class CellState extends CellSociety.CellState {
 
     private GOLstate myState;
 
-    public CellState() {
-        this(GOLstate.DEAD);
-    }
-
     public CellState(GOLstate state) {
         myState = state;
     }
 
-    public CellState(String s){
+    public CellState(String s) {
         myState = GOLstate.valueOf(s);
     }
 
@@ -34,12 +34,17 @@ public final class CellState extends CellSociety.CellState {
         }
     }
 
+    @Override
+    public Color getFill() {
+        return getState().equals(GOLstate.ALIVE) ? Color.GREEN : Color.ALICEBLUE;
+    }
+
     private GOLstate getState() {
         return myState;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return myState.toString();
     }
 }

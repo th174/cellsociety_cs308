@@ -24,7 +24,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 public class CellSocietyMain extends Application {
     //test variables, should be read from xml
     public static final double SIZE = 1000;
-    public static final double FRAMES_PER_SECOND = 1;
+    public static final double FRAMES_PER_SECOND = 3;
     public static final double MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final String TITLE = "Cell Society";
     public static final String INPUT = "gameOfLife.xml";

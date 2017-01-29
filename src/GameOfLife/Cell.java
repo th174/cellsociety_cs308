@@ -1,7 +1,6 @@
 package GameOfLife;
 
 import CellSociety.SimulationGrid;
-import javafx.scene.paint.Color;
 
 /**
  * Created by th174 on 1/29/2017.
@@ -36,6 +35,6 @@ public class Cell extends CellSociety.Cell {
             setState(CellState.DEAD);
         }
         super.interact(grid);
-        setFill(getState().equals(CellState.ALIVE) ? Color.GREEN : Color.RED);
+        setFill(getState().getFill());
     }
 }

@@ -1,43 +1,113 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Simulation width="6" height="6" type="GameOfLife" defaultState="DEAD">
+<Simulation width="18" height="18" type="GameOfLife" defaultState="DEAD">
 	<Cell type="GameOfLife">
 		<State>ALIVE</State>
-		<xPos>1</xPos>
-		<yPos>1</yPos>
-	</Cell>
-	<Cell type="GameOfLife">
-		<State>ALIVE</State>
-		<xPos>1</xPos>
-		<yPos>2</yPos>
-	</Cell>
-	<Cell type="GameOfLife">
-		<State>ALIVE</State>
-		<xPos>2</xPos>
-		<yPos>1</yPos>
-	</Cell>
-	<Cell type="GameOfLife">
-		<State>ALIVE</State>
-		<xPos>2</xPos>
-		<yPos>2</yPos>
-	</Cell>
-	<Cell type="GameOfLife">
-		<State>ALIVE</State>
-		<xPos>3</xPos>
-		<yPos>3</yPos>
-	</Cell>
-	<Cell type="GameOfLife">
-		<State>ALIVE</State>
-		<xPos>3</xPos>
-		<yPos>4</yPos>
+		<xPos>4</xPos>
+		<yPos>5</yPos>
 	</Cell>
 	<Cell type="GameOfLife">
 		<State>ALIVE</State>
 		<xPos>4</xPos>
-		<yPos>3</yPos>
+		<yPos>6</yPos>
 	</Cell>
 	<Cell type="GameOfLife">
 		<State>ALIVE</State>
 		<xPos>4</xPos>
-		<yPos>4</yPos>
+		<yPos>7</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>4</xPos>
+		<yPos>8</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>4</xPos>
+		<yPos>9</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>4</xPos>
+		<yPos>10</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>4</xPos>
+		<yPos>11</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>4</xPos>
+		<yPos>12</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>5</xPos>
+		<yPos>5</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>5</xPos>
+		<yPos>7</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>5</xPos>
+		<yPos>8</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>5</xPos>
+		<yPos>9</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>5</xPos>
+		<yPos>10</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>5</xPos>
+		<yPos>12</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>6</xPos>
+		<yPos>5</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>6</xPos>
+		<yPos>6</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>6</xPos>
+		<yPos>7</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>6</xPos>
+		<yPos>8</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>6</xPos>
+		<yPos>9</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>6</xPos>
+		<yPos>10</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>6</xPos>
+		<yPos>11</yPos>
+	</Cell>
+	<Cell type="GameOfLife">
+		<State>ALIVE</State>
+		<xPos>6</xPos>
+		<yPos>12</yPos>
 	</Cell>
 </Simulation>
