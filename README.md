@@ -1,3 +1,3 @@
 # cellsociety
 
-CompSci 308 Cell Society Project
+CompSci 308 CellSociety.Cell Society Project
