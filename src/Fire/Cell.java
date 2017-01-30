@@ -12,7 +12,7 @@ public class Cell extends CellSociety.Cell {
     }
 
     @Override
-    //TODO: Implement this;
+    //TODO: Implement this; 
     public void interact(SimulationGrid<CellSociety.Cell> grid) {
         return;
     }
