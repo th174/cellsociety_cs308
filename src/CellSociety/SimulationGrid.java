@@ -18,6 +18,8 @@ public class SimulationGrid<E extends Cell> {
     public static int CENTER = 1;
     private E[][] cells;
     private Class<E> cellType;
+    private double screenWidth;
+    private double screenHeight;
 
 
     private SimulationGrid(E[][] array, Class<E> type) {
@@ -27,8 +29,9 @@ public class SimulationGrid<E extends Cell> {
 
     /**
      * Create a grid from a 2 dimensional array of cells. All null values in grid will be initialized to a default Class and default State
-     * @param array 2 dimensional array of cells
-     * @param type default type of cell to populate grid
+     *
+     * @param array     2 dimensional array of cells
+     * @param type      default type of cell to populate grid
      * @param baseState default state to populate grid
      */
     public SimulationGrid(E[][] array, Class<E> type, CellState baseState) {
@@ -38,13 +41,12 @@ public class SimulationGrid<E extends Cell> {
             for (int j = 0; j < cells.length; j++) {
                 if (cells[i][j] == null) {
                     try {
-                        cells[i][j] = cellType.getDeclaredConstructor(int.class, int.class, CellState.class, SimulationGrid.class).newInstance(i, j, baseState, this);
+                        cells[i][j] = cellType.getDeclaredConstructor(int.class, int.class, CellState.class).newInstance(i, j, baseState);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                } else {
-                    cells[i][j].setParentGrid(this);
                 }
+                cells[i][j].setParentGrid(this);
             }
         }
     }
@@ -98,6 +100,7 @@ public class SimulationGrid<E extends Cell> {
 
     /**
      * Get width of grid (x-dimension)
+     *
      * @return width
      */
     public int getWidth() {
@@ -106,9 +109,33 @@ public class SimulationGrid<E extends Cell> {
 
     /**
      * Get height of grid (y-dimension)
+     *
      * @return height
      */
     public int getHeight() {
         return cells[1].length;
+    }
+
+    /**
+     * @return width of the simulation in pixels
+     */
+    public double getScreenWidth() {
+        return screenWidth;
+    }
+
+    /**
+     * @return height of the simulation in pixels
+     */
+    public double getScreenHeight() {
+        return screenHeight;
+    }
+
+    /**
+     * @param width  Width of simulation in pixels
+     * @param height Height of simulation in pixels
+     */
+    public void setWindowDimensions(double width, double height) {
+        screenWidth = width;
+        screenHeight = height;
     }
 }

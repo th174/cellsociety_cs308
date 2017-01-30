@@ -19,8 +19,7 @@ public abstract class Cell {
     private int yPos;
     private Rectangle myRectangle;
 
-    public Cell(int x, int y, CellState state, SimulationGrid grid) {
-        parentGrid = grid;
+    public Cell(int x, int y, CellState state){
         currentState = state;
         nextState = state;
         xPos = x;
@@ -35,10 +34,10 @@ public abstract class Cell {
     public void updateState() {
         currentState = nextState;
         myRectangle.setFill(currentState.getFill());
-        myRectangle.setWidth(WindowProperties.getWidth() / parentGrid.getWidth() - BORDER_OFFSET * 2);
-        myRectangle.setHeight(WindowProperties.getHeight() / parentGrid.getHeight() - BORDER_OFFSET * 2);
-        myRectangle.setX(WindowProperties.getWidth() * xPos / parentGrid.getWidth() + BORDER_OFFSET);
-        myRectangle.setY(WindowProperties.getHeight() * yPos / parentGrid.getHeight() + BORDER_OFFSET);
+        myRectangle.setWidth(parentGrid.getScreenWidth() / parentGrid.getWidth() - BORDER_OFFSET * 2);
+        myRectangle.setHeight(parentGrid.getScreenHeight() / parentGrid.getHeight() - BORDER_OFFSET * 2);
+        myRectangle.setX(parentGrid.getScreenWidth() * xPos / parentGrid.getWidth() + BORDER_OFFSET);
+        myRectangle.setY(parentGrid.getScreenHeight() * yPos / parentGrid.getHeight() + BORDER_OFFSET);
     }
 
     /**

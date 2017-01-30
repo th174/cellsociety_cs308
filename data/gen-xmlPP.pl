@@ -20,7 +20,7 @@ for(my $i = 1; $i <= $xSize; $i++){
         #if ($i >= 4 && $i < 7 && $j >= 5 && $j < 13 && !($i == 5 && ($j == 6 || $j == 11 ))){
         if ($i ==1 && $j==1 ){
             print OUTPUT 
-            "\t<Cell type=\"$simulationType\">".
+            "\t<Cell>".
             "\n\t\t<State>$state1</State>".
             "\n\t\t<xPos>$i</xPos>".
             "\n\t\t<yPos>$j</yPos>".
@@ -29,7 +29,7 @@ for(my $i = 1; $i <= $xSize; $i++){
         #if ($i >= 4 && $i < 7 && $j >= 5 && $j < 13 && !($i == 5 && ($j == 6 || $j == 11 ))){
             if ($i==3 && $j==3){
             print OUTPUT
-            "\t<Cell type=\"$simulationType\">".
+            "\t<Cell>".
             "\n\t\t<State>$state2</State>".
             "\n\t\t<xPos>$i</xPos>".
             "\n\t\t<yPos>$j</yPos>".

@@ -7,8 +7,8 @@ import CellSociety.SimulationGrid;
  */
 public class Cell extends CellSociety.Cell {
 
-    public Cell(int x, int y, CellSociety.CellState state, SimulationGrid grid) {
-        super(x, y, state, grid);
+    public Cell(int x, int y, CellSociety.CellState state) {
+        super(x, y, state);
     }
 
     @Override
