@@ -6,7 +6,7 @@ import CellSociety.SimulationGrid;
  * Created by th174 on 1/29/2017.
  */
 public class Cell extends CellSociety.Cell {
-    //IDK wtf this is, but magic numbers man
+    //Gotta pull out them magic numbers
     public static final int TWO = 2;
     public static final int THREE = 3;
 

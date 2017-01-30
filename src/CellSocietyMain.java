@@ -6,10 +6,13 @@ import CellSociety.Cell;
 import CellSociety.CellState;
 import CellSociety.SimulationGrid;
 import CellSociety.WindowProperties;
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -24,11 +27,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 public class CellSocietyMain extends Application {
     //test variables, should be read from xml
     public static final double SIZE = 1000;
-    public static final double FRAMES_PER_SECOND = 3;
-    public static final double MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final String TITLE = "Cell Society";
-    public static final String INPUT = "gameOfLife.xml";
+    private double framesPerSecond = 3;
     private SimulationGrid<Cell> gameOfLifeGrid;
+    Timeline animation;
 
     public static void main(String[] args) {
         launch(args);
@@ -38,31 +40,37 @@ public class CellSocietyMain extends Application {
     public void start(Stage primaryStage) {
         Pane root = new Pane();
         Scene simulation = new Scene(root, SIZE, SIZE, Color.BLACK);
-        gameOfLifeGrid = readXML(INPUT);
+        gameOfLifeGrid = readXML(getParameters().getUnnamed().get(0));
+        simulation.setOnKeyPressed(this::handleKeyPress);
         WindowProperties.setDimensions(SIZE, SIZE);
         primaryStage.setScene(simulation);
         primaryStage.setTitle(TITLE);
         primaryStage.show();
-        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> update());
-        Timeline animation = new Timeline();
+        KeyFrame frame = new KeyFrame(Duration.seconds(1 / framesPerSecond), e -> update());
+        animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
         animation.play();
         root.getChildren().addAll(gameOfLifeGrid.asCollection());
     }
 
-    public void update() {
+    private void update() {
         gameOfLifeGrid.forEach(Cell::updateState);
         gameOfLifeGrid.forEach(e -> e.interact(gameOfLifeGrid));
     }
 
-    public SimulationGrid<Cell> readXML(String XMLFile) {
+    private SimulationGrid<Cell> readXML(String XMLFile) {
         try {
-            String userDirectory = System.getProperty("user.dir");
-            Document file = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(userDirectory + "/data/" + XMLFile);
+            Document file = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(XMLFile);
+            Element root = file.getDocumentElement();
             Cell[][] grid = new Cell[Integer.parseInt(file.getDocumentElement().getAttribute("width"))][Integer.parseInt(file.getDocumentElement().getAttribute("height"))];
             Class<Cell> defaultCellType = (Class<Cell>) Class.forName(file.getDocumentElement().getAttribute("type") + ".Cell");
             CellState defaultCellState = (CellState) Class.forName(file.getDocumentElement().getAttribute("type") + ".CellState").getDeclaredConstructor(String.class).newInstance((file.getDocumentElement().getAttribute("defaultState")));
+            try {
+                framesPerSecond = Double.parseDouble(root.getAttribute("fps"));
+            } catch (Exception e) {
+                System.out.println("Using fps = 3");
+            }
             NodeList cells = file.getElementsByTagName("Cell");
             for (int i = 0; i < cells.getLength(); i++) {
                 Element currentCell = (Element) cells.item(i);
@@ -74,8 +82,19 @@ public class CellSocietyMain extends Application {
             }
             return new SimulationGrid<>(grid, defaultCellType, defaultCellState);
         } catch (Exception e) {
+            System.out.println("Could not read input file");
             e.printStackTrace();
+            return null;
         }
-        return null;
+    }
+
+    private void handleKeyPress(KeyEvent k) {
+        if (k.getCode() == KeyCode.SPACE) {
+            if (animation.getStatus().equals(Animation.Status.PAUSED)) {
+                animation.play();
+            } else {
+                animation.pause();
+            }
+        }
     }
 }

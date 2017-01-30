@@ -19,7 +19,7 @@ public class SimulationGrid<E extends Cell> {
     private E[][] cells;
     private Class<E> cellType;
 
-    private SimulationGrid(E[][] array,Class<E> type) {
+    private SimulationGrid(E[][] array, Class<E> type) {
         cells = array;
         cellType = type;
     }
@@ -43,22 +43,18 @@ public class SimulationGrid<E extends Cell> {
     }
 
     public SimulationGrid<E> getNeighbors(int x, int y) {
-        E[][] neighbors = (E[][]) Array.newInstance(cellType, 3,3);
+        E[][] neighbors = (E[][]) Array.newInstance(cellType, 3, 3);
         for (int i = 0; i < neighbors.length; i++) {
             for (int j = 0; j < neighbors[i].length; j++) {
                 neighbors[i][j] = get(x + i - 1, y + j - 1);
             }
         }
         neighbors[CENTER][CENTER] = null;
-        return new SimulationGrid<>(neighbors,cellType);
+        return new SimulationGrid<>(neighbors, cellType);
     }
 
     public E get(int x, int y) {
-        if (x >= 0 && x < cells.length && y >= 0 && y < cells[x].length) {
-            return cells[x][y];
-        } else {
-            return null;
-        }
+        return (x >= 0 && x < cells.length && y >= 0 && y < cells[x].length) ? cells[x][y] : null;
     }
 
     public Collection<E> asCollection() {
