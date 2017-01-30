@@ -21,8 +21,12 @@ public abstract class Cell extends Rectangle {
         yPos = y;
     }
 
+    /**
+     * advances cell to nextState
+     */
     public void updateState() {
         currentState = nextState;
+        setFill(currentState.getFill());
     }
 
     public void interact(SimulationGrid<Cell> grid) {

@@ -31,6 +31,5 @@ public class Cell extends CellSociety.Cell {
             setState(CellState.DEAD);
         }
         super.interact(grid);
-        setFill(getState().getFill());
     }
 }

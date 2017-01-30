@@ -59,6 +59,11 @@ public class CellSocietyMain extends Application {
         gameOfLifeGrid.forEach(e -> e.interact(gameOfLifeGrid));
     }
 
+    /**
+     * Read and parse xml file using DOM
+     * @param XMLFile name of XML file
+     * @return generated SimulationGrid of cells based on XML input
+     */
     private SimulationGrid<Cell> readXML(String XMLFile) {
         try {
             Document file = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(XMLFile);
@@ -88,6 +93,10 @@ public class CellSocietyMain extends Application {
         }
     }
 
+    /**
+     * Handle Keyboard user keyboard input
+     * @param k
+     */
     private void handleKeyPress(KeyEvent k) {
         if (k.getCode() == KeyCode.SPACE) {
             if (animation.getStatus().equals(Animation.Status.PAUSED)) {
@@ -95,6 +104,10 @@ public class CellSocietyMain extends Application {
             } else {
                 animation.pause();
             }
+        } else if (k.getCode() == KeyCode.EQUALS){
+            //TODO: Implement Speed Up
+        } else if (k.getCode() == KeyCode.MINUS){
+            //TODO: Implement Slow Down
         }
     }
 }
