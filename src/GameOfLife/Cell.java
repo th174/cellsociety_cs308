@@ -10,10 +10,6 @@ public class Cell extends CellSociety.Cell {
     public static final int TWO = 2;
     public static final int THREE = 3;
 
-    public Cell(CellSociety.CellState state, SimulationGrid grid) {
-        super(state, grid);
-    }
-
     public Cell(int x, int y, CellSociety.CellState state, SimulationGrid grid) {
         super(x, y, state, grid);
     }

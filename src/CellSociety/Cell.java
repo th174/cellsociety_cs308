@@ -13,10 +13,6 @@ public abstract class Cell extends Rectangle {
     private int xPos;
     private int yPos;
 
-    public Cell(CellState state, SimulationGrid grid) {
-        this(0, 0, state, grid);
-    }
-
     public Cell(int x, int y, CellState state, SimulationGrid grid) {
         parentGrid = grid;
         currentState = state;
