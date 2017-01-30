@@ -30,6 +30,5 @@ public class Cell extends CellSociety.Cell {
         } else {
             setState(CellState.DEAD);
         }
-        super.interact(grid);
     }
 }

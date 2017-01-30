@@ -25,13 +25,12 @@ import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
-
 public class CellSocietyMain extends Application {
     //test variables, should be read from xml
     public static final double SIZE = 1000;
     public static final String TITLE = "Cell Society";
     private double framesPerSecond = 3;
-    private SimulationGrid<Cell> gameOfLifeGrid;
+    private SimulationGrid<Cell> mySimulationGrid;
     Timeline animation;
 
     public static void main(String[] args) {
@@ -42,7 +41,7 @@ public class CellSocietyMain extends Application {
     public void start(Stage primaryStage) {
         Pane root = new Pane();
         Scene simulation = new Scene(root, SIZE, SIZE, Color.BLACK);
-        gameOfLifeGrid = readXML(getParameters().getUnnamed().get(0));
+        mySimulationGrid = readXML(getParameters().getUnnamed().get(0));
         simulation.setOnKeyPressed(this::handleKeyPress);
         WindowProperties.setDimensions(SIZE, SIZE);
         primaryStage.setScene(simulation);
@@ -53,12 +52,12 @@ public class CellSocietyMain extends Application {
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
         animation.play();
-        root.getChildren().addAll(gameOfLifeGrid.asCollection().stream().map(Cell::getRectangle).collect(Collectors.toSet()));
+        root.getChildren().addAll(mySimulationGrid.asCollection().stream().map(Cell::getRectangle).collect(Collectors.toSet()));
     }
 
     private void update() {
-        gameOfLifeGrid.forEach(Cell::updateState);
-        gameOfLifeGrid.forEach(e -> e.interact(gameOfLifeGrid));
+        mySimulationGrid.forEach(Cell::updateState);
+        mySimulationGrid.forEach(e -> e.interact(mySimulationGrid));
     }
 
     /**
@@ -70,9 +69,9 @@ public class CellSocietyMain extends Application {
         try {
             Document file = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(XMLFile);
             Element root = file.getDocumentElement();
-            Cell[][] grid = new Cell[Integer.parseInt(file.getDocumentElement().getAttribute("width"))][Integer.parseInt(file.getDocumentElement().getAttribute("height"))];
-            Class<Cell> defaultCellType = (Class<Cell>) Class.forName(file.getDocumentElement().getAttribute("type") + ".Cell");
-            CellState defaultCellState = (CellState) Class.forName(file.getDocumentElement().getAttribute("type") + ".CellState").getDeclaredConstructor(String.class).newInstance((file.getDocumentElement().getAttribute("defaultState")));
+            Cell[][] grid = new Cell[Integer.parseInt(root.getAttribute("width"))][Integer.parseInt(root.getAttribute("height"))];
+            Class<Cell> defaultCellType = (Class<Cell>) Class.forName(root.getAttribute("type") + ".Cell");
+            CellState defaultCellState = (CellState) Class.forName(root.getAttribute("type") + ".CellState").getDeclaredConstructor(String.class).newInstance((root.getAttribute("defaultState")));
             try {
                 framesPerSecond = Double.parseDouble(root.getAttribute("fps"));
             } catch (Exception e) {
@@ -82,7 +81,7 @@ public class CellSocietyMain extends Application {
             for (int i = 0; i < cells.getLength(); i++) {
                 Element currentCell = (Element) cells.item(i);
                 Class<? extends Cell> cellType = (Class<? extends Cell>) Class.forName(currentCell.getAttribute("type") + ".Cell");
-                CellState state = (CellState) Class.forName(file.getDocumentElement().getAttribute("type") + ".CellState").getDeclaredConstructor(String.class).newInstance(currentCell.getElementsByTagName("State").item(0).getTextContent());
+                CellState state = (CellState) Class.forName(root.getAttribute("type") + ".CellState").getDeclaredConstructor(String.class).newInstance(currentCell.getElementsByTagName("State").item(0).getTextContent());
                 int x = Integer.parseInt(currentCell.getElementsByTagName("xPos").item(0).getTextContent());
                 int y = Integer.parseInt(currentCell.getElementsByTagName("yPos").item(0).getTextContent());
                 grid[x][y] = cellType.getDeclaredConstructor(int.class, int.class, CellState.class, SimulationGrid.class).newInstance(x, y, state, null);
