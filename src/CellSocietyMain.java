@@ -21,6 +21,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import java.util.stream.Collectors;
+
 import javax.xml.parsers.DocumentBuilderFactory;
 
 
@@ -51,7 +53,7 @@ public class CellSocietyMain extends Application {
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
         animation.play();
-        root.getChildren().addAll(gameOfLifeGrid.asCollection());
+        root.getChildren().addAll(gameOfLifeGrid.asCollection().stream().map(Cell::getRectangle).collect(Collectors.toSet()));
     }
 
     private void update() {
