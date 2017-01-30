@@ -32,18 +32,36 @@ public class Cell extends CellSociety.Cell {
      */
     public void interact(SimulationGrid<CellSociety.Cell> grid) {
     	ArrayList<CellSociety.Cell> adjNeighbors = new ArrayList<CellSociety.Cell>(getAdjNeighbors().asCollection());
-
+    	ArrayList<CellSociety.Cell> emptyNeighbors = new ArrayList<CellSociety.Cell>(adjNeighbors);
+    	emptyNeighbors.removeIf(e -> !e.getState().equals(CellState.EMPTY));
+		// System.out.println("we have " + adjNeighbors.size() +
+			//	 " empty neighbors " +adjNeighbors + "       and we CHOSE     " + indexOfNextFish);
+		
     	if(getState().equals(CellState.PREDATOR)){
-
+    		//if(adjNeighbors.remo)
+    		for(CellSociety.Cell neighbor : adjNeighbors){
+    			if(neighbor.getState().equals(CellState.PREY)){
+    				neighbor.setState(CellState.PREDATOR); //eat the first fish it sees
+    				setState(CellState.EMPTY);
+    				break;
+    			}
+    		}
+    		
+    		
+    		if(canReproduce()){
+    			setState(CellState.PREDATOR);
+    			resetReproduction();
+    		}
     	}
     	if(getState().equals(CellState.PREY)){
     		 //check adjacent cells. move to a random one of the empty ones
-    		 if(adjNeighbors.size()>0){
-    			int indexOfNextFish = (int) (Math.random()*(adjNeighbors.size()));
-    			 System.out.println("we have " + adjNeighbors.size() +
-    					 " empty neighbors " +adjNeighbors + "       and we CHOSE     " + indexOfNextFish);
-    			adjNeighbors.get(indexOfNextFish).setState(CellState.PREY);
+    		
+    		
+    		 if(!emptyNeighbors.isEmpty()){
+    			int indexOfNextFish = (int) (Math.random()*(emptyNeighbors.size()));
+    			emptyNeighbors.get(indexOfNextFish).setState(CellState.PREY);
     		}
+    		
     		setState(CellState.EMPTY);
     	}
 
@@ -58,6 +76,9 @@ public class Cell extends CellSociety.Cell {
     		return true;
     	}
     	return false;
+    }
+    public void resetReproduction(){
+    	movesSinceReproduction=0;
     }
 
 
