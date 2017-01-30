@@ -2,6 +2,7 @@ package CellSociety;
 
 import javafx.scene.shape.Rectangle;
 
+import java.util.Collection;
 import java.util.Objects;
 
 /**
@@ -51,6 +52,13 @@ public abstract class Cell {
     public SimulationGrid<Cell> getNeighbors() {
         if (Objects.nonNull(parentGrid)) {
             return parentGrid.getNeighbors(xPos, yPos);
+        } else {
+            return null;
+        }
+    }
+    public SimulationGrid<Cell> getAdjNeighbors() {
+        if (Objects.nonNull(parentGrid)) {
+        	return parentGrid.getAdjNeighbors(xPos, yPos);
         } else {
             return null;
         }

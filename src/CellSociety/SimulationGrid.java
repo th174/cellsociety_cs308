@@ -70,6 +70,36 @@ public class SimulationGrid<E extends Cell> {
     }
 
     /**
+     * Returns up to 4 adjacent neighbors of the cell at x,y in a 3 by 3 grid; the center of the cell is null
+     *
+     * @param x
+     * @param y
+     * @return 3 by 3 Grid
+     */
+
+    public SimulationGrid<E> getAdjNeighbors(int x, int y) {
+//        E[][] neighbors = (E[][]) Array.newInstance(cellType, 3, 3);
+//        for (int i = 0; i < neighbors.length; i++) {
+//            for (int j = 0; j < neighbors[i].length; j++) {
+//                if ((i == 0 || i == neighbors.length - 1) && (j == 0 || j == neighbors[i].length - 1)) {
+//                    neighbors[i][j] = null;
+//                } else {
+//                    neighbors[i][j] = get(x + i - 1, y + j - 1);
+//                }
+//            }
+//        }
+//        neighbors[CENTER][CENTER] = null;
+//        return new SimulationGrid<>(neighbors, cellType);
+        SimulationGrid<E> neighbors = getNeighbors(x, y);
+        neighbors.set(TOP, LEFT, null);
+        neighbors.set(TOP, RIGHT, null);
+        neighbors.set(BOTTOM, LEFT, null);
+        neighbors.set(BOTTOM, RIGHT, null);
+        return neighbors;
+    }
+
+
+    /**
      * Get the cell at coordinates x, y on grid
      *
      * @param x
@@ -78,6 +108,13 @@ public class SimulationGrid<E extends Cell> {
      */
     public E get(int x, int y) {
         return (x >= 0 && x < cells.length && y >= 0 && y < cells[x].length) ? cells[x][y] : null;
+    }
+
+    private void set(int x, int y, E cell) {
+        cells[x][y] = cell;
+        if (Objects.nonNull(cells[x][y])) {
+            cells[x][y].setParentGrid(this);
+        }
     }
 
     /**
