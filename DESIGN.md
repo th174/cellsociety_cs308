@@ -1,8 +1,6 @@
 Design.md
 ------------
 
-⧸⧸
-> Written with [StackEdit](https://stackedit.io/).
 # Introduction
 Our team is trying to implement a program that is able to simulate any 2D grid consisting of cells. The state of each cell is updated with each step, which can be sped up or slowed down. Further more, the cells need to be able to interact with each other according to a set of rules. It should be flexible enough to allow new rules and new ways of interaction to be added. Furthermore, it should be able to support any number of cells in the simulation.  Each cell must be able to track its previous and current (updated) status, which will be used for other cells to determine what their next state it. Because there are so many possibilities for how the cells react, we will have to be able describe different set of rules for each game possibility. In terms of the design architecture, the actual implementation of the cells should be closed to modification. However, the fact that each cell should be updated, be able to check its neighbors, hold a status, and all the possible actions of a cell should all be open for extension. This is because there will be different implementation of cells, but they should all have similar methods and features. 
 
@@ -16,7 +14,7 @@ Our team is trying to implement a program that is able to simulate any 2D grid c
 * Further, the user will be able to press a button to stop the current simulation, which will then prompt the user to select or type in a new XML file specifying the new simulation to be run. 
 * To pause the game, the user can press spacebar and to speed up and slow down, the user just presses +/-. Later on, we are planning on making this more user friendly by implementing buttons. Additionally, we could do more UI controls to determine the size of the grid, etc.
 * For any erroneous errors, like not being able to read a file, we use try catch statements and print out an error to the user. We've already implemented this to some extent and plan on doing it for the big possible errors. 
-* The attached picture shows what our final product may look like, along with some more buttons.
+* [This picture](./lib/mockup.png) shows what our final product may look like, along with some more buttons.
 
 # Design Details
 * Per one the use cases, for the cells on the edge, the neighbors that are not on the screen would be considered dead. This would be done in the SimulationGrid to set the ones that are not on the screen as null. Then, in the packages for each simulation, in the Cell class, in an interact method, one would say that if the method is null then it would not interact with it. This would be made so that the interaction are the ones that should be done like in Game of Life and have all the active grids in the windows.
@@ -24,7 +22,7 @@ Our team is trying to implement a program that is able to simulate any 2D grid c
 * Next, the CellSocietyMain class is also flexible enough to allow the user to switch simulations. We've touched upon this a bit in the previous sections. The user will press a button to stop the simulation, which will then clear the read and call the readXML file again, which the user will input. This allows the user to switch from any simulation to any other simulation at any time. In order for this to work, we need to add a scenario in the handleKeyPress method in CellSocietyMain, but this will be easy to implement and we're confident we'll handle this use case without many problems. Overall, it's pretty clear how this class will be able to set up the grid and handle these different simulation scenarios. 
 *  To move cells from the current generation to the next,  the CellSocietyMain class's update() method calls each cell in the simulation grid to update (meaning the abstract Cell class has an updateState() method that changes the current state to the next state, and each concrete class has an interacts() method, which determines what each cell should be in the next state). This then immediately displays the next state of each cell graphically. If we were to add a new simulation, or change any of the rules, this CellSocietyMain class would be the same, as would the abstract Cell class. The new cells would be displayed graphically no matter how we implement the actual rules of each simulation.
 *  At this point, it's pretty clear how our classes will interact. Each concrete class will interact and update appropriately, with the MainCellSociety class calling each Cell to update itself. The use of an abstract Cell class makes this very easy and flexible. 
-
+* See [Javadoc](./doc/index.html) for more info
 
 
 # Design Considerations
