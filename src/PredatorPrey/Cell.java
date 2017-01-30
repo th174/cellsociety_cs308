@@ -18,7 +18,7 @@ public class Cell extends CellSociety.Cell {
 
     @Override
     //TODO: Implement this;
-    /*
+    /**
      * Every turn of the simulation a fish will move to a random adjacent cell 
      * unless all four are occupied. If the fish has survived the number of turns 
      * necessary to breed it produces a new fish if there is an empty adjacent cell..

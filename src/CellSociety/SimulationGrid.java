@@ -21,7 +21,6 @@ public class SimulationGrid<E extends Cell> {
     private double screenWidth;
     private double screenHeight;
 
-
     private SimulationGrid(E[][] array, Class<E> type) {
         cells = array;
         cellType = type;
@@ -97,7 +96,6 @@ public class SimulationGrid<E extends Cell> {
         neighbors.set(BOTTOM, RIGHT, null);
         return neighbors;
     }
-
 
     /**
      * Get the cell at coordinates x, y on grid
