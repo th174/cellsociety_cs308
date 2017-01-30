@@ -11,6 +11,8 @@ public final class CellState extends CellSociety.CellState {
     public static final CellState EMPTY = new CellState(PredatorPreyState.EMPTY);
     public static final CellState PREY = new CellState(PredatorPreyState.PREY);
 
+    
+    
     private enum PredatorPreyState {
         EMPTY, PREDATOR, PREY
     }
@@ -33,6 +35,7 @@ public final class CellState extends CellSociety.CellState {
             throw new Error("invalid state:\tExpected: " + getClass().getName() + "\tActual: " + state.getClass().getName());
         }
     }
+   
 
     private PredatorPreyState getState() {
         return myState;

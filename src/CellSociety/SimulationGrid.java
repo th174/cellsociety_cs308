@@ -66,6 +66,29 @@ public class SimulationGrid<E extends Cell> {
         neighbors[CENTER][CENTER] = null;
         return new SimulationGrid<>(neighbors, cellType);
     }
+    /**
+     * Returns up to 4 adjecent neighbors of the cell at x,y in a 3 by 3 grid; the center of the cell is null
+     *
+     * @param x
+     * @param y
+     * @return 3 by 3 Grid
+     */
+    
+    public SimulationGrid<E> getAdjNeighbors(int x, int y) {
+        E[][] neighbors = (E[][]) Array.newInstance(cellType, 3, 3);
+        for (int i = 0; i < neighbors.length; i++) {
+            for (int j = 0; j < neighbors[i].length; j++) {
+            	if((i==0||i==neighbors.length-1)&&(j==0||j==neighbors[i].length-1)){
+            		neighbors[i][j]=null;
+            	}else{
+                neighbors[i][j] = get(x + i - 1, y + j - 1);
+            	}
+            }
+        }
+        neighbors[CENTER][CENTER] = null;
+        return new SimulationGrid<>(neighbors, cellType);
+    }
+    
 
     /**
      * Get the cell at coordinates x, y on grid
