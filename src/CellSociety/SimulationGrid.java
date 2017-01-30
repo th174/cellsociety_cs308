@@ -52,8 +52,8 @@ public class SimulationGrid<E extends Cell> {
     /**
      * Returns up to 8 neighbors of the cell at x,y in a 3 by 3 grid; the center of the cell is null
      *
-     * @param x x-index of cell to get neighbors of
-     * @param y y-index of cell to get neighbors of
+     * @param x
+     * @param y
      * @return 3 by 3 Grid
      */
     public SimulationGrid<E> getNeighbors(int x, int y) {
@@ -70,8 +70,8 @@ public class SimulationGrid<E extends Cell> {
     /**
      * Get the cell at coordinates x, y on grid
      *
-     * @param x x-index
-     * @param y y-index
+     * @param x
+     * @param y
      * @return Cell
      */
     public E get(int x, int y) {
@@ -90,7 +90,7 @@ public class SimulationGrid<E extends Cell> {
     /**
      * Apply a method to each cell in the grid
      *
-     * @param method Functional Interface method to apply to each Cell inside this grid
+     * @param method
      */
     public void forEach(Consumer<E> method) {
         Arrays.stream(cells).flatMap(Arrays::stream).filter(Objects::nonNull).forEach(method);
