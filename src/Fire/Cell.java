@@ -5,7 +5,7 @@ import CellSociety.SimulationGrid;
 /**
  * Created by th174 on 1/29/2017.
  */
-public class Cell extends CellSociety.Cell {
+public class Cell extends CellSociety.AbstractCell {
     private double probCatchFire;
 
     public Cell(int x, int y, CellSociety.CellState state, String probCatchString) {
@@ -15,7 +15,7 @@ public class Cell extends CellSociety.Cell {
 
     @Override
     //TODO: Implement this; 
-    public void interact(SimulationGrid<CellSociety.Cell> grid) {
+    public void interact(SimulationGrid<CellSociety.AbstractCell> grid) {
         return;
     }
 }
