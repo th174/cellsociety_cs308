@@ -10,10 +10,10 @@ public class Segregation_Cell extends Abstract_Cell<SegregationCell_State> {
     public static final double DEFAULT_SATISFACTORY_THRESHOLD = 0.5;
     private double satisfactionThreshold;
 
-    public Segregation_Cell(String... params) {
-        this(Integer.parseInt(params[0]), Integer.parseInt(params[1]), new SegregationCell_State(params[2]), DEFAULT_SATISFACTORY_THRESHOLD);
-        if (params.length > 2) {
-            satisfactionThreshold = Double.parseDouble(params[3]);
+    public Segregation_Cell(int x, int y, String[] params) {
+        this(x,y, new SegregationCell_State(params[0]), DEFAULT_SATISFACTORY_THRESHOLD);
+        if (params.length > 1) {
+            satisfactionThreshold = Double.parseDouble(params[1]);
         }
     }
 

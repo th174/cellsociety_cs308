@@ -9,10 +9,10 @@ public class Fire_Cell extends Abstract_Cell<Fire_CellState> {
     public static final double DEFAULT_PROB_CATCH_FIRE = 0.2;
     private double probCatchFire;
 
-    public Fire_Cell(String... params) {
-        this(Integer.parseInt(params[0]), Integer.parseInt(params[1]), new Fire_CellState(params[2]), DEFAULT_PROB_CATCH_FIRE);
-        if (params.length > 2) {
-            probCatchFire = Double.parseDouble(params[3]);
+    public Fire_Cell(int x, int y, String... params) {
+        this(x, y, new Fire_CellState(params[0]), DEFAULT_PROB_CATCH_FIRE);
+        if (params.length > 1) {
+            probCatchFire = Double.parseDouble(params[1]);
         }
     }
 

@@ -28,6 +28,7 @@ public class CellSocietyMain extends Application {
     //test variables, should be read from xml
     public static final double SIZE = 1000;
     public static final String TITLE = "Cell Society";
+    private static final String WILDCARD = "*";
     private double framesPerSecond = 3;
     private SimulationGrid<? extends Abstract_Cell> mySimulationGrid;
     private Timeline animation;
@@ -70,52 +71,52 @@ public class CellSocietyMain extends Application {
         try {
             Document file = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(XMLFile);
             Element root = file.getDocumentElement();
-            //set up grid
-            Abstract_Cell[][] grid = new Abstract_Cell[Integer.parseInt(root.getAttribute("width"))][Integer.parseInt(root.getAttribute("height"))];
+            //set up grid of references to constructorParams
+            String[][][] grid = new String[Integer.parseInt(root.getAttribute("width"))][Integer.parseInt(root.getAttribute("height"))][0];
             try {
                 framesPerSecond = Double.parseDouble(root.getAttribute("fps"));
             } catch (Exception e) {
-                System.out.println("Using fps = 3");
             }
             String simulationType = root.getAttribute("type");
             Class<? extends Abstract_Cell> cellType = (Class<? extends Abstract_Cell>) Class.forName("CellSociety." + simulationType + "." + simulationType + "_Cell");
-            //define default cell constructor parameters to populate SimulationGrid
-            Element defaultCellElement = (Element) file.getElementsByTagName("DefaultCell").item(0);
-            String[] defaultCellParams = getConstructorParamsFromXMLElement(defaultCellElement, simulationType);
             //instantiate cells
             NodeList cells = file.getElementsByTagName("Cell");
             for (int i = 0; i < cells.getLength(); i++) {
-                Element currentCell = (Element) cells.item(i);
-                int x = Integer.parseInt(currentCell.getAttribute("xPos"));
-                int y = Integer.parseInt(currentCell.getAttribute("yPos"));
+                Element currentElement = (Element) cells.item(i);
                 try {
-                    grid[x][y] = cellType.getConstructor(String[].class).newInstance((Object) getConstructorParamsFromXMLElement(currentCell, simulationType));
+                    if (!currentElement.hasAttribute("xPos") && !currentElement.hasAttribute("yPos")) {
+                        for (int j = 0; j < grid.length; j++) {
+                            for (int k = 0; k < grid[j].length; k++) {
+                                grid[j][k] = getConstructorParamsFromXMLElement(currentElement, simulationType);
+                            }
+                        }
+                    } else if (!currentElement.hasAttribute("xPos")) {
+                        for (int j = 0; j < grid.length; j++) {
+                            grid[j][Integer.parseInt(currentElement.getAttribute("yPos"))] = getConstructorParamsFromXMLElement(currentElement, simulationType);
+                        }
+                    } else if (!currentElement.hasAttribute("yPos")) {
+                        for (int j = 0; j < grid[0].length; j++) {
+                            grid[Integer.parseInt(currentElement.getAttribute("xPos"))][j] = getConstructorParamsFromXMLElement(currentElement, simulationType);
+                        }
+                    } else {
+                        grid[Integer.parseInt(currentElement.getAttribute("xPos"))][Integer.parseInt(currentElement.getAttribute("yPos"))] = getConstructorParamsFromXMLElement(currentElement, simulationType);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                     System.out.println("Could not instantiate " + simulationType + "." + simulationType + "Cell");
                 }
             }
-            return new SimulationGrid<Abstract_Cell>(grid, (Class<Abstract_Cell>) cellType, defaultCellParams);
+            return new SimulationGrid<>(grid, (Class<Abstract_Cell>) cellType);
         } catch (Exception e) {
             e.printStackTrace();
             throw new Error("Could not read input file");
         }
     }
 
-    private String[] getConstructorParamsFromXMLElement(Element currentCell, String simulationType) throws Exception {
+    private String[] getConstructorParamsFromXMLElement(Element currentElement, String simulationType) throws Exception {
         List<String> constructorParams = new ArrayList<>();
-        if (currentCell.hasAttribute("xPos")) {
-            constructorParams.add(currentCell.getAttribute("xPos"));
-        } else {
-            constructorParams.add("DEFAULT");
-        }
-        if (currentCell.hasAttribute("yPos")) {
-            constructorParams.add(currentCell.getAttribute("yPos"));
-        } else {
-            constructorParams.add("DEFAULT");
-        }
-        for (int j = 0; j < currentCell.getElementsByTagName("*").getLength(); j++) {
-            constructorParams.add(currentCell.getElementsByTagName("*").item(0).getTextContent());
+        for (int j = 0; j < currentElement.getElementsByTagName("*").getLength(); j++) {
+            constructorParams.add(currentElement.getElementsByTagName("*").item(0).getTextContent());
         }
         return constructorParams.toArray(new String[constructorParams.size()]);
     }

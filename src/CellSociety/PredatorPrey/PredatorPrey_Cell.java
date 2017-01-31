@@ -12,8 +12,8 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
     private final int predReproductionTime = 5;
     private int movesSinceReproduction = 0;
 
-    public PredatorPrey_Cell(String... params) {
-        this(Integer.parseInt(params[0]), Integer.parseInt(params[1]), new PredatorPreyCell_State(params[2]));
+    public PredatorPrey_Cell(int x, int y, String... params) {
+        this(x, y, new PredatorPreyCell_State(params[0]));
     }
 
     public PredatorPrey_Cell(int x, int y, PredatorPreyCell_State state) {
@@ -55,8 +55,7 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
                 return;
             }
             getAdjNeighbors().asCollection().stream()
-                    .filter(PredatorPrey_Cell.class::isInstance)
-                    .map(PredatorPrey_Cell.class::cast)
+                    .filter(PredatorPrey_Cell.class::isInstance).map(PredatorPrey_Cell.class::cast)
                     .filter(PredatorPrey_Cell::nextStateEmpty)
                     .findAny().ifPresent(e -> e.setState(PredatorPreyCell_State.PREY));
             if (!canReproduce()) {

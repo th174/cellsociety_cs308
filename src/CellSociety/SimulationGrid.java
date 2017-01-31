@@ -16,7 +16,7 @@ public class SimulationGrid<E extends Abstract_Cell> {
     public static int TOP = 0;
     public static int BOTTOM = 2;
     public static int CENTER = 1;
-    private E[][] cells;
+    private Abstract_Cell[][] cells;
     private Class<E> cellType;
     private double screenWidth;
     private double screenHeight;
@@ -26,26 +26,17 @@ public class SimulationGrid<E extends Abstract_Cell> {
         cellType = type;
     }
 
-    public SimulationGrid(E[][] array, Class<E> type, String[] params) {
-        cells = array;
+    public SimulationGrid(String[][][] paramsArray, Class<E> type) {
         cellType = type;
+        cells = new Abstract_Cell[paramsArray.length][paramsArray[0].length];
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells.length; j++) {
-                if (Objects.isNull(get(i, j))) {
-                    try {
-                        String[] temp = Arrays.copyOf(params, params.length);
-                        if (temp[0].equals("DEFAULT")) {
-                            temp[0] = i + "";
-                        }
-                        if (temp[1].equals("DEFAULT")) {
-                            temp[1] = j + "";
-                        }
-                        set(i, j, cellType.getConstructor(String[].class).newInstance((Object) temp));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
+                try {
+                    String[] temp = Arrays.copyOf(paramsArray[i][j], paramsArray[i][j].length);
+                    set(i, j, cellType.getConstructor(int.class, int.class, String[].class).newInstance(i, j, temp));
                     cells[i][j].setParentGrid(this);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -93,7 +84,7 @@ public class SimulationGrid<E extends Abstract_Cell> {
      * @return AbstractCell
      */
     public E get(int x, int y) {
-        return (x >= 0 && x < cells.length && y >= 0 && y < cells[x].length) ? cells[x][y] : null;
+        return (x >= 0 && x < cells.length && y >= 0 && y < cells[x].length) ? (E) cells[x][y] : null;
     }
 
     private void set(int x, int y, E cell) {
@@ -109,7 +100,7 @@ public class SimulationGrid<E extends Abstract_Cell> {
      * @return Collection of Cells
      */
     public Collection<E> asCollection() {
-        return Arrays.stream(cells).flatMap(Arrays::stream).filter(Objects::nonNull).collect(Collectors.toSet());
+        return Arrays.stream(cells).flatMap(Arrays::stream).filter(Objects::nonNull).map(e -> (E) e).collect(Collectors.toSet());
     }
 
     /**
@@ -118,7 +109,7 @@ public class SimulationGrid<E extends Abstract_Cell> {
      * @param method
      */
     public void forEach(Consumer<E> method) {
-        Arrays.stream(cells).flatMap(Arrays::stream).filter(Objects::nonNull).forEach(method);
+        Arrays.stream(cells).flatMap(Arrays::stream).filter(Objects::nonNull).map(e -> (E) e).forEach(method);
     }
 
     /**
