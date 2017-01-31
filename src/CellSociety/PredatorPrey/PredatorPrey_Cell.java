@@ -38,7 +38,9 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
     public void interact() {
         ArrayList<Abstract_Cell> adjNeighbors = new ArrayList<>(getAdjNeighbors().asCollection());
         if (getState().equals(PredatorPreyCell_State.PREDATOR)) {
-            getAdjNeighbors().asCollection().stream().filter(neighbor -> neighbor.getState().equals(PredatorPreyCell_State.PREY)).findAny().ifPresent(e -> {
+            getAdjNeighbors().asCollection().stream()
+                    .filter(neighbor -> neighbor.getState().equals(PredatorPreyCell_State.PREY))
+                    .findAny().ifPresent(e -> {
                 e.setState(PredatorPreyCell_State.PREDATOR);
                 setState(PredatorPreyCell_State.EMPTY);
             });
@@ -52,14 +54,11 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
             if (nextStateDead()) {
                 return;
             }
-            for (Abstract_Cell neighbor : adjNeighbors) {
-                if (neighbor instanceof PredatorPrey_Cell) {
-                    if (((PredatorPrey_Cell) neighbor).nextStateEmpty()) {
-                        neighbor.setState(PredatorPreyCell_State.PREY);
-                        break;
-                    }
-                }
-            }
+            getAdjNeighbors().asCollection().stream()
+                    .filter(PredatorPrey_Cell.class::isInstance)
+                    .map(PredatorPrey_Cell.class::cast)
+                    .filter(PredatorPrey_Cell::nextStateEmpty)
+                    .findAny().ifPresent(e -> e.setState(PredatorPreyCell_State.PREY));
             if (!canReproduce()) {
                 setState(PredatorPreyCell_State.EMPTY);
                 movesSinceReproduction++;
