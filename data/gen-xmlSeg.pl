@@ -10,6 +10,7 @@ my $fps = 2;
 my $state1 = "X";
 my $state2 = "O";
 my $simulationType = "Segregation";
+my $k = 0.50;
 
 my $defaultState = "EMPTY";
 
@@ -24,6 +25,7 @@ for(my $i = 1; $i <= $xSize; $i++){
             "\n\t\t<State>$state1</State>".
             "\n\t\t<xPos>$i</xPos>".
             "\n\t\t<yPos>$j</yPos>".
+            "\n\t\t<threshold>$k</threshold>".
             "\n\t</Cell>\n";
         }
         if ($i >= 4 && $i < 7 && $j >= 5 && $j < 13 && !($i == 5 && ($j == 6 || $j == 11 ))){
