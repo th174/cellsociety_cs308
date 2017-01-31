@@ -8,12 +8,12 @@ import javafx.scene.paint.Paint;
  */
 public class CellState extends CellSociety.CellState {
     public static final CellState X = new CellState(SegregationState.X);
-    public static final CellState Y = new CellState(SegregationState.Y);
-    public static final CellState E = new CellState(SegregationState.E);
+    public static final CellState O = new CellState(SegregationState.O);
+    public static final CellState EMPTY = new CellState(SegregationState.EMPTY);
     
     
     private enum SegregationState {
-        X, Y,E
+        X, O,EMPTY
     }
 
     private SegregationState myState;
