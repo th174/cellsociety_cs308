@@ -2,7 +2,6 @@ package CellSociety;
 
 import javafx.scene.shape.Rectangle;
 
-import java.util.Collection;
 import java.util.Objects;
 
 /**
@@ -20,7 +19,7 @@ public abstract class Cell {
     private int yPos;
     private Rectangle myRectangle;
 
-    public Cell(int x, int y, CellState state){
+    public Cell(int x, int y, CellState state) {
         currentState = state;
         nextState = state;
         xPos = x;
@@ -56,9 +55,10 @@ public abstract class Cell {
             return null;
         }
     }
+
     public SimulationGrid<Cell> getAdjNeighbors() {
         if (Objects.nonNull(parentGrid)) {
-        	return parentGrid.getAdjNeighbors(xPos, yPos);
+            return parentGrid.getAdjNeighbors(xPos, yPos);
         } else {
             return null;
         }
@@ -98,9 +98,14 @@ public abstract class Cell {
 
     /**
      * Set the SimulationGrid this cell is a part of
+     *
      * @param grid parent SimulationGrid
      */
     public void setParentGrid(SimulationGrid grid) {
         parentGrid = grid;
+    }
+
+    protected CellState getNextState() {
+        return nextState;
     }
 }

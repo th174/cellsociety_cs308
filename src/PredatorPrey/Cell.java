@@ -36,7 +36,7 @@ public class Cell extends CellSociety.Cell {
     	emptyNeighbors.removeIf(e -> !e.getState().equals(CellState.EMPTY));
 		// System.out.println("we have " + adjNeighbors.size() +
 			//	 " empty neighbors " +adjNeighbors + "       and we CHOSE     " + indexOfNextFish);
-		
+
     	if(getState().equals(CellState.PREDATOR)){
     		//if(adjNeighbors.remo)
     		for(CellSociety.Cell neighbor : adjNeighbors){

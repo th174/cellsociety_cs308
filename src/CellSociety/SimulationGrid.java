@@ -77,7 +77,6 @@ public class SimulationGrid<E extends Cell> {
      */
 
     public SimulationGrid<E> getAdjNeighbors(int x, int y) {
-
         SimulationGrid<E> neighbors = getNeighbors(x, y);
         neighbors.set(TOP, LEFT, null);
         neighbors.set(TOP, RIGHT, null);
