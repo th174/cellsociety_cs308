@@ -5,13 +5,15 @@ use warnings;
 my $xSize = 16;
 my $ySize = 16;
 my $fps = 2;
-my @state = ("DEAD", "ALIVE" );
+
+#change this between simulations:
 my $simulationType = "GameOfLife";
+my @state = ("DEAD", "ALIVE" );
 
 open(OUTPUT, "> $simulationType.xml");
-
 print OUTPUT '<?xml version="1.0" encoding="UTF-8" ?>';
 print OUTPUT "\n<Simulation type=\"$simulationType\" width=\"@{[$xSize+2]}\" height=\"@{[$ySize+2]}\" fps=\"$fps\">\n";
+
 #You can initialize entire rows and colums by leaving the attribute blank
 #For example, xPos="3" initializes the entire 3rd column
 #xPos="3" yPos="5" initializes the single cell 3,5
