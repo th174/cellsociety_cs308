@@ -18,8 +18,7 @@ public class Cell extends AbstractCell {
     	//similar neighbors/unsatisfied neighbors
     	double satisfactionPercent =  (getNeighbors().asCollection().stream()
         .filter(e -> e.getState().equals(this.getState())).count())/
-    			(getNeighbors().asCollection().stream()
-    			        .filter(e -> !e.getState().equals(this.getState())).count());
+    			(getNeighbors().asCollection().stream().count());
     	if(satisfactionPercent<threshold){
     		moveToEmpty(grid);		
     	}
