@@ -31,13 +31,13 @@ public class Cell extends AbstractCell {
     			if(((Segregation.Cell) c).nextStateEmpty()){
     				//move to this cell
     				c.setState(this.getState());
-    				setState(CellState.E);
+    				setState(CellState.EMPTY);
     				return;
     			}
     		}
     	}
     }
     private boolean nextStateEmpty(){
-    	return this.getNextState().equals(CellState.E);
+    	return this.getNextState().equals(CellState.EMPTY);
     }
 }
