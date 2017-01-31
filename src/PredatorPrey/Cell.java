@@ -60,7 +60,6 @@ public class Cell extends AbstractCell {
                         break;
                     }
                 }
-
             }
             if (!canReproduce()) {
                 setState(CellState.EMPTY);

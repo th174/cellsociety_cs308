@@ -14,7 +14,6 @@ public class Cell extends AbstractCell {
     //make method for next state
     
     @Override
-    //TODO: Implement this;
     public void interact(SimulationGrid<AbstractCell> grid) {
     	//similar neighbors/unsatisfied neighbors
     	double satisfactionPercent =  (getNeighbors().asCollection().stream()
@@ -22,15 +21,23 @@ public class Cell extends AbstractCell {
     			(getNeighbors().asCollection().stream()
     			        .filter(e -> !e.getState().equals(this.getState())).count());
     	if(satisfactionPercent<threshold){
-    		//move
-    		
-    		
+    		moveToEmpty(grid);		
     	}
-    	
-    	
         return;
     }
-    private void moveToEmpty(){
-    	
+    private void moveToEmpty(SimulationGrid<AbstractCell> grid){
+    	for(AbstractCell c: grid.asCollection()){
+    		if(c instanceof Segregation.Cell){
+    			if(((Segregation.Cell) c).nextStateEmpty()){
+    				//move to this cell
+    				c.setState(this.getState());
+    				setState(CellState.E);
+    				return;
+    			}
+    		}
+    	}
+    }
+    private boolean nextStateEmpty(){
+    	return this.getNextState().equals(CellState.E);
     }
 }
