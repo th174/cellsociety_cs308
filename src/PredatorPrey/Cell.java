@@ -32,15 +32,12 @@ public class Cell extends CellSociety.Cell {
      */
     public void interact(SimulationGrid<CellSociety.Cell> grid) {
     	ArrayList<CellSociety.Cell> adjNeighbors = new ArrayList<CellSociety.Cell>(getAdjNeighbors().asCollection());
-    	ArrayList<CellSociety.Cell> emptyNeighbors = new ArrayList<CellSociety.Cell>(adjNeighbors);
-    	emptyNeighbors.removeIf(e -> !e.getState().equals(CellState.EMPTY));
-		// System.out.println("we have " + adjNeighbors.size() +
-			//	 " empty neighbors " +adjNeighbors + "       and we CHOSE     " + indexOfNextFish);
-		
+    	
     	if(getState().equals(CellState.PREDATOR)){
-    		//if(adjNeighbors.remo)
+    		
     		for(CellSociety.Cell neighbor : adjNeighbors){
     			if(neighbor.getState().equals(CellState.PREY)){
+    				
     				neighbor.setState(CellState.PREDATOR); //eat the first fish it sees
     				setState(CellState.EMPTY);
     				break;
@@ -52,21 +49,25 @@ public class Cell extends CellSociety.Cell {
     			setState(CellState.PREDATOR);
     			resetReproduction();
     		}
+    		
+    		
+    		movesSinceReproduction++;
     	}
     	if(getState().equals(CellState.PREY)){
-    		 //check adjacent cells. move to a random one of the empty ones
+    		for(CellSociety.Cell neighbor : adjNeighbors){
+    			
+    		}
     		
-    		
-    		 if(!emptyNeighbors.isEmpty()){
+    		 /*if(!emptyNeighbors.isEmpty()){
     			int indexOfNextFish = (int) (Math.random()*(emptyNeighbors.size()));
     			emptyNeighbors.get(indexOfNextFish).setState(CellState.PREY);
-    		}
+    		}*/
     		
     		setState(CellState.EMPTY);
     	}
 
 
-
+    	movesSinceReproduction++;
         return;
     }
     public boolean canReproduce(){
@@ -77,9 +78,14 @@ public class Cell extends CellSociety.Cell {
     	}
     	return false;
     }
-    public void resetReproduction(){
+    private void resetReproduction(){
     	movesSinceReproduction=0;
     }
-
+    /*
+     * private get state method
+     */
+    private boolean nextStateEmpty(){
+    	//return this.
+    }
 
 }

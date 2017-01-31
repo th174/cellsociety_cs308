@@ -9,9 +9,11 @@ import javafx.scene.paint.Paint;
 public class CellState extends CellSociety.CellState {
     public static final CellState X = new CellState(SegregationState.X);
     public static final CellState Y = new CellState(SegregationState.Y);
-
+    public static final CellState E = new CellState(SegregationState.E);
+    
+    
     private enum SegregationState {
-        X, Y
+        X, Y,E
     }
 
     private SegregationState myState;
@@ -35,6 +37,9 @@ public class CellState extends CellSociety.CellState {
 
     private SegregationState getState() {
         return myState;
+    }
+    private SegregationState getNextState(){
+    	
     }
 
     @Override
