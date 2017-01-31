@@ -10,6 +10,7 @@
 		<State>O</State>
 		<xPos>4</xPos>
 		<yPos>5</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -21,6 +22,7 @@
 		<State>O</State>
 		<xPos>4</xPos>
 		<yPos>6</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -32,6 +34,7 @@
 		<State>O</State>
 		<xPos>4</xPos>
 		<yPos>7</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -43,6 +46,7 @@
 		<State>O</State>
 		<xPos>4</xPos>
 		<yPos>8</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -54,6 +58,7 @@
 		<State>O</State>
 		<xPos>4</xPos>
 		<yPos>9</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -65,6 +70,7 @@
 		<State>O</State>
 		<xPos>4</xPos>
 		<yPos>10</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -76,6 +82,7 @@
 		<State>O</State>
 		<xPos>4</xPos>
 		<yPos>11</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -87,6 +94,7 @@
 		<State>O</State>
 		<xPos>4</xPos>
 		<yPos>12</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -98,6 +106,7 @@
 		<State>O</State>
 		<xPos>5</xPos>
 		<yPos>5</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -109,6 +118,7 @@
 		<State>O</State>
 		<xPos>5</xPos>
 		<yPos>7</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -120,6 +130,7 @@
 		<State>O</State>
 		<xPos>5</xPos>
 		<yPos>8</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -131,6 +142,7 @@
 		<State>O</State>
 		<xPos>5</xPos>
 		<yPos>9</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -142,6 +154,7 @@
 		<State>O</State>
 		<xPos>5</xPos>
 		<yPos>10</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -153,6 +166,7 @@
 		<State>O</State>
 		<xPos>5</xPos>
 		<yPos>12</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -164,6 +178,7 @@
 		<State>O</State>
 		<xPos>6</xPos>
 		<yPos>5</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -175,6 +190,7 @@
 		<State>O</State>
 		<xPos>6</xPos>
 		<yPos>6</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -186,6 +202,7 @@
 		<State>O</State>
 		<xPos>6</xPos>
 		<yPos>7</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -197,6 +214,7 @@
 		<State>O</State>
 		<xPos>6</xPos>
 		<yPos>8</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -208,6 +226,7 @@
 		<State>O</State>
 		<xPos>6</xPos>
 		<yPos>9</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -219,6 +238,7 @@
 		<State>O</State>
 		<xPos>6</xPos>
 		<yPos>10</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -230,6 +250,7 @@
 		<State>O</State>
 		<xPos>6</xPos>
 		<yPos>11</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 	<Cell>
 		<State>X</State>
@@ -241,5 +262,6 @@
 		<State>O</State>
 		<xPos>6</xPos>
 		<yPos>12</yPos>
+		<threshold>0.5</threshold>
 	</Cell>
 </Simulation>

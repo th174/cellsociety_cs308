@@ -35,6 +35,7 @@ for(my $i = 1; $i <= $xSize; $i++){
             "\n\t\t<State>$state2</State>".
             "\n\t\t<xPos>$i</xPos>".
             "\n\t\t<yPos>$j</yPos>".
+            "\n\t\t<threshold>$k</threshold>".
             "\n\t</Cell>\n";
         }
     }
