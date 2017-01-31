@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 /**
  * Created by th174 on 1/29/2017.
  */
-public class SimulationGrid<E extends Cell> {
+public class SimulationGrid<E extends AbstractCell> {
     public static int LEFT = 0;
     public static int RIGHT = 2;
     public static int TOP = 0;
@@ -90,7 +90,7 @@ public class SimulationGrid<E extends Cell> {
      *
      * @param x
      * @param y
-     * @return Cell
+     * @return AbstractCell
      */
     public E get(int x, int y) {
         return (x >= 0 && x < cells.length && y >= 0 && y < cells[x].length) ? cells[x][y] : null;

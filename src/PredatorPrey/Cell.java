@@ -1,5 +1,6 @@
 package PredatorPrey;
 
+import CellSociety.AbstractCell;
 import CellSociety.SimulationGrid;
 
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by th174 on 1/29/2017.
  */
-public class Cell extends CellSociety.Cell {
+public class Cell extends AbstractCell {
     private int movesSinceReproduction = 0;
     private final int preyReproductionTime = 5;
     private final int predReproductionTime = 5;
@@ -28,44 +29,44 @@ public class Cell extends CellSociety.Cell {
      * the shark moves in the same manner as fish. After eating or moving if the shark has 
      * survived the number of turns necessary to breed it produces a new shark if there is 
      * an empty adjacent cell.
-     * @see CellSociety.Cell#interact(CellSociety.SimulationGrid)
+     * @see AbstractCell#interact(CellSociety.SimulationGrid)
      */
-    public void interact(SimulationGrid<CellSociety.Cell> grid) {
-        ArrayList<CellSociety.Cell> adjNeighbors = new ArrayList<CellSociety.Cell>(getAdjNeighbors().asCollection());
-        ArrayList<CellSociety.Cell> emptyNeighbors = new ArrayList<CellSociety.Cell>(adjNeighbors);
-        emptyNeighbors.removeIf(e -> !e.getState().equals(CellState.EMPTY));
-        // System.out.println("we have " + adjNeighbors.size() +
-        //	 " empty neighbors " +adjNeighbors + "       and we CHOSE     " + indexOfNextFish);
-
+    public void interact(SimulationGrid<AbstractCell> grid) {
+        ArrayList<AbstractCell> adjNeighbors = new ArrayList<AbstractCell>(getAdjNeighbors().asCollection());
         if (getState().equals(CellState.PREDATOR)) {
-            //if(adjNeighbors.remo)
-            for (CellSociety.Cell neighbor : adjNeighbors) {
+
+            for (AbstractCell neighbor : adjNeighbors) {
                 if (neighbor.getState().equals(CellState.PREY)) {
+
                     neighbor.setState(CellState.PREDATOR); //eat the first fish it sees
                     setState(CellState.EMPTY);
                     break;
                 }
             }
-
-
             if (canReproduce()) {
                 setState(CellState.PREDATOR);
                 resetReproduction();
             }
+            movesSinceReproduction++;
         }
         if (getState().equals(CellState.PREY)) {
-            //check adjacent cells. move to a random one of the empty ones
-
-
-            if (!emptyNeighbors.isEmpty()) {
-                int indexOfNextFish = (int) (Math.random() * (emptyNeighbors.size()));
-                emptyNeighbors.get(indexOfNextFish).setState(CellState.PREY);
+            if (nextStateDead()) {
+                return;
             }
+            for (AbstractCell neighbor : adjNeighbors) {
+                if (neighbor instanceof PredatorPrey.Cell) {
+                    if (((PredatorPrey.Cell) neighbor).nextStateEmpty()) {
+                        neighbor.setState(CellState.PREY);
+                        break;
+                    }
+                }
 
-            setState(CellState.EMPTY);
+            }
+            if (!canReproduce()) {
+                setState(CellState.EMPTY);
+                movesSinceReproduction++;
+            }
         }
-
-
         return;
     }
 
@@ -78,7 +79,19 @@ public class Cell extends CellSociety.Cell {
         return false;
     }
 
-    public void resetReproduction() {
+    private void resetReproduction() {
         movesSinceReproduction = 0;
     }
+
+    /*
+     * private get state method
+     */
+    private boolean nextStateEmpty() {
+        return getNextState().equals(CellState.EMPTY);
+    }
+
+    private boolean nextStateDead() {
+        return getNextState().equals(CellState.PREDATOR);
+    }
+
 }

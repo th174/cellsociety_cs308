@@ -2,7 +2,7 @@
  * Created by th174 on 1/29/2017.
  */
 
-import CellSociety.Cell;
+import CellSociety.AbstractCell;
 import CellSociety.CellState;
 import CellSociety.SimulationGrid;
 import javafx.animation.Animation;
@@ -28,9 +28,9 @@ import java.util.stream.Collectors;
 public class CellSocietyMain extends Application {
     //test variables, should be read from xml
     public static final double SIZE = 1000;
-    public static final String TITLE = "Cell Society";
+    public static final String TITLE = "AbstractCell Society";
     private double framesPerSecond = 3;
-    private SimulationGrid<Cell> mySimulationGrid;
+    private SimulationGrid<AbstractCell> mySimulationGrid;
     private
     Timeline animation;
 
@@ -54,11 +54,11 @@ public class CellSocietyMain extends Application {
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
         animation.play();
-        root.getChildren().addAll(mySimulationGrid.asCollection().stream().map(Cell::getRectangle).collect(Collectors.toSet()));
+        root.getChildren().addAll(mySimulationGrid.asCollection().stream().map(AbstractCell::getRectangle).collect(Collectors.toSet()));
     }
 
     private void update() {
-        mySimulationGrid.forEach(Cell::updateState);
+        mySimulationGrid.forEach(AbstractCell::updateState);
         mySimulationGrid.forEach(e -> e.interact(mySimulationGrid));
     }
 
@@ -68,19 +68,19 @@ public class CellSocietyMain extends Application {
      * @param XMLFile name of XML file
      * @return generated SimulationGrid of cells based on XML input
      */
-    private SimulationGrid<Cell> readXML(String XMLFile) {
+    private SimulationGrid<AbstractCell> readXML(String XMLFile) {
         try {
             Document file = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(XMLFile);
             Element root = file.getDocumentElement();
-            Cell[][] grid = new Cell[Integer.parseInt(root.getAttribute("width"))][Integer.parseInt(root.getAttribute("height"))];
-            Class<Cell> defaultCellType = (Class<Cell>) Class.forName(root.getAttribute("type") + ".Cell");
+            AbstractCell[][] grid = new AbstractCell[Integer.parseInt(root.getAttribute("width"))][Integer.parseInt(root.getAttribute("height"))];
+            Class<AbstractCell> defaultCellType = (Class<AbstractCell>) Class.forName(root.getAttribute("type") + ".AbstractCell");
             CellState defaultCellState = (CellState) Class.forName(root.getAttribute("type") + ".CellState").getConstructor(String.class).newInstance((root.getAttribute("defaultState")));
             try {
                 framesPerSecond = Double.parseDouble(root.getAttribute("fps"));
             } catch (Exception e) {
                 System.out.println("Using fps = 3");
             }
-            NodeList cells = file.getElementsByTagName("Cell");
+            NodeList cells = file.getElementsByTagName("AbstractCell");
             for (int i = 0; i < cells.getLength(); i++) {
                 Element currentCell = (Element) cells.item(i);
                 List<Object> constructorParams = new ArrayList<>();
@@ -98,7 +98,7 @@ public class CellSocietyMain extends Application {
                     constructorParams.add(currentCell.getElementsByTagName("*").item(0).getTextContent());
                     constructorParamTypes.add(String.class);
                 }
-                Class<? extends Cell> cellType = (Class<? extends Cell>) Class.forName(root.getAttribute("type") + ".Cell");
+                Class<? extends AbstractCell> cellType = (Class<? extends AbstractCell>) Class.forName(root.getAttribute("type") + ".AbstractCell");
                 grid[x][y] = cellType.getConstructor(constructorParamTypes.toArray(new Class[constructorParamTypes.size()]))
                         .newInstance(constructorParams.toArray(new Object[constructorParams.size()]));
             }
