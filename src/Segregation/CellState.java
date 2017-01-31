@@ -38,9 +38,7 @@ public class CellState extends CellSociety.CellState {
     private SegregationState getState() {
         return myState;
     }
-    private SegregationState getNextState(){
-    	
-    }
+    
 
     @Override
     public Paint getFill() {

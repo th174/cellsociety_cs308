@@ -44,8 +44,7 @@ public class Cell extends CellSociety.Cell {
     				break;
     			}
     		}
-    		
-    		
+	
     		if(canReproduce()){
     			setState(CellState.PREDATOR);
     			resetReproduction();
@@ -55,20 +54,23 @@ public class Cell extends CellSociety.Cell {
     		movesSinceReproduction++;
     	}
     	if(getState().equals(CellState.PREY)){
+    		if(nextStateDead()){
+    			return;
+    		}
     		for(CellSociety.Cell neighbor : adjNeighbors){
+    			if(neighbor instanceof PredatorPrey.Cell){
+    				if(((PredatorPrey.Cell) neighbor).nextStateEmpty()){
+    					neighbor.setState(CellState.PREY);
+    					break;
+    				}
+    			}
     			
     		}
-    		
-    		 /*if(!emptyNeighbors.isEmpty()){
-    			int indexOfNextFish = (int) (Math.random()*(emptyNeighbors.size()));
-    			emptyNeighbors.get(indexOfNextFish).setState(CellState.PREY);
-    		}*/
-    		
-    		setState(CellState.EMPTY);
+    		if(!canReproduce()){
+    			setState(CellState.EMPTY);
+    			movesSinceReproduction++;
+    		}
     	}
-
-
-    	movesSinceReproduction++;
         return;
     }
     public boolean canReproduce(){
@@ -86,7 +88,11 @@ public class Cell extends CellSociety.Cell {
      * private get state method
      */
     private boolean nextStateEmpty(){
-    	//return this.
+    	return getNextState().equals(CellState.EMPTY);
     }
+    private boolean nextStateDead(){
+    	return getNextState().equals(CellState.PREDATOR);
+    }
+    
 
 }
