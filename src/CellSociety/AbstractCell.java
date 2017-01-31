@@ -14,7 +14,7 @@ public abstract class AbstractCell {
     public static final double BORDER_OFFSET = 1;
     private CellState currentState;
     private CellState nextState;
-    private SimulationGrid<Cell> parentGrid;
+    private SimulationGrid<AbstractCell> parentGrid;
     private final int xPos;
     private final int yPos;
     private final Rectangle myRectangle;
@@ -43,12 +43,12 @@ public abstract class AbstractCell {
     /**
      * @param grid Grid of simulation
      */
-    public abstract void interact(SimulationGrid<Cell> grid);
+    public abstract void interact(SimulationGrid<AbstractCell> grid);
 
     /**
      * @return Grid of neighboring cells. See SimulationGrid::getNeighbors
      */
-    public SimulationGrid<Cell> getNeighbors() {
+    public SimulationGrid<AbstractCell> getNeighbors() {
         if (Objects.nonNull(parentGrid)) {
             return parentGrid.getNeighbors(xPos, yPos);
         } else {
@@ -56,7 +56,7 @@ public abstract class AbstractCell {
         }
     }
 
-    public SimulationGrid<Cell> getAdjNeighbors() {
+    public SimulationGrid<AbstractCell> getAdjNeighbors() {
         if (Objects.nonNull(parentGrid)) {
             return parentGrid.getAdjNeighbors(xPos, yPos);
         } else {
