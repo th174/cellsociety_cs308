@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 /**
  * Created by th174 on 1/29/2017.
  */
-public class SimulationGrid<E extends AbstractCell> {
+public class SimulationGrid<E extends Abstract_Cell> {
     public static int LEFT = 0;
     public static int RIGHT = 2;
     public static int TOP = 0;
@@ -26,26 +26,27 @@ public class SimulationGrid<E extends AbstractCell> {
         cellType = type;
     }
 
-    /**
-     * Create a grid from a 2 dimensional array of cells. All null values in grid will be initialized to a default Class and default State
-     *
-     * @param array     2 dimensional array of cells
-     * @param type      default type of cell to populate grid
-     * @param baseState default state to populate grid
-     */
-    public SimulationGrid(E[][] array, Class<E> type, CellState baseState) {
+    public SimulationGrid(E[][] array, Class<E> type, String[] params) {
         cells = array;
         cellType = type;
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells.length; j++) {
-                if (cells[i][j] == null) {
+                if (Objects.isNull(get(i, j))) {
                     try {
-                        cells[i][j] = cellType.getDeclaredConstructor(int.class, int.class, CellState.class).newInstance(i, j, baseState);
+                        String[] temp = Arrays.copyOf(params, params.length);
+                        if (temp[0].equals("DEFAULT")) {
+                            temp[0] = i + "";
+                        }
+                        if (temp[1].equals("DEFAULT")) {
+                            temp[1] = j + "";
+                        }
+                        set(i, j, cellType.getConstructor(String[].class).newInstance((Object) temp));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                } else {
+                    cells[i][j].setParentGrid(this);
                 }
-                cells[i][j].setParentGrid(this);
             }
         }
     }
@@ -75,7 +76,6 @@ public class SimulationGrid<E extends AbstractCell> {
      * @param y
      * @return 3 by 3 Grid
      */
-
     public SimulationGrid<E> getAdjNeighbors(int x, int y) {
         SimulationGrid<E> neighbors = getNeighbors(x, y);
         neighbors.set(TOP, LEFT, null);

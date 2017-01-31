@@ -2,8 +2,7 @@
  * Created by th174 on 1/29/2017.
  */
 
-import CellSociety.AbstractCell;
-import CellSociety.CellState;
+import CellSociety.Abstract_Cell;
 import CellSociety.SimulationGrid;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -30,7 +29,7 @@ public class CellSocietyMain extends Application {
     public static final double SIZE = 1000;
     public static final String TITLE = "Cell Society";
     private double framesPerSecond = 3;
-    private SimulationGrid<AbstractCell> mySimulationGrid;
+    private SimulationGrid<? extends Abstract_Cell> mySimulationGrid;
     private
     Timeline animation;
 
@@ -54,12 +53,12 @@ public class CellSocietyMain extends Application {
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
         animation.play();
-        root.getChildren().addAll(mySimulationGrid.asCollection().stream().map(AbstractCell::getRectangle).collect(Collectors.toSet()));
+        root.getChildren().addAll(mySimulationGrid.asCollection().stream().map(Abstract_Cell::getRectangle).collect(Collectors.toSet()));
     }
 
     private void update() {
-        mySimulationGrid.forEach(AbstractCell::updateState);
-        mySimulationGrid.forEach(e -> e.interact(mySimulationGrid));
+        mySimulationGrid.forEach(Abstract_Cell::updateState);
+        mySimulationGrid.forEach(Abstract_Cell::interact);
     }
 
     /**
@@ -68,45 +67,58 @@ public class CellSocietyMain extends Application {
      * @param XMLFile name of XML file
      * @return generated SimulationGrid of cells based on XML input
      */
-    private SimulationGrid<AbstractCell> readXML(String XMLFile) {
+    private SimulationGrid<? extends Abstract_Cell> readXML(String XMLFile) {
         try {
             Document file = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(XMLFile);
             Element root = file.getDocumentElement();
-            AbstractCell[][] grid = new AbstractCell[Integer.parseInt(root.getAttribute("width"))][Integer.parseInt(root.getAttribute("height"))];
-            Class<AbstractCell> defaultCellType = (Class<AbstractCell>) Class.forName(root.getAttribute("type") + ".Cell");
-            CellState defaultCellState = (CellState) Class.forName(root.getAttribute("type") + ".CellState").getConstructor(String.class).newInstance((root.getAttribute("defaultState")));
+            //set up grid
+            Abstract_Cell[][] grid = new Abstract_Cell[Integer.parseInt(root.getAttribute("width"))][Integer.parseInt(root.getAttribute("height"))];
             try {
                 framesPerSecond = Double.parseDouble(root.getAttribute("fps"));
             } catch (Exception e) {
                 System.out.println("Using fps = 3");
             }
+            String simulationType = root.getAttribute("type");
+            Class<? extends Abstract_Cell> cellType = (Class<? extends Abstract_Cell>) Class.forName("CellSociety." + simulationType + "." + simulationType + "_Cell");
+            //define default cell constructor parameters to populate SimulationGrid
+            Element defaultCellElement = (Element) file.getElementsByTagName("DefaultCell").item(0);
+            String[] defaultCellParams = getConstructorParamsFromXMLElement(defaultCellElement, simulationType);
+            //instantiate cells
             NodeList cells = file.getElementsByTagName("Cell");
             for (int i = 0; i < cells.getLength(); i++) {
                 Element currentCell = (Element) cells.item(i);
-                List<Object> constructorParams = new ArrayList<>();
-                List<Class> constructorParamTypes = new ArrayList<>();
-                int x = Integer.parseInt(currentCell.getElementsByTagName("xPos").item(0).getTextContent());
-                constructorParams.add(x);
-                constructorParamTypes.add(int.class);
-                int y = Integer.parseInt(currentCell.getElementsByTagName("yPos").item(0).getTextContent());
-                constructorParams.add(y);
-                constructorParamTypes.add(int.class);
-                CellState state = (CellState) Class.forName(root.getAttribute("type") + ".CellState").getConstructor(String.class).newInstance(currentCell.getElementsByTagName("State").item(0).getTextContent());
-                constructorParams.add(state);
-                constructorParamTypes.add(CellSociety.CellState.class);
-                for (int j = 3; j < currentCell.getElementsByTagName("*").getLength(); j++) {
-                    constructorParams.add(currentCell.getElementsByTagName("*").item(0).getTextContent());
-                    constructorParamTypes.add(String.class);
+                int x = Integer.parseInt(currentCell.getAttribute("xPos"));
+                int y = Integer.parseInt(currentCell.getAttribute("yPos"));
+                try {
+                    grid[x][y] = cellType.getConstructor(String[].class).newInstance((Object) getConstructorParamsFromXMLElement(currentCell, simulationType));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Could not instantiate " + simulationType + "." + simulationType + "Cell");
                 }
-                Class<? extends AbstractCell> cellType = (Class<? extends AbstractCell>) Class.forName(root.getAttribute("type") + ".Cell");
-                grid[x][y] = cellType.getConstructor(constructorParamTypes.toArray(new Class[constructorParamTypes.size()]))
-                        .newInstance(constructorParams.toArray(new Object[constructorParams.size()]));
             }
-            return new SimulationGrid<>(grid, defaultCellType, defaultCellState);
+            return new SimulationGrid<Abstract_Cell>(grid, (Class<Abstract_Cell>) cellType, defaultCellParams);
         } catch (Exception e) {
             e.printStackTrace();
             throw new Error("Could not read input file");
         }
+    }
+
+    private String[] getConstructorParamsFromXMLElement(Element currentCell, String simulationType) throws Exception {
+        List<String> constructorParams = new ArrayList<>();
+        if (currentCell.hasAttribute("xPos")) {
+            constructorParams.add(currentCell.getAttribute("xPos"));
+        } else {
+            constructorParams.add("DEFAULT");
+        }
+        if (currentCell.hasAttribute("yPos")) {
+            constructorParams.add(currentCell.getAttribute("yPos"));
+        } else {
+            constructorParams.add("DEFAULT");
+        }
+        for (int j = 0; j < currentCell.getElementsByTagName("*").getLength(); j++) {
+            constructorParams.add(currentCell.getElementsByTagName("*").item(0).getTextContent());
+        }
+        return constructorParams.toArray(new String[constructorParams.size()]);
     }
 
     /**
