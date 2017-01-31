@@ -33,6 +33,7 @@ public class Cell extends CellSociety.Cell {
     public void interact(SimulationGrid<CellSociety.Cell> grid) {
     	ArrayList<CellSociety.Cell> adjNeighbors = new ArrayList<CellSociety.Cell>(getAdjNeighbors().asCollection());
     	
+
     	if(getState().equals(CellState.PREDATOR)){
     		
     		for(CellSociety.Cell neighbor : adjNeighbors){

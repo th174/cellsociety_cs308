@@ -6,6 +6,7 @@
 .idea/
 out/
 local.properties
+*.iml
 
 # Generic Android ignores #
 ###########################
@@ -94,6 +95,7 @@ tmp/
 local.properties
 .settings/
 .loadpath
+.classpath
 
 # Eclipse Core
 .project
