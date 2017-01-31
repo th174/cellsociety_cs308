@@ -11,7 +11,7 @@ public class GameOfLife_Cell extends Abstract_Cell<GameOfLifeCell_State> {
     public static final int THREE = 3;
 
     public GameOfLife_Cell(String[] params) {
-        super(params,new GameOfLifeCell_State(params[2]));
+        super(params, new GameOfLifeCell_State(params[2]));
     }
 
     public GameOfLife_Cell(int x, int y, GameOfLifeCell_State state) {

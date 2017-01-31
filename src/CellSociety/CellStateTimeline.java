@@ -2,7 +2,6 @@ package CellSociety;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by th174 on 1/31/2017.

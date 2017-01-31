@@ -9,11 +9,11 @@ import java.util.Objects;
  */
 public abstract class Abstract_Cell<T extends Abstract_CellState> {
     public static final double BORDER_OFFSET = 1;
-    private SimulationGrid<Abstract_Cell<T>> parentGrid;
-    private CellStateTimeline<T> myTimeline;
     private final int xPos;
     private final int yPos;
     private final Rectangle myRectangle;
+    private SimulationGrid<Abstract_Cell<T>> parentGrid;
+    private CellStateTimeline<T> myTimeline;
 
     protected Abstract_Cell(String[] args, T state) {
         this(Integer.parseInt(args[0]), Integer.parseInt(args[1]), state);
@@ -69,19 +69,19 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
     }
 
     /**
+     * @return currentState of cell
+     */
+    public T getState() {
+        return myTimeline.getCurrentState();
+    }
+
+    /**
      * Sets the state that this cell will change into the next time updateState is called
      *
      * @param state CellState on next update
      */
     public void setState(T state) {
         myTimeline.append(state);
-    }
-
-    /**
-     * @return currentState of cell
-     */
-    public T getState() {
-        return myTimeline.getCurrentState();
     }
 
     /**
@@ -100,6 +100,10 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
         return myRectangle;
     }
 
+    protected SimulationGrid<Abstract_Cell<T>> getParentGrid() {
+        return parentGrid;
+    }
+
     /**
      * Set the SimulationGrid this cell is a part of
      *
@@ -107,10 +111,6 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
      */
     public void setParentGrid(SimulationGrid<Abstract_Cell<T>> grid) {
         parentGrid = grid;
-    }
-
-    protected SimulationGrid<Abstract_Cell<T>> getParentGrid() {
-        return parentGrid;
     }
 
     protected T getNextState() {

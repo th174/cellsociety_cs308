@@ -8,9 +8,9 @@ import java.util.ArrayList;
  * Created by th174 on 1/29/2017.
  */
 public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
-    private int movesSinceReproduction = 0;
     private final int preyReproductionTime = 5;
     private final int predReproductionTime = 5;
+    private int movesSinceReproduction = 0;
 
     public PredatorPrey_Cell(String... params) {
         this(Integer.parseInt(params[0]), Integer.parseInt(params[1]), new PredatorPreyCell_State(params[2]));

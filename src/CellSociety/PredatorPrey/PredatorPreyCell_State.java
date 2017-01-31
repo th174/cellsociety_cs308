@@ -11,11 +11,6 @@ public final class PredatorPreyCell_State extends AbstractDiscrete_CellState {
     public static final PredatorPreyCell_State PREDATOR = new PredatorPreyCell_State(PredatorPreyState.PREDATOR);
     public static final PredatorPreyCell_State EMPTY = new PredatorPreyCell_State(PredatorPreyState.EMPTY);
     public static final PredatorPreyCell_State PREY = new PredatorPreyCell_State(PredatorPreyState.PREY);
-
-    private enum PredatorPreyState {
-        EMPTY, PREDATOR, PREY
-    }
-
     private PredatorPreyState myState;
 
     private PredatorPreyCell_State(PredatorPreyState state) {
@@ -33,5 +28,9 @@ public final class PredatorPreyCell_State extends AbstractDiscrete_CellState {
     @Override
     public Paint getFill() {
         return getState().equals(PredatorPreyState.EMPTY) ? Color.BLUE : getState().equals(PredatorPreyState.PREDATOR) ? Color.YELLOW : Color.GREEN;
+    }
+
+    private enum PredatorPreyState {
+        EMPTY, PREDATOR, PREY
     }
 }

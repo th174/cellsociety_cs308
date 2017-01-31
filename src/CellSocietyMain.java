@@ -30,8 +30,7 @@ public class CellSocietyMain extends Application {
     public static final String TITLE = "Cell Society";
     private double framesPerSecond = 3;
     private SimulationGrid<? extends Abstract_Cell> mySimulationGrid;
-    private
-    Timeline animation;
+    private Timeline animation;
 
     public static void main(String[] args) {
         launch(args);

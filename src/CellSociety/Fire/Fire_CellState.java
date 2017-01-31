@@ -11,11 +11,6 @@ public final class Fire_CellState extends AbstractDiscrete_CellState {
     public static final Fire_CellState BURNING = new Fire_CellState(FireState.BURNING);
     public static final Fire_CellState EMPTY = new Fire_CellState(FireState.EMPTY);
     public static final Fire_CellState TREE = new Fire_CellState(FireState.TREE);
-
-    private enum FireState {
-        EMPTY, TREE, BURNING
-    }
-
     private FireState myState;
 
     private Fire_CellState(FireState state) {
@@ -33,5 +28,9 @@ public final class Fire_CellState extends AbstractDiscrete_CellState {
     @Override
     public Paint getFill() {
         return getState().equals(FireState.EMPTY) ? Color.YELLOW : getState().equals(FireState.TREE) ? Color.GREEN : Color.RED;
+    }
+
+    private enum FireState {
+        EMPTY, TREE, BURNING
     }
 }

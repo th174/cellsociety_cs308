@@ -10,11 +10,6 @@ import javafx.scene.paint.Color;
 public final class GameOfLifeCell_State extends AbstractDiscrete_CellState {
     public static final GameOfLifeCell_State DEAD = new GameOfLifeCell_State(GameOfLifeState.DEAD);
     public static final GameOfLifeCell_State ALIVE = new GameOfLifeCell_State(GameOfLifeState.ALIVE);
-
-    private enum GameOfLifeState {
-        ALIVE, DEAD
-    }
-
     private GameOfLifeState myState;
 
     private GameOfLifeCell_State(GameOfLifeState state) {
@@ -37,5 +32,9 @@ public final class GameOfLifeCell_State extends AbstractDiscrete_CellState {
     @Override
     public String toString() {
         return myState.toString();
+    }
+
+    private enum GameOfLifeState {
+        ALIVE, DEAD
     }
 }
