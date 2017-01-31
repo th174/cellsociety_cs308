@@ -8,12 +8,12 @@ import javafx.scene.paint.Paint;
  */
 public class CellState extends CellSociety.CellState {
     public static final CellState X = new CellState(SegregationState.X);
-    public static final CellState Y = new CellState(SegregationState.Y);
-    public static final CellState E = new CellState(SegregationState.E);
-    
-    
+    public static final CellState O = new CellState(SegregationState.O);
+    public static final CellState E = new CellState(SegregationState.EMPTY);
+
+
     private enum SegregationState {
-        X, Y,E
+        X, O, EMPTY
     }
 
     private SegregationState myState;
@@ -38,10 +38,10 @@ public class CellState extends CellSociety.CellState {
     private SegregationState getState() {
         return myState;
     }
-    
+
 
     @Override
     public Paint getFill() {
-        return getState().equals(SegregationState.X) ? Color.BLUE : Color.RED;
+        return getState().equals(SegregationState.X) ? Color.BLUE : getState().equals(SegregationState.O) ? Color.RED : Color.WHITE;
     }
 }
