@@ -1,12 +1,15 @@
 package CellSociety.Fire;
 
+import java.util.ArrayList;
+
 import CellSociety.Abstract_Cell;
+import CellSociety.SimulationGrid;
 
 /**
  * Created by th174 on 1/29/2017.
  */
 public class Fire_Cell extends Abstract_Cell<Fire_CellState> {
-    public static final double DEFAULT_PROB_CATCH_FIRE = 0.2;
+    public static final double DEFAULT_PROB_CATCH_FIRE = 0.5;
     private double probCatchFire;
 
     public Fire_Cell(int x, int y, String... params) {
@@ -20,9 +23,18 @@ public class Fire_Cell extends Abstract_Cell<Fire_CellState> {
         super(x, y, state);
         probCatchFire = chanceFire;
     }
+    @SuppressWarnings("unused")
+	private void neighbor(){
+    	ArrayList<Abstract_Cell> adjNeighbors=new ArrayList<>(getAdjNeighbors().asCollection());
+    	if(getState().equals(Fire_CellState.BURNING)){
+    		
+    	}
+    	//grid.asCollection().stream().filter(e->e instance of Segregation_Cell && ((Segregation_Cell) e).nextStateE
+    }
 
     @Override
     public void interact() {
+    	
         //TODO: Implement this
     }
 }
