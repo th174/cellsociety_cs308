@@ -1,14 +1,14 @@
 package PredatorPrey;
 
-import java.util.ArrayList;
-
 import CellSociety.SimulationGrid;
+
+import java.util.ArrayList;
 
 /**
  * Created by th174 on 1/29/2017.
  */
 public class Cell extends CellSociety.Cell {
-    private int movesSinceReproduction=0;
+    private int movesSinceReproduction = 0;
     private final int preyReproductionTime = 5;
     private final int predReproductionTime = 5;
 
@@ -22,7 +22,7 @@ public class Cell extends CellSociety.Cell {
      * Every turn of the simulation a fish will move to a random adjacent cell 
      * unless all four are occupied. If the fish has survived the number of turns 
      * necessary to breed it produces a new fish if there is an empty adjacent cell..
-     * 
+     *
      * Each turn if there is a fish adjacent to a shark the shark eats it. If there are 
      * multiple adjacent fish the shark eats one at random. If there are no adjacent fish 
      * the shark moves in the same manner as fish. After eating or moving if the shark has 
@@ -31,55 +31,54 @@ public class Cell extends CellSociety.Cell {
      * @see CellSociety.Cell#interact(CellSociety.SimulationGrid)
      */
     public void interact(SimulationGrid<CellSociety.Cell> grid) {
-    	ArrayList<CellSociety.Cell> adjNeighbors = new ArrayList<CellSociety.Cell>(getAdjNeighbors().asCollection());
-    	ArrayList<CellSociety.Cell> emptyNeighbors = new ArrayList<CellSociety.Cell>(adjNeighbors);
-    	emptyNeighbors.removeIf(e -> !e.getState().equals(CellState.EMPTY));
-		// System.out.println("we have " + adjNeighbors.size() +
-			//	 " empty neighbors " +adjNeighbors + "       and we CHOSE     " + indexOfNextFish);
+        ArrayList<CellSociety.Cell> adjNeighbors = new ArrayList<CellSociety.Cell>(getAdjNeighbors().asCollection());
+        ArrayList<CellSociety.Cell> emptyNeighbors = new ArrayList<CellSociety.Cell>(adjNeighbors);
+        emptyNeighbors.removeIf(e -> !e.getState().equals(CellState.EMPTY));
+        // System.out.println("we have " + adjNeighbors.size() +
+        //	 " empty neighbors " +adjNeighbors + "       and we CHOSE     " + indexOfNextFish);
 
-    	if(getState().equals(CellState.PREDATOR)){
-    		//if(adjNeighbors.remo)
-    		for(CellSociety.Cell neighbor : adjNeighbors){
-    			if(neighbor.getState().equals(CellState.PREY)){
-    				neighbor.setState(CellState.PREDATOR); //eat the first fish it sees
-    				setState(CellState.EMPTY);
-    				break;
-    			}
-    		}
-    		
-    		
-    		if(canReproduce()){
-    			setState(CellState.PREDATOR);
-    			resetReproduction();
-    		}
-    	}
-    	if(getState().equals(CellState.PREY)){
-    		 //check adjacent cells. move to a random one of the empty ones
-    		
-    		
-    		 if(!emptyNeighbors.isEmpty()){
-    			int indexOfNextFish = (int) (Math.random()*(emptyNeighbors.size()));
-    			emptyNeighbors.get(indexOfNextFish).setState(CellState.PREY);
-    		}
-    		
-    		setState(CellState.EMPTY);
-    	}
+        if (getState().equals(CellState.PREDATOR)) {
+            //if(adjNeighbors.remo)
+            for (CellSociety.Cell neighbor : adjNeighbors) {
+                if (neighbor.getState().equals(CellState.PREY)) {
+                    neighbor.setState(CellState.PREDATOR); //eat the first fish it sees
+                    setState(CellState.EMPTY);
+                    break;
+                }
+            }
 
+
+            if (canReproduce()) {
+                setState(CellState.PREDATOR);
+                resetReproduction();
+            }
+        }
+        if (getState().equals(CellState.PREY)) {
+            //check adjacent cells. move to a random one of the empty ones
+
+
+            if (!emptyNeighbors.isEmpty()) {
+                int indexOfNextFish = (int) (Math.random() * (emptyNeighbors.size()));
+                emptyNeighbors.get(indexOfNextFish).setState(CellState.PREY);
+            }
+
+            setState(CellState.EMPTY);
+        }
 
 
         return;
     }
-    public boolean canReproduce(){
-    	if(getState().equals(CellState.PREDATOR)&&movesSinceReproduction>=predReproductionTime||
-    			getState().equals(CellState.PREY)&&movesSinceReproduction>=preyReproductionTime){
-    		movesSinceReproduction=0;
-    		return true;
-    	}
-    	return false;
-    }
-    public void resetReproduction(){
-    	movesSinceReproduction=0;
+
+    public boolean canReproduce() {
+        if (getState().equals(CellState.PREDATOR) && movesSinceReproduction >= predReproductionTime ||
+                getState().equals(CellState.PREY) && movesSinceReproduction >= preyReproductionTime) {
+            movesSinceReproduction = 0;
+            return true;
+        }
+        return false;
     }
 
-
+    public void resetReproduction() {
+        movesSinceReproduction = 0;
+    }
 }

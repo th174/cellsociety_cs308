@@ -15,9 +15,9 @@ public abstract class Cell {
     private CellState currentState;
     private CellState nextState;
     private SimulationGrid<Cell> parentGrid;
-    private int xPos;
-    private int yPos;
-    private Rectangle myRectangle;
+    private final int xPos;
+    private final int yPos;
+    private final Rectangle myRectangle;
 
     public Cell(int x, int y, CellState state) {
         currentState = state;
