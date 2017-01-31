@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class CellSocietyMain extends Application {
     //test variables, should be read from xml
     public static final double SIZE = 1000;
-    public static final String TITLE = "AbstractCell Society";
+    public static final String TITLE = "Cell Society";
     private double framesPerSecond = 3;
     private SimulationGrid<AbstractCell> mySimulationGrid;
     private
@@ -73,14 +73,14 @@ public class CellSocietyMain extends Application {
             Document file = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(XMLFile);
             Element root = file.getDocumentElement();
             AbstractCell[][] grid = new AbstractCell[Integer.parseInt(root.getAttribute("width"))][Integer.parseInt(root.getAttribute("height"))];
-            Class<AbstractCell> defaultCellType = (Class<AbstractCell>) Class.forName(root.getAttribute("type") + ".AbstractCell");
+            Class<AbstractCell> defaultCellType = (Class<AbstractCell>) Class.forName(root.getAttribute("type") + ".Cell");
             CellState defaultCellState = (CellState) Class.forName(root.getAttribute("type") + ".CellState").getConstructor(String.class).newInstance((root.getAttribute("defaultState")));
             try {
                 framesPerSecond = Double.parseDouble(root.getAttribute("fps"));
             } catch (Exception e) {
                 System.out.println("Using fps = 3");
             }
-            NodeList cells = file.getElementsByTagName("AbstractCell");
+            NodeList cells = file.getElementsByTagName("Cell");
             for (int i = 0; i < cells.getLength(); i++) {
                 Element currentCell = (Element) cells.item(i);
                 List<Object> constructorParams = new ArrayList<>();
@@ -98,7 +98,7 @@ public class CellSocietyMain extends Application {
                     constructorParams.add(currentCell.getElementsByTagName("*").item(0).getTextContent());
                     constructorParamTypes.add(String.class);
                 }
-                Class<? extends AbstractCell> cellType = (Class<? extends AbstractCell>) Class.forName(root.getAttribute("type") + ".AbstractCell");
+                Class<? extends AbstractCell> cellType = (Class<? extends AbstractCell>) Class.forName(root.getAttribute("type") + ".Cell");
                 grid[x][y] = cellType.getConstructor(constructorParamTypes.toArray(new Class[constructorParamTypes.size()]))
                         .newInstance(constructorParams.toArray(new Object[constructorParams.size()]));
             }

@@ -34,15 +34,18 @@ public class Cell extends AbstractCell {
     public void interact(SimulationGrid<AbstractCell> grid) {
         ArrayList<AbstractCell> adjNeighbors = new ArrayList<AbstractCell>(getAdjNeighbors().asCollection());
         if (getState().equals(CellState.PREDATOR)) {
-
-            for (AbstractCell neighbor : adjNeighbors) {
-                if (neighbor.getState().equals(CellState.PREY)) {
-
-                    neighbor.setState(CellState.PREDATOR); //eat the first fish it sees
-                    setState(CellState.EMPTY);
-                    break;
-                }
-            }
+//            for (AbstractCell neighbor : adjNeighbors) {
+//                if (neighbor.getState().equals(CellState.PREY)) {
+//
+//                    neighbor.setState(CellState.PREDATOR); //eat the first fish it sees
+//                    setState(CellState.EMPTY);
+//                    break;
+//                }
+//            }
+            getAdjNeighbors().asCollection().stream().filter(neighbor -> neighbor.getState().equals(CellState.PREY)).findAny().ifPresent(e -> {
+                e.setState(CellState.PREDATOR);
+                setState(CellState.EMPTY);
+            });
             if (canReproduce()) {
                 setState(CellState.PREDATOR);
                 resetReproduction();
@@ -66,7 +69,6 @@ public class Cell extends AbstractCell {
                 movesSinceReproduction++;
             }
         }
-        return;
     }
 
     public boolean canReproduce() {
