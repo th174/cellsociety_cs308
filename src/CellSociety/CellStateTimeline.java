@@ -24,11 +24,18 @@ public class CellStateTimeline<T extends Abstract_CellState> {
     }
 
     public void seek(int index) {
-        currentIndex = index;
+        if (index <= size() - 2) {
+            currentIndex = index;
+        } else {
+            currentIndex = size() - 2;
+        }
     }
 
     public void advance() {
         currentIndex += isReversed ? -1 : 1;
+        if (currentIndex < 0) {
+            currentIndex = 0;
+        }
     }
 
     public void reverse() {
@@ -46,8 +53,15 @@ public class CellStateTimeline<T extends Abstract_CellState> {
         return myStateTimeline.get(currentIndex + 1);
     }
 
-    public void append(T newState) {
-        myStateTimeline.add(currentIndex+1,newState);
+    public boolean setNextState(T newState) {
+        if (size() == currentIndex + 1) {
+            myStateTimeline.add(newState);
+        } else if (size() == currentIndex + 2) {
+            myStateTimeline.set(currentIndex + 1, newState);
+        } else if (size() > currentIndex + 2) {
+            return false;
+        }
+        return true;
     }
 
     public int size() {

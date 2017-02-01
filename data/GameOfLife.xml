@@ -1,72 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Simulation type="GameOfLife" width="18" height="18" fps="1">
+<Simulation type="GameOfLife" width="18" height="18" fps="3">
 	<Cell>
 		<State>DEAD</State>
+		<Threshold>.7</Threshold>
 	</Cell>
-	<Cell xPos="4" yPos="5">
+	<Cell xPos="1" yPos="2">
 		<State>ALIVE</State>
+		<Threshold>.7</Threshold>
 	</Cell>
-	<Cell xPos="4" yPos="6">
+	<Cell xPos="2" yPos="3">
 		<State>ALIVE</State>
+		<Threshold>.7</Threshold>
 	</Cell>
-	<Cell xPos="4" yPos="7">
+	<Cell xPos="3" yPos="3">
 		<State>ALIVE</State>
+		<Threshold>.7</Threshold>
 	</Cell>
-	<Cell xPos="4" yPos="8">
+	<Cell xPos="3" yPos="2">
 		<State>ALIVE</State>
+		<Threshold>.7</Threshold>
 	</Cell>
-	<Cell xPos="4" yPos="9">
+	<Cell xPos="3" yPos="1">
 		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="4" yPos="10">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="4" yPos="11">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="4" yPos="12">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="5" yPos="5">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="5" yPos="7">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="5" yPos="8">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="5" yPos="9">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="5" yPos="10">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="5" yPos="12">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="6" yPos="5">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="6" yPos="6">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="6" yPos="7">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="6" yPos="8">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="6" yPos="9">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="6" yPos="10">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="6" yPos="11">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="6" yPos="12">
-		<State>ALIVE</State>
+		<Threshold>.7</Threshold>
 	</Cell>
 </Simulation>

@@ -42,7 +42,6 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
 
     public abstract void interact();
 
-
     /**
      * @return Grid of neighboring cells. See SimulationGrid::getNeighbors
      */
@@ -83,7 +82,7 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
      * @param state CellState on next update
      */
     public void setState(T state) {
-        myTimeline.append(state);
+        myTimeline.setNextState(state);
     }
 
     /**

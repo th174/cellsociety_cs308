@@ -7,10 +7,11 @@ my $ySize = 16;
 my $fps = 3;
 
 #change this between simulations:
-my $simulationType = "Segregation";
-my @state = ("EMPTY", "X", "O");
+my $simulationType = "GameOfLife";
+my @state = ("DEAD", "ALIVE");
+#my @state = ("EMPTY", "X", "O");
 #for random state:
-my $rand = "rand";
+my $randomState = "rand";
 my $additionalArgs = "\n\t\t<Threshold>.7</Threshold>";
 
 open(OUTPUT, "> $simulationType.xml");
@@ -22,10 +23,11 @@ print OUTPUT "\n<Simulation type=\"$simulationType\" width=\"@{[$xSize+2]}\" hei
 #xPos="3" yPos="5" initializes the single cell 3,5
 
 #usage: initSomething(state,arrayref)
-initGrid($rand);
+#initGrid($randomState);
+initGrid($state[0]);
 #initRows($state[1], [ 1, 3, 5, 7, 11, 13, 15 ]);
 #initColumn($state[1], [ 0, 2, 4, 6, 8, 10, 14, 16 ]);
-#initCells($state[1], [ [ 1, 2 ], [ 2, 5 ], [ 7, 9 ] ]);
+initCells($state[1], [ [ 1, 2 ], [ 2, 3 ], [ 3, 3 ], [ 3, 2 ], [ 3, 1 ] ]);
 #for (my $x = 1; $x <= $xSize; $x++) {
 #    for (my $y = 1; $y <= $ySize; $y++) {
 #        if ($x >= 4 && $x < 7 && $y >= 5 && $y < 13 && !($x == 5 && ($y == 6 || $y == 11 ))) {
