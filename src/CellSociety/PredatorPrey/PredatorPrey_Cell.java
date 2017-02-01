@@ -36,7 +36,6 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
     @Override
     //TODO: Implement this
     public void interact() {
-        ArrayList<Abstract_Cell> adjNeighbors = new ArrayList<>(getAdjNeighbors().asCollection());
         if (getState().equals(PredatorPreyCell_State.PREDATOR)) {
             getAdjNeighbors().asCollection().stream()
                     .filter(neighbor -> neighbor.getState().equals(PredatorPreyCell_State.PREY))
@@ -50,10 +49,7 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
             }
             movesSinceReproduction++;
         }
-        if (getState().equals(PredatorPreyCell_State.PREY)) {
-            if (nextStateDead()) {
-                return;
-            }
+        if (getState().equals(PredatorPreyCell_State.PREY) && !nextStateDead()) {
             getAdjNeighbors().asCollection().stream()
                     .filter(PredatorPrey_Cell.class::isInstance).map(PredatorPrey_Cell.class::cast)
                     .filter(PredatorPrey_Cell::nextStateEmpty)

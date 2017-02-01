@@ -40,15 +40,17 @@ public class CellStateTimeline<T extends Abstract_CellState> {
     }
 
     public T getNextState() {
+        if (size() == currentIndex + 1) {
+            return getCurrentState();
+        }
         return myStateTimeline.get(currentIndex + 1);
     }
 
-    public boolean append(T newState) {
-        if (myStateTimeline.size() - 1 == currentIndex) {
-            myStateTimeline.add(newState);
-            return true;
-        }
-        return false;
+    public void append(T newState) {
+        myStateTimeline.add(currentIndex+1,newState);
     }
 
+    public int size() {
+        return myStateTimeline.size();
+    }
 }

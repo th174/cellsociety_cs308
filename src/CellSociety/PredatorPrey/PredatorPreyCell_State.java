@@ -18,7 +18,7 @@ public final class PredatorPreyCell_State extends AbstractDiscrete_CellState {
     }
 
     public PredatorPreyCell_State(String s) {
-        myState = s.equals("rand") ? randomState(myState) : PredatorPreyState.valueOf(s);
+        myState = s.equals("rand") ? randomState(PredatorPreyState.class) : PredatorPreyState.valueOf(s);
     }
 
     protected PredatorPreyState getState() {
@@ -32,5 +32,9 @@ public final class PredatorPreyCell_State extends AbstractDiscrete_CellState {
 
     private enum PredatorPreyState {
         EMPTY, PREDATOR, PREY
+    }
+
+    public String toString() {
+        return myState.toString();
     }
 }

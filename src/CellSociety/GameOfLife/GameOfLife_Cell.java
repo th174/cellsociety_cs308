@@ -31,8 +31,6 @@ public class GameOfLife_Cell extends Abstract_Cell<GameOfLifeCell_State> {
             setState(GameOfLifeCell_State.DEAD);
         } else if (numAlive == THREE && getState().equals(GameOfLifeCell_State.DEAD)) {
             setState(GameOfLifeCell_State.ALIVE);
-        } else {
-            setState(GameOfLifeCell_State.DEAD);
         }
     }
 }

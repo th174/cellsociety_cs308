@@ -3,7 +3,6 @@ package CellSociety.Fire;
 import java.util.ArrayList;
 
 import CellSociety.Abstract_Cell;
-import CellSociety.SimulationGrid;
 
 /**
  * Created by th174 on 1/29/2017.

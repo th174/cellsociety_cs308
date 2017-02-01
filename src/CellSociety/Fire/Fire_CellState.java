@@ -18,7 +18,7 @@ public final class Fire_CellState extends AbstractDiscrete_CellState {
     }
 
     public Fire_CellState(String s) {
-        myState = s.equals("rand") ? randomState(myState) : FireState.valueOf(s);
+        myState = s.equals("rand") ? randomState(FireState.class) : FireState.valueOf(s);
     }
 
     protected FireState getState() {

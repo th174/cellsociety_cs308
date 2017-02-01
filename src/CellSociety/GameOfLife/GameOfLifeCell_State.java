@@ -17,7 +17,7 @@ public final class GameOfLifeCell_State extends AbstractDiscrete_CellState {
     }
 
     public GameOfLifeCell_State(String s) {
-        myState = s.equals("rand") ? randomState(myState) : GameOfLifeState.valueOf(s);
+        myState = s.equals("rand") ? randomState(GameOfLifeState.class) : GameOfLifeState.valueOf(s);
     }
 
     @Override

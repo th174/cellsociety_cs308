@@ -12,7 +12,7 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
     private final int xPos;
     private final int yPos;
     private final Rectangle myRectangle;
-    private SimulationGrid<Abstract_Cell<T>> parentGrid;
+    private SimulationGrid<? extends Abstract_Cell<T>> parentGrid;
     private CellStateTimeline<T> myTimeline;
 
     protected Abstract_Cell(String[] args, T state) {
@@ -32,6 +32,7 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
      */
     public void updateState() {
         myTimeline.advance();
+        setState(getState());
         myRectangle.setFill(getState().getFill());
         myRectangle.setWidth(parentGrid.getScreenWidth() / parentGrid.getWidth() - BORDER_OFFSET * 2);
         myRectangle.setHeight(parentGrid.getScreenHeight() / parentGrid.getHeight() - BORDER_OFFSET * 2);
@@ -41,20 +42,21 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
 
     public abstract void interact();
 
+
     /**
      * @return Grid of neighboring cells. See SimulationGrid::getNeighbors
      */
-    public SimulationGrid<Abstract_Cell<T>> getNeighbors() {
+    public <U extends Abstract_Cell<T>> SimulationGrid<U> getNeighbors() {
         if (Objects.nonNull(parentGrid)) {
-            return parentGrid.getNeighbors(xPos, yPos);
+            return (SimulationGrid<U>) parentGrid.getNeighbors(xPos, yPos);
         } else {
             return null;
         }
     }
 
-    public SimulationGrid<Abstract_Cell<T>> getAdjNeighbors() {
+    public <U extends Abstract_Cell<T>> SimulationGrid<U> getAdjNeighbors() {
         if (Objects.nonNull(parentGrid)) {
-            return parentGrid.getAdjNeighbors(xPos, yPos);
+            return (SimulationGrid<U>) parentGrid.getAdjNeighbors(xPos, yPos);
         } else {
             return null;
         }
@@ -100,7 +102,7 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
         return myRectangle;
     }
 
-    protected SimulationGrid<Abstract_Cell<T>> getParentGrid() {
+    protected SimulationGrid<? extends Abstract_Cell<T>> getParentGrid() {
         return parentGrid;
     }
 
@@ -109,7 +111,7 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
      *
      * @param grid parent SimulationGrid
      */
-    public void setParentGrid(SimulationGrid<Abstract_Cell<T>> grid) {
+    public <U extends Abstract_Cell<T>> void setParentGrid(SimulationGrid<U> grid) {
         parentGrid = grid;
     }
 

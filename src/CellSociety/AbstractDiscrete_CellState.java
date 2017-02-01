@@ -6,8 +6,8 @@ package CellSociety;
  */
 public abstract class AbstractDiscrete_CellState extends Abstract_CellState {
 
-    public <T extends Enum<T>> T randomState(T myState) {
-        return myState.getDeclaringClass().getEnumConstants()[(int) Math.random() * myState.getDeclaringClass().getEnumConstants().length];
+    public <T extends Enum<T>> T randomState(Class<T> enumState) {
+        return enumState.getEnumConstants()[(int) (Math.random() * enumState.getEnumConstants().length)];
     }
 
     @Override

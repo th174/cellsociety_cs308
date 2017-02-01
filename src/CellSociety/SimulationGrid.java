@@ -1,9 +1,7 @@
 package CellSociety;
 
 import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -100,7 +98,9 @@ public class SimulationGrid<E extends Abstract_Cell> {
      * @return Collection of Cells
      */
     public Collection<E> asCollection() {
-        return Arrays.stream(cells).flatMap(Arrays::stream).filter(Objects::nonNull).map(e -> (E) e).collect(Collectors.toSet());
+        List<E> temp = Arrays.stream(cells).flatMap(Arrays::stream).filter(Objects::nonNull).map(e -> (E) e).collect(Collectors.toList());
+        Collections.shuffle(temp);
+        return temp;
     }
 
     /**

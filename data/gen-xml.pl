@@ -4,11 +4,14 @@ use warnings;
 
 my $xSize = 16;
 my $ySize = 16;
-my $fps = 2;
+my $fps = 3;
 
 #change this between simulations:
-my $simulationType = "GameOfLife";
-my @state = ("DEAD", "ALIVE" );
+my $simulationType = "Segregation";
+my @state = ("EMPTY", "X", "O");
+#for random state:
+my $rand = "rand";
+my $additionalArgs = "\n\t\t<Threshold>.7</Threshold>";
 
 open(OUTPUT, "> $simulationType.xml");
 print OUTPUT '<?xml version="1.0" encoding="UTF-8" ?>';
@@ -19,17 +22,17 @@ print OUTPUT "\n<Simulation type=\"$simulationType\" width=\"@{[$xSize+2]}\" hei
 #xPos="3" yPos="5" initializes the single cell 3,5
 
 #usage: initSomething(state,arrayref)
-initGrid($state[0]);
-#initRows($state[1], [ 5, 3, 4 ]);
-#initColumn($state[1], [ 4, 7, 9 ]);
+initGrid($rand);
+#initRows($state[1], [ 1, 3, 5, 7, 11, 13, 15 ]);
+#initColumn($state[1], [ 0, 2, 4, 6, 8, 10, 14, 16 ]);
 #initCells($state[1], [ [ 1, 2 ], [ 2, 5 ], [ 7, 9 ] ]);
-for (my $x = 1; $x <= $xSize; $x++) {
-    for (my $y = 1; $y <= $ySize; $y++) {
-        if ($x >= 4 && $x < 7 && $y >= 5 && $y < 13 && !($x == 5 && ($y == 6 || $y == 11 ))) {
-            initCells($state[1], [ [ $x, $y ] ]);
-        }
-    }
-}
+#for (my $x = 1; $x <= $xSize; $x++) {
+#    for (my $y = 1; $y <= $ySize; $y++) {
+#        if ($x >= 4 && $x < 7 && $y >= 5 && $y < 13 && !($x == 5 && ($y == 6 || $y == 11 ))) {
+#            initCells($state[1], [ [ $x, $y ] ]);
+#        }
+#    }
+#}
 
 sub initCells {
     my $state = shift;
@@ -40,6 +43,7 @@ sub initCells {
         print OUTPUT
             "\t<Cell xPos=\"$x\" yPos=\"$y\">".
                 "\n\t\t<State>$state</State>".
+                $additionalArgs.
                 "\n\t</Cell>\n";
     }
 }
@@ -51,6 +55,7 @@ sub initRows {
         print OUTPUT
             "\t<Cell yPos=\"$y\">".
                 "\n\t\t<State>$state</State>".
+                $additionalArgs.
                 "\n\t</Cell>\n";
     }
 }
@@ -62,6 +67,7 @@ sub initColumn {
         print OUTPUT
             "\t<Cell xPos=\"$x\">".
                 "\n\t\t<State>$state</State>".
+                $additionalArgs.
                 "\n\t</Cell>\n";
     }
 }
@@ -71,6 +77,7 @@ sub initGrid {
     print OUTPUT
         "\t<Cell>".
             "\n\t\t<State>$state</State>".
+            $additionalArgs.
             "\n\t</Cell>\n";
 }
 

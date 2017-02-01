@@ -56,7 +56,10 @@ public class CellSocietyMain extends Application {
         root.getChildren().addAll(mySimulationGrid.asCollection().stream().map(Abstract_Cell::getRectangle).collect(Collectors.toSet()));
     }
 
+    int i;
+
     private void update() {
+        System.out.println(i++);
         mySimulationGrid.forEach(Abstract_Cell::updateState);
         mySimulationGrid.forEach(Abstract_Cell::interact);
     }
@@ -116,7 +119,7 @@ public class CellSocietyMain extends Application {
     private String[] getConstructorParamsFromXMLElement(Element currentElement, String simulationType) throws Exception {
         List<String> constructorParams = new ArrayList<>();
         for (int j = 0; j < currentElement.getElementsByTagName("*").getLength(); j++) {
-            constructorParams.add(currentElement.getElementsByTagName("*").item(0).getTextContent());
+            constructorParams.add(currentElement.getElementsByTagName("*").item(j).getTextContent());
         }
         return constructorParams.toArray(new String[constructorParams.size()]);
     }

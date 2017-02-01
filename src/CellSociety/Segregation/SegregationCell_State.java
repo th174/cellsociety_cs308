@@ -11,6 +11,11 @@ public class SegregationCell_State extends AbstractDiscrete_CellState {
     public static final SegregationCell_State X = new SegregationCell_State(SegregationState.X);
     public static final SegregationCell_State O = new SegregationCell_State(SegregationState.O);
     public static final SegregationCell_State EMPTY = new SegregationCell_State(SegregationState.EMPTY);
+
+    private enum SegregationState {
+        X, O, EMPTY
+    }
+
     private SegregationState myState;
 
     private SegregationCell_State(SegregationState state) {
@@ -18,7 +23,7 @@ public class SegregationCell_State extends AbstractDiscrete_CellState {
     }
 
     public SegregationCell_State(String s) {
-        myState = s.equals("rand") ? randomState(myState) : SegregationState.valueOf(s);
+        myState = s.equals("rand") ? randomState(SegregationState.class) : SegregationState.valueOf(s);
     }
 
     protected SegregationState getState() {
@@ -30,7 +35,7 @@ public class SegregationCell_State extends AbstractDiscrete_CellState {
         return getState().equals(SegregationState.X) ? Color.BLUE : getState().equals(SegregationState.O) ? Color.RED : Color.WHITE;
     }
 
-    private enum SegregationState {
-        X, O, EMPTY
+    public String toString() {
+        return myState.toString();
     }
 }
