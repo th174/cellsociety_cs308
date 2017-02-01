@@ -117,7 +117,7 @@ public class SimulationGrid<E extends Abstract_Cell> {
      *
      * @return width
      */
-    public int getWidth() {
+    public int getColumns() {
         return cells.length;
     }
 
@@ -126,7 +126,7 @@ public class SimulationGrid<E extends Abstract_Cell> {
      *
      * @return height
      */
-    public int getHeight() {
+    public int getRows() {
         return cells[1].length;
     }
 

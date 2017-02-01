@@ -34,10 +34,10 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
         myTimeline.advance();
         setState(getState());
         myRectangle.setFill(getState().getFill());
-        myRectangle.setWidth(parentGrid.getScreenWidth() / parentGrid.getWidth() - BORDER_OFFSET * 2);
-        myRectangle.setHeight(parentGrid.getScreenHeight() / parentGrid.getHeight() - BORDER_OFFSET * 2);
-        myRectangle.setX(parentGrid.getScreenWidth() * xPos / parentGrid.getWidth() + BORDER_OFFSET);
-        myRectangle.setY(parentGrid.getScreenHeight() * yPos / parentGrid.getHeight() + BORDER_OFFSET);
+        myRectangle.setWidth(parentGrid.getScreenWidth() / parentGrid.getColumns() - BORDER_OFFSET * 2);
+        myRectangle.setHeight(parentGrid.getScreenHeight() / parentGrid.getRows() - BORDER_OFFSET * 2);
+        myRectangle.setX(parentGrid.getScreenWidth() * xPos / parentGrid.getColumns() + BORDER_OFFSET);
+        myRectangle.setY(parentGrid.getScreenHeight() * yPos / parentGrid.getRows() + BORDER_OFFSET);
     }
 
     public abstract void interact();

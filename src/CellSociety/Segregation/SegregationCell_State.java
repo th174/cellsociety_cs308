@@ -11,11 +11,6 @@ public class SegregationCell_State extends AbstractDiscrete_CellState {
     public static final SegregationCell_State X = new SegregationCell_State(SegregationState.X);
     public static final SegregationCell_State O = new SegregationCell_State(SegregationState.O);
     public static final SegregationCell_State EMPTY = new SegregationCell_State(SegregationState.EMPTY);
-
-    private enum SegregationState {
-        X, O, EMPTY
-    }
-
     private SegregationState myState;
 
     private SegregationCell_State(SegregationState state) {
@@ -37,5 +32,9 @@ public class SegregationCell_State extends AbstractDiscrete_CellState {
 
     public String toString() {
         return myState.toString();
+    }
+
+    private enum SegregationState {
+        X, O, EMPTY
     }
 }

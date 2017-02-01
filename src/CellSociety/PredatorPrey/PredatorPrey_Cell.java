@@ -2,8 +2,6 @@ package CellSociety.PredatorPrey;
 
 import CellSociety.Abstract_Cell;
 
-import java.util.ArrayList;
-
 /**
  * Created by th174 on 1/29/2017.
  */

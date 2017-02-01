@@ -2,32 +2,42 @@
 use strict;
 use warnings;
 
+
+#change this between simulations:
+my $simulationType = "PredatorPrey";
+#my @state = ("EMPTY","X","O");              #for Segregation
+#my @state = ("DEAD", "ALIVE");              #for GameOfLife
+my @state = ("EMPTY", "PREDATOR", "PREY");   #for PredatorPrey
+#my @state = ("EMPTY", "TREE", "BURNING");   #for Fire
+
+#my $additionalArgs = "\n\t\t<Threshold>.7</Threshold>";    #for Segregation
+#my $additionalArgs = "\n\t\t<ProbCatch>.15</ProbCatch>";   #for Fire
+my $additionalArgs = "";                                    #for the rest
+
 my $xSize = 16;
 my $ySize = 16;
 my $fps = 3;
-
-#change this between simulations:
-my $simulationType = "GameOfLife";
-my @state = ("DEAD", "ALIVE");
-#my @state = ("EMPTY", "X", "O");
 #for random state:
 my $randomState = "rand";
-my $additionalArgs = "\n\t\t<Threshold>.7</Threshold>";
 
 open(OUTPUT, "> $simulationType.xml");
 print OUTPUT '<?xml version="1.0" encoding="UTF-8" ?>';
 print OUTPUT "\n<Simulation type=\"$simulationType\" width=\"@{[$xSize+2]}\" height=\"@{[$ySize+2]}\" fps=\"$fps\">\n";
 
+#################################################################
 #You can initialize entire rows and colums by leaving the attribute blank
 #For example, xPos="3" initializes the entire 3rd column
 #xPos="3" yPos="5" initializes the single cell 3,5
+#Use $randomState for random state
 
 #usage: initSomething(state,arrayref)
-#initGrid($randomState);
+#################################################################
+#CHANGE THIS FOR INITIAL STATE
+
 initGrid($state[0]);
-#initRows($state[1], [ 1, 3, 5, 7, 11, 13, 15 ]);
+initRows($randomState, [ 8 ]);
 #initColumn($state[1], [ 0, 2, 4, 6, 8, 10, 14, 16 ]);
-initCells($state[1], [ [ 1, 2 ], [ 2, 3 ], [ 3, 3 ], [ 3, 2 ], [ 3, 1 ] ]);
+#initCells($state[1], [ [ 1, 2 ], [ 2, 3 ], [ 3, 3 ], [ 3, 2 ], [ 3, 1 ] ]);
 #for (my $x = 1; $x <= $xSize; $x++) {
 #    for (my $y = 1; $y <= $ySize; $y++) {
 #        if ($x >= 4 && $x < 7 && $y >= 5 && $y < 13 && !($x == 5 && ($y == 6 || $y == 11 ))) {
@@ -35,6 +45,9 @@ initCells($state[1], [ [ 1, 2 ], [ 2, 3 ], [ 3, 3 ], [ 3, 2 ], [ 3, 1 ] ]);
 #        }
 #    }
 #}
+
+#################################################################
+
 
 sub initCells {
     my $state = shift;

@@ -1,8 +1,8 @@
 package CellSociety.Fire;
 
-import java.util.ArrayList;
-
 import CellSociety.Abstract_Cell;
+
+import java.util.ArrayList;
 
 /**
  * Created by th174 on 1/29/2017.
@@ -22,18 +22,19 @@ public class Fire_Cell extends Abstract_Cell<Fire_CellState> {
         super(x, y, state);
         probCatchFire = chanceFire;
     }
+
     @SuppressWarnings("unused")
-	private void neighbor(){
-    	ArrayList<Abstract_Cell> adjNeighbors=new ArrayList<>(getAdjNeighbors().asCollection());
-    	if(getState().equals(Fire_CellState.BURNING)){
-    		
-    	}
-    	//grid.asCollection().stream().filter(e->e instance of Segregation_Cell && ((Segregation_Cell) e).nextStateE
+    private void neighbor() {
+        ArrayList<Abstract_Cell> adjNeighbors = new ArrayList<>(getAdjNeighbors().asCollection());
+        if (getState().equals(Fire_CellState.BURNING)) {
+
+        }
+        //grid.asCollection().stream().filter(e->e instance of Segregation_Cell && ((Segregation_Cell) e).nextStateE
     }
 
     @Override
     public void interact() {
-    	
+
         //TODO: Implement this
     }
 }

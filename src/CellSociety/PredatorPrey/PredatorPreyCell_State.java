@@ -30,11 +30,11 @@ public final class PredatorPreyCell_State extends AbstractDiscrete_CellState {
         return getState().equals(PredatorPreyState.EMPTY) ? Color.BLUE : getState().equals(PredatorPreyState.PREDATOR) ? Color.YELLOW : Color.GREEN;
     }
 
-    private enum PredatorPreyState {
-        EMPTY, PREDATOR, PREY
-    }
-
     public String toString() {
         return myState.toString();
+    }
+
+    private enum PredatorPreyState {
+        EMPTY, PREDATOR, PREY
     }
 }
