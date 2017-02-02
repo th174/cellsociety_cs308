@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Simulation type="Fire" width="18" height="18" fps="3">
+<Simulation type="Fire" width="102" height="102" fps="3">
 	<Cell>
 		<State>TREE</State>
-		<Threshold>.7</Threshold>
+		<ProbCatch>.55</ProbCatch>
 	</Cell>
-	<Cell yPos="8">
+	<Cell yPos="50">
 		<State>BURNING</State>
-		<Threshold>.7</Threshold>
+		<ProbCatch>.55</ProbCatch>
 	</Cell>
 </Simulation>
