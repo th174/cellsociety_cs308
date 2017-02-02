@@ -24,30 +24,12 @@ public class Fire_Cell extends Abstract_Cell<Fire_CellState> {
 		probCatchFire = chanceFire;
 	}
 
-	@SuppressWarnings("unused")
-	/* private void neighbor() {
-       // ArrayList<Abstract_Cell> adjNeighbors = new ArrayList<>(getAdjNeighbors().asCollection());
-        if (getState().equals(Fire_CellState.BURNING)) {
-        	if(Math.random()<DEFAULT_PROB_CATCH_FIRE){
-        		setState(Fire_CellState.TREE);
-        	}
-        	else{
-        		setState(Fire_CellState.BURNING);
-        	}
 
-        }
-        if(getState().equals(Fire_CellState.EMPTY)||getState().equals(Fire_CellState.TREE)){
-        	setState(Fire_CellState.getState);
-        }
-        if(myState)
-        //grid.asCollection().stream().filter(e->e instance of Segregation_Cell && ((Segregation_Cell) e).nextStateE
-    }
-	 */
 	@Override
 	public void interact() {
 		// ArrayList<Abstract_Cell> adjNeighbors = new ArrayList<>(getAdjNeighbors().asCollection());
-		int AdjBurning=(int) getAdjNeighbors().asCollection().stream().filter(e ->e.getState().equals(Fire_CellState.BURNING)).count();
-		if (AdjBurning>0 && Math.random()>DEFAULT_PROB_CATCH_FIRE && getState().equals(Fire_CellState.TREE)) {
+		if (getAdjNeighbors().asCollection().stream().filter(e ->e.getState().equals(Fire_CellState.BURNING)).findAny().isPresent() && 
+				Math.random()>probCatchFire && getState().equals(Fire_CellState.TREE)) {
 			setState(Fire_CellState.BURNING);
 		}else if(getState().equals(Fire_CellState.BURNING)){
 			setState(Fire_CellState.EMPTY);
