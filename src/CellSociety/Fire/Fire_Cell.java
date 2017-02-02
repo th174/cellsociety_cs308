@@ -47,7 +47,7 @@ public class Fire_Cell extends Abstract_Cell<Fire_CellState> {
 	public void interact() {
 		// ArrayList<Abstract_Cell> adjNeighbors = new ArrayList<>(getAdjNeighbors().asCollection());
 		int AdjBurning=(int) getAdjNeighbors().asCollection().stream().filter(e ->e.getState().equals(Fire_CellState.BURNING)).count();
-		if (AdjBurning<1 && Math.random()<DEFAULT_PROB_CATCH_FIRE && getState().equals(Fire_CellState.TREE)) {
+		if (AdjBurning>0 && Math.random()>DEFAULT_PROB_CATCH_FIRE && getState().equals(Fire_CellState.TREE)) {
 			setState(Fire_CellState.BURNING);
 		}else if(getState().equals(Fire_CellState.BURNING)){
 			setState(Fire_CellState.EMPTY);
