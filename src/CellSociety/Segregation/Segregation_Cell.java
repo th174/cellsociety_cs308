@@ -2,6 +2,9 @@ package CellSociety.Segregation;
 
 import CellSociety.Abstract_Cell;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 
 /**
  * Created by th174 on 1/29/2017.
@@ -28,8 +31,8 @@ public class Segregation_Cell extends Abstract_Cell<SegregationCell_State> {
             double sameStateNeighbors = getNeighbors().asCollection().stream().filter(e -> e.getState().equals(getState())).count();
             double totalStateNeighbors = getNeighbors().asCollection().stream().filter(e -> !e.getState().equals(SegregationCell_State.EMPTY)).count();
             if (sameStateNeighbors / totalStateNeighbors < satisfactionThreshold) {
-                getParentGrid().asCollection().stream().filter(e -> e instanceof Segregation_Cell && ((Segregation_Cell) e).nextStateEmpty())
-                        .findAny().ifPresent(e -> {
+                Collection<Abstract_Cell<SegregationCell_State>> EmptyCells = getParentGrid().asCollection().stream().filter(e -> e instanceof Segregation_Cell && ((Segregation_Cell) e).nextStateEmpty()).collect(Collectors.toSet());
+                EmptyCells.stream().skip((long) (EmptyCells.size()*Math.random())).findFirst().ifPresent(e -> {
                     e.setState(this.getState());
                     setState(SegregationCell_State.EMPTY);
                 });

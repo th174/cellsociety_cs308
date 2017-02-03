@@ -21,6 +21,11 @@ public class SegregationCell_State extends AbstractDiscrete_CellState {
         myState = s.equals("rand") ? randomState(SegregationState.class) : SegregationState.valueOf(s);
     }
 
+    @Override
+    public <T extends Enum<T>> T randomState(Class<T> enumState) {
+        return super.randomState(enumState);
+    }
+
     protected SegregationState getState() {
         return myState;
     }

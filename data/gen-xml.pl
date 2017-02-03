@@ -4,18 +4,18 @@ use warnings;
 
 
 #change this between simulations:
-my $simulationType = "GameOfLife";
-#my @state = ("EMPTY","X","O");              #for Segregation
-my @state = ("DEAD", "ALIVE");              #for GameOfLife
+my $simulationType = "Segregation";
+my @state = ("EMPTY","X","O");              #for Segregation
+#my @state = ("DEAD", "ALIVE");              #for GameOfLife
 #my @state = ("EMPTY", "PREDATOR", "PREY");   #for PredatorPrey
 #my @state = ("EMPTY", "TREE", "BURNING");   #for Fire
 
-#my $additionalArgs = "\n\t\t<Threshold>.7</Threshold>";    #for Segregation
+my $additionalArgs = "\n\t\t<Threshold>.7</Threshold>";    #for Segregation
 #my $additionalArgs = "\n\t\t<ProbCatch>.55</ProbCatch>";   #for Fire
-my $additionalArgs = "";                                    #for the rest
+#my $additionalArgs = "";                                    #for the rest
 
-my $xSize = 40;
-my $ySize = 40;
+my $xSize = 100;
+my $ySize = 100;
 my $fps = 3;
 #for random state:
 my $randomState = "rand";
@@ -34,10 +34,10 @@ print OUTPUT "\n<Simulation type=\"$simulationType\" width=\"@{[$xSize+2]}\" hei
 #################################################################
 #CHANGE THIS FOR INITIAL STATE
 
-initGrid($state[0]);
+initGrid($randomState);
 #initRows($state[2], [ $ySize / 2 ]);
 #initColumn($state[1], [ 0, 2, 4, 6, 8, 10, 14, 16 ]);
-initCells($state[1], [ [ 1, 2 ], [ 2, 3 ], [ 3, 3 ], [ 3, 2 ], [ 3, 1 ] ]);
+#initCells($state[1], [ [ 1, 2 ], [ 2, 3 ], [ 3, 3 ], [ 3, 2 ], [ 3, 1 ] ]);
 #for (my $x = 1; $x <= $xSize; $x++) {
 #    for (my $y = 1; $y <= $ySize; $y++) {
 #        if ($x >= 4 && $x < 7 && $y >= 5 && $y < 13 && !($x == 5 && ($y == 6 || $y == 11 ))) {
