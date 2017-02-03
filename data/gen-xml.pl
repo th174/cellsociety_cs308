@@ -14,8 +14,8 @@ my $additionalArgs = "\n\t\t<Threshold>.7</Threshold>";    #for Segregation
 #my $additionalArgs = "\n\t\t<ProbCatch>.55</ProbCatch>";   #for Fire
 #my $additionalArgs = "";                                    #for the rest
 
-my $xSize = 100;
-my $ySize = 100;
+my $xSize = 70;
+my $ySize = 70;
 my $fps = 3;
 #for random state:
 my $randomState = "rand";

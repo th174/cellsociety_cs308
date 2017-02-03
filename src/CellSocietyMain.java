@@ -6,6 +6,7 @@ import CellSociety.Abstract_Cell;
 import CellSociety.SimulationGrid;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -14,6 +15,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -49,18 +51,18 @@ public class CellSocietyMain extends Application {
         primaryStage.setScene(simulation);
         primaryStage.setTitle(TITLE);
         primaryStage.show();
-//        KeyFrame frame = new KeyFrame(Duration.seconds(1 / framesPerSecond), e -> update());
-//        animation = new Timeline();
-//        animation.setCycleCount(Timeline.INDEFINITE);
-//        animation.getKeyFrames().add(frame);
-//        animation.play();
-        AnimationTimer animationTimer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                update();
-            }
-        };
-        animationTimer.start();
+        KeyFrame frame = new KeyFrame(Duration.seconds(1 / framesPerSecond), e -> update());
+        animation = new Timeline();
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.getKeyFrames().add(frame);
+        animation.play();
+//        AnimationTimer animationTimer = new AnimationTimer() {
+//            @Override
+//            public void handle(long now) {
+//                update();
+//            }
+//        };
+//        animationTimer.start();
         root.getChildren().addAll(mySimulationGrid.asCollection().stream().map(Abstract_Cell::getRectangle).collect(Collectors.toSet()));
     }
 

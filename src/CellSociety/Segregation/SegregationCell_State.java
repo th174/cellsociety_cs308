@@ -32,7 +32,7 @@ public class SegregationCell_State extends AbstractDiscrete_CellState {
 
     @Override
     public Paint getFill() {
-        return getState().equals(SegregationState.X) ? Color.BLUE : getState().equals(SegregationState.O) ? Color.RED : Color.WHITE;
+        return getState().equals(SegregationState.X) ? Color.BLUE : (getState().equals(SegregationState.O) ? Color.RED : Color.WHITE);
     }
 
     public String toString() {

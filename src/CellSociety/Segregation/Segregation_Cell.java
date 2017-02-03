@@ -32,7 +32,7 @@ public class Segregation_Cell extends Abstract_Cell<SegregationCell_State> {
             double totalStateNeighbors = getNeighbors().asCollection().stream().filter(e -> !e.getState().equals(SegregationCell_State.EMPTY)).count();
             if (sameStateNeighbors / totalStateNeighbors < satisfactionThreshold) {
                 Collection<Abstract_Cell<SegregationCell_State>> EmptyCells = getParentGrid().asCollection().stream().filter(e -> e instanceof Segregation_Cell && ((Segregation_Cell) e).nextStateEmpty()).collect(Collectors.toSet());
-                EmptyCells.stream().skip((long) (EmptyCells.size()*Math.random())).findFirst().ifPresent(e -> {
+                EmptyCells.stream().skip((long) (EmptyCells.size()*Math.random())).findAny().ifPresent(e -> {
                     e.setState(this.getState());
                     setState(SegregationCell_State.EMPTY);
                 });
