@@ -40,42 +40,44 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
      */
     @Override
     public void interact() {
-        Collection<PredatorPrey_Cell> adjNeighbors = getAdjNeighbors().asCollection().stream().filter(PredatorPrey_Cell.class::isInstance).map(PredatorPrey_Cell.class::cast).collect(Collectors.toSet());
-        if (getState().equals(PredatorPreyCell_State.PREDATOR)) {
-            Optional<PredatorPrey_Cell> potentialPrey = adjNeighbors.stream()
-                    .skip((long) Math.random() * adjNeighbors.size())
-                    .filter(neighbor -> neighbor.getState().equals(PredatorPreyCell_State.PREY)).findAny();
-            if (potentialPrey.isPresent()) {
-                move(potentialPrey.get(), PredatorPreyCell_State.EMPTY);
-            } else {
-                predMovesSinceEaten++;
-                if (isStarved()) {
-                    setState(PredatorPreyCell_State.EMPTY);
+        if (!getState().equals(PredatorPreyCell_State.EMPTY)) {
+            Collection<PredatorPrey_Cell> adjNeighbors = getAdjNeighbors().asCollection().stream().filter(PredatorPrey_Cell.class::isInstance).map(PredatorPrey_Cell.class::cast).collect(Collectors.toSet());
+            if (getState().equals(PredatorPreyCell_State.PREDATOR)) {
+                Optional<PredatorPrey_Cell> potentialPrey = adjNeighbors.stream()
+                        .skip((long) Math.random() * adjNeighbors.size())
+                        .filter(neighbor -> neighbor.getState().equals(PredatorPreyCell_State.PREY)).findAny();
+                if (potentialPrey.isPresent()) {
+                    move(potentialPrey.get(), PredatorPreyCell_State.EMPTY);
                 } else {
-                    adjNeighbors.stream()
-                            .skip((long) Math.random() * adjNeighbors.size())
-                            .filter(neighbor -> neighbor.getState().equals(PredatorPreyCell_State.EMPTY))
-                            .findAny().ifPresent(e -> move(e, PredatorPreyCell_State.EMPTY));
+                    predMovesSinceEaten++;
+                    if (isStarved()) {
+                        setState(PredatorPreyCell_State.EMPTY);
+                    } else {
+                        adjNeighbors.stream()
+                                .skip((long) Math.random() * adjNeighbors.size())
+                                .filter(neighbor -> neighbor.getState().equals(PredatorPreyCell_State.EMPTY))
+                                .findAny().ifPresent(e -> move(e, PredatorPreyCell_State.EMPTY));
+                    }
+                }
+                if (canReproduce()) {
+                    setState(PredatorPreyCell_State.PREDATOR);
+                    resetReproduction();
                 }
             }
-            if (canReproduce()) {
-                setState(PredatorPreyCell_State.PREDATOR);
-                resetReproduction();
+            if (getState().equals(PredatorPreyCell_State.PREY) && !nextStateDead()) {
+                adjNeighbors.stream()
+                        .skip((long) Math.random() * adjNeighbors.size())
+                        .filter(PredatorPrey_Cell::nextStateEmpty)
+                        .findAny().ifPresent(e -> e.setState(PredatorPreyCell_State.PREY));
+                if (!canReproduce()) {
+                    setState(PredatorPreyCell_State.EMPTY);
+                } else {
+                    setState(PredatorPreyCell_State.PREY);
+                    resetReproduction();
+                }
             }
+            movesSinceReproduction++;
         }
-        if (getState().equals(PredatorPreyCell_State.PREY) && !nextStateDead()) {
-            adjNeighbors.stream()
-                    .skip((long) Math.random() * adjNeighbors.size())
-                    .filter(PredatorPrey_Cell::nextStateEmpty)
-                    .findAny().ifPresent(e -> e.setState(PredatorPreyCell_State.PREY));
-            if (!canReproduce()) {
-                setState(PredatorPreyCell_State.EMPTY);
-            } else {
-                setState(PredatorPreyCell_State.PREY);
-                resetReproduction();
-            }
-        }
-        movesSinceReproduction++;
     }
 
     public boolean canReproduce() {
