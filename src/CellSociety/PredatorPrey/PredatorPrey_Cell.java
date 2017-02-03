@@ -71,7 +71,7 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
             if (!canReproduce()) {
                 setState(PredatorPreyCell_State.EMPTY);
             } else {
-                setState(PredatorPreyCell_State.PREY);
+                setState(PredatorPreyCell_State.PREDATOR);
                 resetReproduction();
             }
         }

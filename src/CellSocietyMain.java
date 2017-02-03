@@ -4,6 +4,7 @@
 
 import CellSociety.Abstract_Cell;
 import CellSociety.SimulationGrid;
+import CellSociety.UI.UI;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
@@ -44,7 +45,7 @@ public class CellSocietyMain extends Application {
         Scene simulation = new Scene(root, SIZE, SIZE, Color.BLACK);
         mySimulationGrid = readXML(getParameters().getUnnamed().get(0));
         mySimulationGrid.setWindowDimensions(SIZE, SIZE);
-        simulation.setOnKeyPressed(this::handleKeyPress);
+        
         primaryStage.setResizable(false);
         primaryStage.setScene(simulation);
         primaryStage.setTitle(TITLE);
@@ -55,6 +56,8 @@ public class CellSocietyMain extends Application {
         animation.getKeyFrames().add(frame);
         animation.play();
         root.getChildren().addAll(mySimulationGrid.asCollection().stream().map(Abstract_Cell::getRectangle).collect(Collectors.toSet()));
+        UI myUI = new UI(animation, mySimulationGrid);
+        simulation.setOnKeyPressed(e -> myUI.handleKeyPress(e));
     }
 
 
@@ -128,6 +131,7 @@ public class CellSocietyMain extends Application {
      *
      * @param k
      */
+    /*
     private void handleKeyPress(KeyEvent k) {
         if (k.getCode() == KeyCode.SPACE) {
             if (animation.getStatus().equals(Animation.Status.PAUSED)) {
@@ -168,4 +172,5 @@ public class CellSocietyMain extends Application {
             mySimulationGrid.forEach(e -> e.seek(10));
         }
     }
+    */
 }
