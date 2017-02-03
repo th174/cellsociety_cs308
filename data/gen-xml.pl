@@ -14,15 +14,15 @@ my $additionalArgs = "\n\t\t<Threshold>.7</Threshold>";    #for Segregation
 #my $additionalArgs = "\n\t\t<ProbCatch>.55</ProbCatch>";   #for Fire
 #my $additionalArgs = "";                                    #for the rest
 
-my $xSize = 70;
-my $ySize = 70;
+my $xSize = 50;
+my $ySize = 50;
 my $fps = 3;
 #for random state:
 my $randomState = "rand";
 
 open(OUTPUT, "> $simulationType.xml");
 print OUTPUT '<?xml version="1.0" encoding="UTF-8" ?>';
-print OUTPUT "\n<Simulation type=\"$simulationType\" width=\"@{[$xSize+2]}\" height=\"@{[$ySize+2]}\" fps=\"$fps\">\n";
+print OUTPUT "\n<Simulation type=\"$simulationType\" width=\"$xSize\" height=\"$ySize\" fps=\"$fps\">\n";
 
 #################################################################
 #You can initialize entire rows and colums by leaving the attribute blank

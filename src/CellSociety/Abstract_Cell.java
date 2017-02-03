@@ -117,4 +117,9 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
     protected T getNextState() {
         return myTimeline.getNextState();
     }
+
+    protected void move(Abstract_Cell<T> cell, T state) {
+        cell.setState(getState());
+        setState(state);
+    }
 }

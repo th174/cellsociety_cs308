@@ -103,10 +103,6 @@ public class SimulationGrid<E extends Abstract_Cell> {
         return Arrays.stream(cells).flatMap(Arrays::stream).filter(Objects::nonNull).map(e -> (E) e).collect(Collectors.toList());
     }
 
-    public E getRandom() {
-        return get((int) Math.random() * getColumns(), (int) Math.random() * getRows());
-    }
-
     /**
      * Apply a method to each cell in the grid
      *

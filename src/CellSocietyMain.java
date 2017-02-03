@@ -30,7 +30,6 @@ public class CellSocietyMain extends Application {
     public static final String TITLE = "Cell Society";
     public static final double ANIMATION_RATE_STEP = 5.0 / 4;
     public static final double ANIMATION_RATE_CAP = 12;
-    private static final String WILDCARD = "*";
     private double framesPerSecond = 3;
     private SimulationGrid<? extends Abstract_Cell> mySimulationGrid;
     private Timeline animation;
@@ -55,13 +54,6 @@ public class CellSocietyMain extends Application {
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
         animation.play();
-//        AnimationTimer animationTimer = new AnimationTimer() {
-//            @Override
-//            public void handle(long now) {
-//                update();
-//            }
-//        };
-//        animationTimer.start();
         root.getChildren().addAll(mySimulationGrid.asCollection().stream().map(Abstract_Cell::getRectangle).collect(Collectors.toSet()));
     }
 

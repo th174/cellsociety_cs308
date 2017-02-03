@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Simulation type="Segregation" width="52" height="52" fps="3">
+<Simulation type="Segregation" width="50" height="50" fps="3">
 	<Cell>
 		<State>rand</State>
 		<Threshold>.7</Threshold>
