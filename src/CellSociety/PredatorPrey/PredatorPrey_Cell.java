@@ -74,8 +74,8 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
                 setState(PredatorPreyCell_State.PREY);
                 resetReproduction();
             }
-            movesSinceReproduction++;
         }
+        movesSinceReproduction++;
     }
 
     public boolean canReproduce() {
