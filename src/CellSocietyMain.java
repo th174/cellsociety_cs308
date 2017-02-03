@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CellSocietyMain extends Application {
-    //test variables, should be read from xml
     public static final double SIZE = 1000;
     public static final String TITLE = "Cell Society";
     public static final double ANIMATION_RATE_STEP = 5.0 / 4;

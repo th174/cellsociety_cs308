@@ -40,6 +40,5 @@ public class Fire_Cell extends Abstract_Cell<Fire_CellState> {
 			}else{
 				setState(Fire_CellState.TREE);}
 	}
-	//TODO: Implement this
 }
 

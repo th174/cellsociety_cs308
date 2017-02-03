@@ -20,7 +20,7 @@ public class GameOfLife_Cell extends Abstract_Cell<GameOfLifeCell_State> {
 
     @Override
     public void interact() {
-        int numAlive = (int) getNeighbors().asCollection().stream()
+        int numAlive = (int) getNeighbors().asCollection().parallelStream()
                 .filter(e -> e.getState().equals(GameOfLifeCell_State.ALIVE))
                 .count();
         if (numAlive < TWO && getState().equals(GameOfLifeCell_State.ALIVE)) {
