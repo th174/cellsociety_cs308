@@ -1,9 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Simulation type="PredatorPrey" width="18" height="18" fps="3">
+<Simulation type="PredatorPrey" width="91" height="91" fps="3">
 	<Cell>
 		<State>EMPTY</State>
 	</Cell>
-	<Cell yPos="8">
-		<State>rand</State>
+	<Cell yPos="14">
+		<State>PREDATOR</State>
+	</Cell>
+	<Cell yPos="7">
+		<State>PREY</State>
+	</Cell>
+	<Cell yPos="28">
+		<State>PREDATOR</State>
+	</Cell>
+	<Cell yPos="21">
+		<State>PREY</State>
+	</Cell>
+	<Cell yPos="42">
+		<State>PREDATOR</State>
+	</Cell>
+	<Cell yPos="35">
+		<State>PREY</State>
+	</Cell>
+	<Cell yPos="56">
+		<State>PREDATOR</State>
+	</Cell>
+	<Cell yPos="49">
+		<State>PREY</State>
+	</Cell>
+	<Cell yPos="70">
+		<State>PREDATOR</State>
+	</Cell>
+	<Cell yPos="63">
+		<State>PREY</State>
+	</Cell>
+	<Cell yPos="84">
+		<State>PREDATOR</State>
+	</Cell>
+	<Cell yPos="77">
+		<State>PREY</State>
 	</Cell>
 </Simulation>

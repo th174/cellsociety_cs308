@@ -4,6 +4,7 @@ import CellSociety.Abstract_Cell;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created by th174 on 1/29/2017.
@@ -39,10 +40,10 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
      */
     @Override
     public void interact() {
-        Collection<Abstract_Cell<PredatorPreyCell_State>> adjNeighbors = getAdjNeighbors().asCollection();
+        Collection<PredatorPrey_Cell> adjNeighbors = getAdjNeighbors().asCollection().stream().filter(PredatorPrey_Cell.class::isInstance).map(PredatorPrey_Cell.class::cast).collect(Collectors.toSet());
         if (getState().equals(PredatorPreyCell_State.PREDATOR)) {
             Optional<PredatorPrey_Cell> potentialPrey = adjNeighbors.stream()
-                    .filter(PredatorPrey_Cell.class::isInstance).map(PredatorPrey_Cell.class::cast)
+                    .skip((long) Math.random() * adjNeighbors.size())
                     .filter(neighbor -> neighbor.getState().equals(PredatorPreyCell_State.PREY)).findAny();
             if (potentialPrey.isPresent()) {
                 move(potentialPrey.get(), PredatorPreyCell_State.EMPTY);
@@ -51,7 +52,10 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
                 if (isStarved()) {
                     setState(PredatorPreyCell_State.EMPTY);
                 } else {
-                    adjNeighbors.stream().filter(neighbor -> neighbor.getState().equals(PredatorPreyCell_State.EMPTY)).findAny().ifPresent(e -> move(e, PredatorPreyCell_State.EMPTY));
+                    adjNeighbors.stream()
+                            .skip((long) Math.random() * adjNeighbors.size())
+                            .filter(neighbor -> neighbor.getState().equals(PredatorPreyCell_State.EMPTY))
+                            .findAny().ifPresent(e -> move(e, PredatorPreyCell_State.EMPTY));
                 }
             }
             if (canReproduce()) {
@@ -60,7 +64,8 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
             }
         }
         if (getState().equals(PredatorPreyCell_State.PREY) && !nextStateDead()) {
-            adjNeighbors.stream().filter(PredatorPrey_Cell.class::isInstance).map(PredatorPrey_Cell.class::cast)
+            adjNeighbors.stream()
+                    .skip((long) Math.random() * adjNeighbors.size())
                     .filter(PredatorPrey_Cell::nextStateEmpty)
                     .findAny().ifPresent(e -> e.setState(PredatorPreyCell_State.PREY));
             if (!canReproduce()) {
