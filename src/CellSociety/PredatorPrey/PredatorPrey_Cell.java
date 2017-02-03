@@ -71,7 +71,7 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
             if (!canReproduce()) {
                 setState(PredatorPreyCell_State.EMPTY);
             } else {
-                setState(PredatorPreyCell_State.PREDATOR);
+                setState(PredatorPreyCell_State.PREY);
                 resetReproduction();
             }
         }
@@ -79,7 +79,7 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
     }
 
     public boolean canReproduce() {
-        if (!getState().equals(PredatorPreyCell_State.PREDATOR) && movesSinceReproduction >= predReproductionTime ||
+        if (getState().equals(PredatorPreyCell_State.PREDATOR) && movesSinceReproduction >= predReproductionTime ||
                 getState().equals(PredatorPreyCell_State.PREY) && movesSinceReproduction >= preyReproductionTime) {
             movesSinceReproduction = 0;
             return true;
