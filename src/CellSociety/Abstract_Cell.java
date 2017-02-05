@@ -1,7 +1,5 @@
 package CellSociety;
 
-import javafx.scene.shape.Rectangle;
-
 import java.util.Objects;
 
 /**

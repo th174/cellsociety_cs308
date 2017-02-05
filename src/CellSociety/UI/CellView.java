@@ -7,8 +7,8 @@ import javafx.scene.shape.Rectangle;
  * Created by th174 on 2/4/2017.
  */
 public class CellView extends Rectangle {
-    private Abstract_Cell myCell;
     public static final double CELL_BORDER = .5;
+    private Abstract_Cell myCell;
 
     public CellView(Abstract_Cell cell, CellSocietyView myUI) {
         super();
