@@ -56,7 +56,7 @@ public class CellSocietyMain extends Application {
         animation.getKeyFrames().add(frame);
         animation.play();
         root.getChildren().addAll(mySimulationGrid.asCollection().stream().map(Abstract_Cell::getRectangle).collect(Collectors.toSet()));
-        UI myUI = new UI(animation, mySimulationGrid);
+        UI myUI = new UI(animation, mySimulationGrid, root);
         simulation.setOnKeyPressed(e -> myUI.handleKeyPress(e));
     }
 
@@ -126,51 +126,4 @@ public class CellSocietyMain extends Application {
         return constructorParams.toArray(new String[constructorParams.size()]);
     }
 
-    /**
-     * Handle Keyboard user keyboard input
-     *
-     * @param k
-     */
-    /*
-    private void handleKeyPress(KeyEvent k) {
-        if (k.getCode() == KeyCode.SPACE) {
-            if (animation.getStatus().equals(Animation.Status.PAUSED)) {
-                animation.play();
-            } else {
-                animation.pause();
-            }
-        } else if (k.getCode() == KeyCode.EQUALS) {
-            double rate = animation.getCurrentRate();
-            if (rate * ANIMATION_RATE_STEP < ANIMATION_RATE_CAP) {
-                animation.setRate(rate * ANIMATION_RATE_STEP);
-            }
-            System.out.printf("New animation speed:\t%.2f\n", animation.getCurrentRate());
-        } else if (k.getCode() == KeyCode.MINUS) {
-            animation.setRate(animation.getCurrentRate() / ANIMATION_RATE_STEP);
-            System.out.printf("New animation speed:\t%.2f\n", animation.getCurrentRate());
-        } else if (k.getCode() == KeyCode.R) {
-            mySimulationGrid.forEach(Abstract_Cell::reverse);
-        } else if (k.getCode() == KeyCode.DIGIT1) {
-            mySimulationGrid.forEach(e -> e.seek(1));
-        } else if (k.getCode() == KeyCode.DIGIT2) {
-            mySimulationGrid.forEach(e -> e.seek(2));
-        } else if (k.getCode() == KeyCode.DIGIT3) {
-            mySimulationGrid.forEach(e -> e.seek(3));
-        } else if (k.getCode() == KeyCode.DIGIT4) {
-            mySimulationGrid.forEach(e -> e.seek(4));
-        } else if (k.getCode() == KeyCode.DIGIT5) {
-            mySimulationGrid.forEach(e -> e.seek(5));
-        } else if (k.getCode() == KeyCode.DIGIT6) {
-            mySimulationGrid.forEach(e -> e.seek(6));
-        } else if (k.getCode() == KeyCode.DIGIT7) {
-            mySimulationGrid.forEach(e -> e.seek(7));
-        } else if (k.getCode() == KeyCode.DIGIT8) {
-            mySimulationGrid.forEach(e -> e.seek(8));
-        } else if (k.getCode() == KeyCode.DIGIT9) {
-            mySimulationGrid.forEach(e -> e.seek(9));
-        } else if (k.getCode() == KeyCode.DIGIT0) {
-            mySimulationGrid.forEach(e -> e.seek(10));
-        }
-    }
-    */
 }

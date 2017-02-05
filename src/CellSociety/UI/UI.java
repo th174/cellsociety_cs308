@@ -4,19 +4,52 @@ import CellSociety.Abstract_Cell;
 import CellSociety.SimulationGrid;
 import javafx.animation.Animation;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
 
 public class UI {
 	private Timeline myAnimation;
+	private MenuBar myMenuBar;
+	private BorderPane myBorderPane;
+	private Pane myRoot;
 	private SimulationGrid<? extends Abstract_Cell> mySimulationGrid;
 	private static double ANIMATION_RATE_STEP = 5.0/4;//CellSocietyMain.ANIMATION_RATE_CAP;
 	private static double ANIMATION_RATE_CAP = 12;
 	
-	public UI(Timeline animation, SimulationGrid<? extends Abstract_Cell> simulationGrid) {
+	public UI(Timeline animation, SimulationGrid<? extends Abstract_Cell> simulationGrid,
+			Pane root) {
+		myRoot=root;
 		myAnimation = animation;
 		mySimulationGrid = simulationGrid;
+		myMenuBar= new MenuBar();
+		myBorderPane= new BorderPane();
+		setUpMenu();
+	}
+	private void setUpMenu(){
+		
+		Menu pause = new Menu("Pause");
+		pause.setOnAction( e -> { 
+			System.out.println("trying to ");
+			if(myAnimation.getStatus().equals(Animation.Status.PAUSED)){
+				myAnimation.play();
+			} else {
+				myAnimation.pause();
+			}
+		});
+		Menu speedUp = new Menu("Speed Up");
+		Menu slowDown = new Menu("Slow Down");
+		myMenuBar.getMenus().addAll(pause,speedUp,slowDown);
+		myRoot.getChildren().add(myMenuBar);
 	}
 
     /**
