@@ -16,7 +16,7 @@ public class SimulationGrid<E extends Abstract_Cell> {
     public static int TOP = 0;
     public static int BOTTOM = 2;
     public static int CENTER = 1;
-    private Abstract_Cell[][] cells;
+    private final Abstract_Cell[][] cells;
     private Class<E> cellType;
     private double screenWidth;
     private double screenHeight;
