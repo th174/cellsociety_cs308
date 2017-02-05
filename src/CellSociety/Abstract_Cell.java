@@ -1,17 +1,13 @@
 package CellSociety;
 
-import javafx.scene.shape.Rectangle;
-
 import java.util.Objects;
 
 /**
  * Created by th174 on 1/29/2017.
  */
 public abstract class Abstract_Cell<T extends Abstract_CellState> {
-    public static final double BORDER_OFFSET = 1;
     private final int xPos;
     private final int yPos;
-    private final Rectangle myRectangle;
     private SimulationGrid<? extends Abstract_Cell<T>> parentGrid;
     private CellStateTimeline<T> myTimeline;
 
@@ -23,7 +19,6 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
         xPos = x;
         yPos = y;
         myTimeline = new CellStateTimeline<>(state);
-        myRectangle = new Rectangle();
     }
 
     /**
@@ -33,11 +28,6 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
     public void updateState() {
         myTimeline.advance();
         setState(getState());
-        myRectangle.setFill(getState().getFill());
-        myRectangle.setWidth(parentGrid.getScreenWidth() / parentGrid.getColumns() - BORDER_OFFSET * 2);
-        myRectangle.setHeight(parentGrid.getScreenHeight() / parentGrid.getRows() - BORDER_OFFSET * 2);
-        myRectangle.setX(parentGrid.getScreenWidth() * xPos / parentGrid.getColumns() + BORDER_OFFSET);
-        myRectangle.setY(parentGrid.getScreenHeight() * yPos / parentGrid.getRows() + BORDER_OFFSET);
     }
 
     public abstract void interact();
@@ -89,16 +79,7 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
      * @return Debug String representation
      */
     public String toString() {
-        return "\nxPos = " + xPos + "\t\tyPos = " + yPos + "\t\tCurrentState = " + getState() + " \t\tNextState = " + getNextState() + "\t\tFill: + " + myRectangle.getFill();
-    }
-
-    /**
-     * Graphical representation of the cell in JavaFX
-     *
-     * @return javafx Rectangle
-     */
-    public Rectangle getRectangle() {
-        return myRectangle;
+        return "\nxPos = " + xPos + "\t\tyPos = " + yPos + "\t\tCurrentState = " + getState() + " \t\tNextState = " + getNextState();
     }
 
     protected SimulationGrid<? extends Abstract_Cell<T>> getParentGrid() {
@@ -121,5 +102,13 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
     protected void move(Abstract_Cell<T> cell, T state) {
         cell.setState(getState());
         setState(state);
+    }
+
+    public int getX() {
+        return xPos;
+    }
+
+    public int getY() {
+        return yPos;
     }
 }
