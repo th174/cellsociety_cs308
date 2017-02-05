@@ -4,19 +4,10 @@
 
 import CellSociety.Abstract_Cell;
 import CellSociety.SimulationGrid;
-import CellSociety.UI.UI;
-import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
+import CellSociety.UI.CellSocietyView;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -24,16 +15,11 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CellSocietyMain extends Application {
-    public static final double SIZE = 1000;
+    public static final double SIZE = 900;
     public static final String TITLE = "Cell Society";
-    public static final double ANIMATION_RATE_STEP = 5.0 / 4;
-    public static final double ANIMATION_RATE_CAP = 12;
     private double framesPerSecond = 3;
-    private SimulationGrid<? extends Abstract_Cell> mySimulationGrid;
-    private Timeline animation;
 
     public static void main(String[] args) {
         launch(args);
@@ -41,29 +27,13 @@ public class CellSocietyMain extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Pane root = new Pane();
-        Scene simulation = new Scene(root, SIZE, SIZE, Color.BLACK);
-        mySimulationGrid = readXML(getParameters().getUnnamed().get(0));
-        mySimulationGrid.setWindowDimensions(SIZE, SIZE);
-        
+        SimulationGrid<? extends Abstract_Cell> mySimulationGrid = readXML(getParameters().getUnnamed().get(0));
+        CellSocietyView myUI = new CellSocietyView(mySimulationGrid, framesPerSecond, SIZE, SIZE);
         primaryStage.setResizable(false);
-        primaryStage.setScene(simulation);
+        primaryStage.setScene(myUI.getScene());
+        primaryStage.sizeToScene();
         primaryStage.setTitle(TITLE);
         primaryStage.show();
-        KeyFrame frame = new KeyFrame(Duration.seconds(1 / framesPerSecond), e -> update());
-        animation = new Timeline();
-        animation.setCycleCount(Timeline.INDEFINITE);
-        animation.getKeyFrames().add(frame);
-        animation.play();
-        root.getChildren().addAll(mySimulationGrid.asCollection().stream().map(Abstract_Cell::getRectangle).collect(Collectors.toSet()));
-        UI myUI = new UI(animation, mySimulationGrid, root);
-        simulation.setOnKeyPressed(e -> myUI.handleKeyPress(e));
-    }
-
-
-    private void update() {
-        mySimulationGrid.forEach(Abstract_Cell::updateState);
-        mySimulationGrid.forEach(Abstract_Cell::interact);
     }
 
     /**
@@ -111,7 +81,7 @@ public class CellSocietyMain extends Application {
                     System.out.println("Could not instantiate " + simulationType + "." + simulationType + "Cell");
                 }
             }
-            return new SimulationGrid<>(grid, (Class<Abstract_Cell>) cellType);
+            return new SimulationGrid<>(grid, cellType);
         } catch (Exception e) {
             e.printStackTrace();
             throw new Error("Could not read input file");
@@ -125,5 +95,4 @@ public class CellSocietyMain extends Application {
         }
         return constructorParams.toArray(new String[constructorParams.size()]);
     }
-
 }

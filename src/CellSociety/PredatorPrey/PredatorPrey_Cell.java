@@ -12,16 +12,16 @@ import java.util.stream.Collectors;
  * Created by th174 on 1/29/2017.
  */
 public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
-	private Animal myAnimal;
+    private Animal myAnimal;
     private final int preyReproductionTime = 5;
     private final int predReproductionTime = 5;
     private int predMovesSinceEaten;
     private final int daysToStarvation = 5;
     private int movesSinceReproduction = 0;
-    private Map<PredatorPreyCell_State,Animal> possibleAnimals = new HashMap<PredatorPreyCell_State,Animal>(){{
-    		put(PredatorPreyCell_State .EMPTY,null);
-    		put(PredatorPreyCell_State.PREDATOR,new Predator(predReproductionTime,daysToStarvation));
-    		put(PredatorPreyCell_State.PREDATOR,new Prey(preyReproductionTime));		
+    private Map<PredatorPreyCell_State, Animal> possibleAnimals = new HashMap<PredatorPreyCell_State, Animal>() {{
+        put(PredatorPreyCell_State.EMPTY, null);
+        put(PredatorPreyCell_State.PREDATOR, new Predator(predReproductionTime, daysToStarvation));
+        put(PredatorPreyCell_State.PREDATOR, new Prey(preyReproductionTime));
     }};
 
     public PredatorPrey_Cell(int x, int y, String... params) {
@@ -68,28 +68,11 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
                                 .findAny().ifPresent(e -> move(e, PredatorPreyCell_State.EMPTY));
                     }
                 }
-                if (canReproduce()) {
+                if (myAnimal.canReproduce()) {
                     setState(PredatorPreyCell_State.PREDATOR);
                     resetReproduction();
                 }
             }
-<<<<<<< HEAD
-            if (myAnimal.canReproduce()) {
-                setState(PredatorPreyCell_State.PREDATOR);
-                resetReproduction();
-            }
-        }
-        if (getState().equals(PredatorPreyCell_State.PREY) && !nextStateDead()) {
-            adjNeighbors.stream()
-                    .skip((long) Math.random() * adjNeighbors.size())
-                    .filter(PredatorPrey_Cell::nextStateEmpty)
-                    .findAny().ifPresent(e -> e.setState(PredatorPreyCell_State.PREY));
-            if (!canReproduce()) {
-                setState(PredatorPreyCell_State.EMPTY);
-            } else {
-                setState(PredatorPreyCell_State.PREY);
-                resetReproduction();
-=======
             if (getState().equals(PredatorPreyCell_State.PREY) && !nextStateDead()) {
                 adjNeighbors.stream()
                         .skip((long) Math.random() * adjNeighbors.size())
@@ -101,7 +84,6 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
                     setState(PredatorPreyCell_State.PREY);
                     resetReproduction();
                 }
->>>>>>> ef8f799952f659e3405423918ff3b1bb5ef920ce
             }
             movesSinceReproduction++;
         }

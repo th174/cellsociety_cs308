@@ -18,8 +18,6 @@ public class SimulationGrid<E extends Abstract_Cell> {
     public static int CENTER = 1;
     private final Abstract_Cell[][] cells;
     private Class<E> cellType;
-    private double screenWidth;
-    private double screenHeight;
 
     private SimulationGrid(E[][] array, Class<E> type) {
         cells = array;
@@ -40,6 +38,11 @@ public class SimulationGrid<E extends Abstract_Cell> {
                 }
             }
         }
+    }
+
+    public void update(){
+        forEach(Abstract_Cell::updateState);
+        forEach(Abstract_Cell::interact);
     }
 
     /**
@@ -128,28 +131,5 @@ public class SimulationGrid<E extends Abstract_Cell> {
      */
     public int getRows() {
         return cells[1].length;
-    }
-
-    /**
-     * @return width of the simulation in pixels
-     */
-    public double getScreenWidth() {
-        return screenWidth;
-    }
-
-    /**
-     * @return height of the simulation in pixels
-     */
-    public double getScreenHeight() {
-        return screenHeight;
-    }
-
-    /**
-     * @param width  Width of simulation in pixels
-     * @param height Height of simulation in pixels
-     */
-    public void setWindowDimensions(double width, double height) {
-        screenWidth = width;
-        screenHeight = height;
     }
 }
