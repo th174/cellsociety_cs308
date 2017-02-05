@@ -73,7 +73,7 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
                     resetReproduction();
                 }
             }
-<<<<<<< HEAD
+
             if (myAnimal.canReproduce()) {
                 setState(PredatorPreyCell_State.PREDATOR);
                 resetReproduction();
@@ -89,8 +89,7 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
             } else {
                 setState(PredatorPreyCell_State.PREY);
                 resetReproduction();
-=======
-            if (getState().equals(PredatorPreyCell_State.PREY) && !nextStateDead()) {
+                if (getState().equals(PredatorPreyCell_State.PREY) && !nextStateDead()) {
                 adjNeighbors.stream()
                         .skip((long) Math.random() * adjNeighbors.size())
                         .filter(PredatorPrey_Cell::nextStateEmpty)
@@ -101,7 +100,7 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
                     setState(PredatorPreyCell_State.PREY);
                     resetReproduction();
                 }
->>>>>>> ef8f799952f659e3405423918ff3b1bb5ef920ce
+
             }
             movesSinceReproduction++;
         }
