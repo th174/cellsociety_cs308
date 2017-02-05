@@ -3,6 +3,8 @@ package CellSociety.PredatorPrey;
 import CellSociety.Abstract_Cell;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -10,11 +12,17 @@ import java.util.stream.Collectors;
  * Created by th174 on 1/29/2017.
  */
 public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
+	private Animal myAnimal;
     private final int preyReproductionTime = 5;
     private final int predReproductionTime = 5;
     private int predMovesSinceEaten;
     private final int daysToStarvation = 5;
     private int movesSinceReproduction = 0;
+    private Map<PredatorPreyCell_State,Animal> possibleAnimals = new HashMap<PredatorPreyCell_State,Animal>(){{
+    		put(PredatorPreyCell_State .EMPTY,null);
+    		put(PredatorPreyCell_State.PREDATOR,new Predator(predReproductionTime,daysToStarvation));
+    		put(PredatorPreyCell_State.PREDATOR,new Prey(preyReproductionTime));		
+    }};
 
     public PredatorPrey_Cell(int x, int y, String... params) {
         this(x, y, new PredatorPreyCell_State(params[0]));
@@ -22,6 +30,7 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
 
     public PredatorPrey_Cell(int x, int y, PredatorPreyCell_State state) {
         super(x, y, state);
+        myAnimal = possibleAnimals.get(state);
         predMovesSinceEaten = 0;
     }
 
@@ -58,7 +67,7 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
                             .findAny().ifPresent(e -> move(e, PredatorPreyCell_State.EMPTY));
                 }
             }
-            if (canReproduce()) {
+            if (myAnimal.canReproduce()) {
                 setState(PredatorPreyCell_State.PREDATOR);
                 resetReproduction();
             }
