@@ -19,12 +19,17 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import javax.imageio.ImageIO;
-import java.awt.Desktop;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -36,30 +41,30 @@ public class CellSocietyView {
     public static final double ANIMATION_RATE_CAP = 12;
     public static final double ANIMATION_FRAMERATE = 60;
     public static final String RESOURCES_LOCATION = "resources/Menu";
+    public static final String TITLE = "Cell Society";
     public static final int MENU_HEIGHT = 12;
+    private double framesPerSecond = 3;
     private ResourceBundle myResources;
     private Timeline myAnimation;
     private Scene myScene;
     private SimulationGrid<? extends Abstract_Cell> mySimulationGrid;
+    private Set<CellView> cellViews;
     private double windowWidth;
     private double windowHeight;
 
-    public CellSocietyView(SimulationGrid<? extends Abstract_Cell> simulationGrid, double framesPerSecond, double width, double height) {
-        mySimulationGrid = simulationGrid;
+    public CellSocietyView(double width, double height) {
         windowWidth = width;
         windowHeight = height;
-        myResources = ResourceBundle.getBundle(RESOURCES_LOCATION);
         Pane simulationPane = new Pane();
         simulationPane.setPrefSize(windowWidth, windowHeight);
         simulationPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         BorderPane myBorderPane = new BorderPane();
-        myBorderPane.setTop(initMenu());
-        myBorderPane.setBottom(simulationPane);
         myScene = new Scene(myBorderPane);
-        Set<CellView> myCellViews = mySimulationGrid.asCollection().stream().map(e -> new CellView(e, this)).collect(Collectors.toSet());
-        simulationPane.getChildren().addAll(myCellViews);
+        myResources = ResourceBundle.getBundle(RESOURCES_LOCATION);
+        myBorderPane.setTop(initMenu());
+        myBorderPane.setBottom(openNewFile());
         myScene.setOnKeyPressed(this::handleKeyPress);
-        KeyFrame frame = new KeyFrame(Duration.seconds(1 / framesPerSecond), e -> update(myCellViews));
+        KeyFrame frame = new KeyFrame(Duration.seconds(1 / framesPerSecond), e -> update());
         myAnimation = new Timeline(ANIMATION_FRAMERATE, frame);
         myAnimation.setCycleCount(Timeline.INDEFINITE);
         myAnimation.play();
@@ -69,7 +74,11 @@ public class CellSocietyView {
         return myScene;
     }
 
-    private void update(Set<CellView> cellViews) {
+    public String getTitle() {
+        return TITLE;
+    }
+
+    private void update() {
         mySimulationGrid.update();
         cellViews.forEach(e -> e.updateView(mySimulationGrid.getColumns(), mySimulationGrid.getRows(), windowWidth, windowHeight));
     }
@@ -96,7 +105,7 @@ public class CellSocietyView {
     private MenuBar initMenu() {
         Menu file = new Menu(myResources.getString("File"));
         MenuItem open = new MenuItem(myResources.getString("Open..."));
-        open.setOnAction(e -> open());
+        open.setOnAction(e -> ((BorderPane) myScene.getRoot()).setBottom(openNewFile()));
         MenuItem save = new MenuItem(myResources.getString("Save"));
         save.setOnAction(s -> save());
         MenuItem exit = new MenuItem(myResources.getString("Exit"));
@@ -104,10 +113,7 @@ public class CellSocietyView {
         file.getItems().addAll(open, save, exit);
         Menu simulation = new Menu(myResources.getString("Simulation"));
         MenuItem pause = new MenuItem(myResources.getString("Pause"));
-        pause.setOnAction(e -> {
-            pause();
-            pause.setText(myResources.getString("Unpause"));
-        });
+        pause.setOnAction(e -> pause.setText(myResources.getString(pause() ? myResources.getString("Unpause") : myResources.getString("Pause"))));
         MenuItem restart = new MenuItem(myResources.getString("Restart"));
         restart.setOnAction(e -> seek(0));
         MenuItem speedUp = new MenuItem(myResources.getString("Speed_Up"));
@@ -133,11 +139,13 @@ public class CellSocietyView {
         System.exit(0);
     }
 
-    private void pause() {
+    private boolean pause() {
         if (myAnimation.getStatus().equals(Animation.Status.PAUSED)) {
             myAnimation.play();
+            return true;
         } else {
             myAnimation.pause();
+            return false;
         }
     }
 
@@ -162,23 +170,35 @@ public class CellSocietyView {
         mySimulationGrid.forEach(Abstract_Cell::reverse);
     }
 
-    private void open() {
+    private Pane openNewFile() {
+        if (Objects.nonNull(myAnimation)) {
+            pause();
+        }
+        Pane simulationPane = new Pane();
+        simulationPane.setPrefSize(windowWidth, windowHeight);
+        simulationPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open XML");
+        fileChooser.setTitle(myResources.getString("Open_File"));
         fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Cell Society Data Files", "*.xml"));
-        File newXML = fileChooser.showOpenDialog(null);
-        //TODO: this
+        mySimulationGrid = readXML(fileChooser.showOpenDialog(null));
+        cellViews = mySimulationGrid.asCollection().stream().map(e -> new CellView(e, this)).collect(Collectors.toSet());
+        simulationPane.getChildren().addAll(cellViews);
+        if (Objects.nonNull(myAnimation)) {
+            pause();
+        }
+        return simulationPane;
     }
 
     private void save() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save Simulation State");
+        fileChooser.setTitle(myResources.getString("Save_File"));
         fileChooser.setInitialFileName("CellSocietyScreenshot1.png");
         fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Portable Network Graphics", "*.png"));
         File output = fileChooser.showSaveDialog(null);
         try {
             ImageIO.write(SwingFXUtils.fromFXImage(myScene.snapshot(null), null), "png", output);
-        } catch (IOException e) {
+        } catch (Exception e) {
+            System.out.println("Could not open file for saving!");
             e.printStackTrace();
         }
     }
@@ -197,5 +217,65 @@ public class CellSocietyView {
         about.setTitle(myResources.getString("About"));
         about.setContentText(myResources.getString("AboutContent"));
         about.show();
+    }
+
+    /**
+     * Read and parse xml file using DOM
+     *
+     * @param XMLFile name of XML file
+     * @return generated SimulationGrid of cells based on XML input
+     */
+    private SimulationGrid<? extends Abstract_Cell> readXML(File XMLFile) {
+        try {
+            Document file = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(XMLFile);
+            Element root = file.getDocumentElement();
+            //set up grid of references to constructorParams
+            String[][][] grid = new String[Integer.parseInt(root.getAttribute("width"))][Integer.parseInt(root.getAttribute("height"))][0];
+            try {
+                framesPerSecond = Double.parseDouble(root.getAttribute("fps"));
+            } catch (Exception e) {
+            }
+            String simulationType = root.getAttribute("type");
+            Class<? extends Abstract_Cell> cellType = (Class<? extends Abstract_Cell>) Class.forName("CellSociety." + simulationType + "." + simulationType + "_Cell");
+            //instantiate cells
+            NodeList cells = file.getElementsByTagName("Cell");
+            for (int i = 0; i < cells.getLength(); i++) {
+                Element currentElement = (Element) cells.item(i);
+                try {
+                    if (!currentElement.hasAttribute("xPos") && !currentElement.hasAttribute("yPos")) {
+                        for (int j = 0; j < grid.length; j++) {
+                            for (int k = 0; k < grid[j].length; k++) {
+                                grid[j][k] = getConstructorParamsFromXMLElement(currentElement);
+                            }
+                        }
+                    } else if (!currentElement.hasAttribute("xPos")) {
+                        for (int j = 0; j < grid.length; j++) {
+                            grid[j][Integer.parseInt(currentElement.getAttribute("yPos"))] = getConstructorParamsFromXMLElement(currentElement);
+                        }
+                    } else if (!currentElement.hasAttribute("yPos")) {
+                        for (int j = 0; j < grid[0].length; j++) {
+                            grid[Integer.parseInt(currentElement.getAttribute("xPos"))][j] = getConstructorParamsFromXMLElement(currentElement);
+                        }
+                    } else {
+                        grid[Integer.parseInt(currentElement.getAttribute("xPos"))][Integer.parseInt(currentElement.getAttribute("yPos"))] = getConstructorParamsFromXMLElement(currentElement);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Could not instantiate " + simulationType + "." + simulationType + "Cell");
+                }
+            }
+            return new SimulationGrid<>(grid, cellType);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Error("Could not read input file");
+        }
+    }
+
+    private String[] getConstructorParamsFromXMLElement(Element currentElement) throws Exception {
+        java.util.List<String> constructorParams = new ArrayList<>();
+        for (int j = 0; j < currentElement.getElementsByTagName("*").getLength(); j++) {
+            constructorParams.add(currentElement.getElementsByTagName("*").item(j).getTextContent());
+        }
+        return constructorParams.toArray(new String[constructorParams.size()]);
     }
 }

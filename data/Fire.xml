@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Simulation type="Fire" width="102" height="102" fps="3">
+<Simulation type="Fire" width="102" height="102" fps="5">
 	<Cell>
 		<State>TREE</State>
 		<ProbCatch>.55</ProbCatch>
