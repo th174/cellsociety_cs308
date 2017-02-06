@@ -35,7 +35,7 @@ print OUTPUT "\n<Simulation type=\"$simulationType\" width=\"$xSize\" height=\"$
 #CHANGE THIS FOR INITIAL STATE
 
 initGrid($state[0]);
-for(1, 3, 5, 7, 9, 11) {
+for(1, 4, 5, 6, 9, 11) {
     initRows($state[1], [ ($_ + 1) * $ySize / 13 ]);
     initRows($state[2], [ $_ * $ySize / 13 ]);
 }

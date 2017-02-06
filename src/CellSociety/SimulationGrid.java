@@ -41,6 +41,7 @@ public class SimulationGrid<E extends Abstract_Cell> {
     }
 
     public void update() {
+    	System.out.println("###########UPDATING##############3");
         forEach(Abstract_Cell::updateState);
         forEach(Abstract_Cell::interact);
     }

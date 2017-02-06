@@ -9,10 +9,10 @@
 	<Cell yPos="7">
 		<State>PREY</State>
 	</Cell>
-	<Cell yPos="28">
+	<Cell yPos="35">
 		<State>PREDATOR</State>
 	</Cell>
-	<Cell yPos="21">
+	<Cell yPos="28">
 		<State>PREY</State>
 	</Cell>
 	<Cell yPos="42">
@@ -21,10 +21,10 @@
 	<Cell yPos="35">
 		<State>PREY</State>
 	</Cell>
-	<Cell yPos="56">
+	<Cell yPos="49">
 		<State>PREDATOR</State>
 	</Cell>
-	<Cell yPos="49">
+	<Cell yPos="42">
 		<State>PREY</State>
 	</Cell>
 	<Cell yPos="70">

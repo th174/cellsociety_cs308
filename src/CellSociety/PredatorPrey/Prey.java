@@ -20,6 +20,7 @@ public class Prey extends Animal {
     public boolean canReproduce() {
     	if(movesSinceReproduction >= reproductionTime) {
     		movesSinceReproduction =0;
+    		System.out.println("PREY REPRODUCING");
     		return true;
     	}
         return false;

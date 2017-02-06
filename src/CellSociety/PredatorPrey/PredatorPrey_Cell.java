@@ -52,17 +52,16 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
     @Override
     public void interact() {
     	//System.out.println("mving " + myAnimal);
-    	if(moved){
-    		myAnimal=currAndNextAnimal[1];
-    		moved=false;
-    	}
-    	
+    	if(currAndNextAnimal[1]!=null && currAndNextAnimal[1].isPrey() && currAndNextAnimal[0]==null) System.out.println("mvoing from null to animal");
+    	myAnimal=currAndNextAnimal[1];
+    	currAndNextAnimal[0]=myAnimal;
+    	//if(myAnimal==null) System.out.println("##### " + getState() + getNextAnimal());
     	
         if (myAnimal!=null){ 
             Collection<PredatorPrey_Cell> adjNeighbors = getAdjNeighbors().asCollection().stream().filter(PredatorPrey_Cell.class::isInstance).map(PredatorPrey_Cell.class::cast).collect(Collectors.toSet());
         	
             //Collection<PredatorPrey_Cell> adjNeighbors = getAdjNeighbors().asCollection();
-        	if (myAnimal.isPred()){//if the animal is a predator
+        	if (myAnimal.isPred()){
                 /*Optional<PredatorPrey_Cell> potentialPrey = adjNeighbors.stream()
                         .skip((long) Math.random() * adjNeighbors.size())
                         .filter(neighbor -> neighbor.getState().equals(PredatorPreyCell_State.PREY)).findAny();
@@ -71,13 +70,14 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
         		for(PredatorPrey_Cell neighbor: adjNeighbors){
         			//System.out.print( " "  +neighbor.getNextAnimal());
         			if(neighbor.getAnimal()!=null && neighbor.getAnimal().isPrey()){
-        				System.out.println("EATING");
+        				//System.out.println("EATING");
         				anyPrey=true;
         				setNextAnimal(null);
         				setState(PredatorPreyCell_State.EMPTY);
         				myAnimal.resetMovesSinceEaten();
         				neighbor.setNextAnimal(myAnimal);
         				neighbor.setState(PredatorPreyCell_State.PREDATOR);
+        				break;
         			}
         		}
         		if(!anyPrey){//cant eat any fish, lets try to move
@@ -89,25 +89,26 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
                         moved=true;
                         return;
                     }else{                  	
-                    	System.out.println("not dead");
                     	for(PredatorPrey_Cell neighbor: adjNeighbors){
                 			if(neighbor.getNextAnimal()==null||neighbor.getNextState().equals(PredatorPreyCell_State.EMPTY)){
-                				System.out.println("PRED MOVING");
+                				//System.out.println("PRED MOVING");
                 				setNextAnimal(null);
                 				setState(PredatorPreyCell_State.EMPTY);             				
                 				neighbor.setNextAnimal(myAnimal);
                 				neighbor.setState(PredatorPreyCell_State.PREDATOR);
+                				break;
                 			}
                 			
                 		}
                     }
-                    if (myAnimal.canReproduce()) {
-                        setState(PredatorPreyCell_State.PREDATOR);
-                        setNextAnimal( new Predator(predReproductionTime, daysToStarvation));
-                    }else{
-                    	myAnimal.updateMovesSinceReproduction();
-                    }
+                    
         		}
+        		if (myAnimal.canReproduce()) {
+                    setState(PredatorPreyCell_State.PREDATOR);
+                    setNextAnimal( new Predator(predReproductionTime, daysToStarvation));
+                }else{
+                	myAnimal.updateMovesSinceReproduction();
+                }
         		/*
                 if (potentialPrey.isPresent()) {
                 	System.out.println("potential prey");
@@ -153,14 +154,16 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
                 }else{
                 	myAnimal.updateMovesSinceReproduction();
                 }*/
-            }
-            if(myAnimal.isPrey()){ //&& !myAnimal.isDead()) {
+        		}
+            if(myAnimal.isPrey()&&currAndNextAnimal[1].isPrey()){ //if this prey hasnt yet been eaten
             	for(PredatorPrey_Cell neighbor: adjNeighbors){
-        			if(neighbor.getNextAnimal()==null){         				
+            		System.out.println(neighbor.getNextAnimal() + " and cur  "+neighbor.getAnimal());
+        			if(neighbor.getNextAnimal()==null){
+        				
         				neighbor.setNextAnimal(myAnimal);
         				neighbor.setState(PredatorPreyCell_State.PREY);
-        			}
-        			
+        				break;
+        			}        			
         		}
             	if(canReproduce()){
             		setState(PredatorPreyCell_State.PREY);
@@ -190,6 +193,7 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
             myAnimal.updateMovesSinceReproduction();
         }*/
         moved=true;
+        //if(myAnimal==null) System.out.println("NEXT##### " + getState() + getNextAnimal());
         
     }
     
