@@ -62,13 +62,13 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
                         .skip((long) Math.random() * adjNeighbors.size())
                         .filter(neighbor -> neighbor.getState().equals(PredatorPreyCell_State.PREY)).findAny();
                 if (potentialPrey.isPresent()) {
-                	System.out.println("potentila prey");
+                	System.out.println("potential prey");
                 	setNextAnimal(null);
                 	myAnimal.resetMovesSinceEaten();
                 	potentialPrey.ifPresent(e -> {
                 		e.setNextAnimal(myAnimal);
                 		e.setState(PredatorPreyCell_State.EMPTY);
-                		//move(potentialPrey.get(), PredatorPreyCell_State.EMPTY);
+                		move(potentialPrey.get(), PredatorPreyCell_State.EMPTY);
                 	}
                 	);
                 } else {
