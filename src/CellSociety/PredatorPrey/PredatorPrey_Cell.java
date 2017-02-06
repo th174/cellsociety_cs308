@@ -1,6 +1,7 @@
 package CellSociety.PredatorPrey;
 import CellSociety.Abstract_Cell;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.Map;
@@ -55,20 +56,68 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
     		myAnimal=currAndNextAnimal[1];
     		moved=false;
     	}
-        if (myAnimal!=null){ //!getState().equals(PredatorPreyCell_State.EMPTY)) {
+    	
+    	
+        if (myAnimal!=null){ 
             Collection<PredatorPrey_Cell> adjNeighbors = getAdjNeighbors().asCollection().stream().filter(PredatorPrey_Cell.class::isInstance).map(PredatorPrey_Cell.class::cast).collect(Collectors.toSet());
-            if (hasPred()){//getState().equals(PredatorPreyCell_State.PREDATOR)) {
-                Optional<PredatorPrey_Cell> potentialPrey = adjNeighbors.stream()
+        	
+            //Collection<PredatorPrey_Cell> adjNeighbors = getAdjNeighbors().asCollection();
+        	if (myAnimal.isPred()){//if the animal is a predator
+                /*Optional<PredatorPrey_Cell> potentialPrey = adjNeighbors.stream()
                         .skip((long) Math.random() * adjNeighbors.size())
                         .filter(neighbor -> neighbor.getState().equals(PredatorPreyCell_State.PREY)).findAny();
+                */
+        		boolean anyPrey=false;
+        		for(PredatorPrey_Cell neighbor: adjNeighbors){
+        			//System.out.print( " "  +neighbor.getNextAnimal());
+        			if(neighbor.getAnimal()!=null && neighbor.getAnimal().isPrey()){
+        				System.out.println("EATING");
+        				anyPrey=true;
+        				setNextAnimal(null);
+        				setState(PredatorPreyCell_State.EMPTY);
+        				myAnimal.resetMovesSinceEaten();
+        				neighbor.setNextAnimal(myAnimal);
+        				neighbor.setState(PredatorPreyCell_State.PREDATOR);
+        			}
+        		}
+        		if(!anyPrey){//cant eat any fish, lets try to move
+        			myAnimal.updateMovesSinceEaten();
+                    if (isStarved()) {
+                    	System.out.println("pred dying");
+                        setState(PredatorPreyCell_State.EMPTY);
+                        setNextAnimal(null);
+                        moved=true;
+                        return;
+                    }else{                  	
+                    	System.out.println("not dead");
+                    	for(PredatorPrey_Cell neighbor: adjNeighbors){
+                			if(neighbor.getNextAnimal()==null||neighbor.getNextState().equals(PredatorPreyCell_State.EMPTY)){
+                				System.out.println("PRED MOVING");
+                				setNextAnimal(null);
+                				setState(PredatorPreyCell_State.EMPTY);             				
+                				neighbor.setNextAnimal(myAnimal);
+                				neighbor.setState(PredatorPreyCell_State.PREDATOR);
+                			}
+                			
+                		}
+                    }
+                    if (myAnimal.canReproduce()) {
+                        setState(PredatorPreyCell_State.PREDATOR);
+                        setNextAnimal( new Predator(predReproductionTime, daysToStarvation));
+                    }else{
+                    	myAnimal.updateMovesSinceReproduction();
+                    }
+        		}
+        		/*
                 if (potentialPrey.isPresent()) {
                 	System.out.println("potential prey");
                 	setNextAnimal(null);
+                	setState(PredatorPreyCell_State.EMPTY);
                 	myAnimal.resetMovesSinceEaten();
                 	potentialPrey.ifPresent(e -> {
                 		e.setNextAnimal(myAnimal);
-                		e.setState(PredatorPreyCell_State.EMPTY);
-                		move(potentialPrey.get(), PredatorPreyCell_State.EMPTY);
+                		e.setState(PredatorPreyCell_State.PREDATOR);
+                		//move(potentialPrey.get(), PredatorPreyCell_State.EMPTY);
                 	}
                 	);
                 } else {
@@ -102,12 +151,27 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
                     setState(PredatorPreyCell_State.PREDATOR);
                     setNextAnimal( new Predator(predReproductionTime, daysToStarvation));
                 }else{
-                	
                 	myAnimal.updateMovesSinceReproduction();
-                }
+                }*/
             }
-            if (myAnimal.isPrey()){ //&& !myAnimal.isDead()) {
-            	System.out.println("prey");
+            if(myAnimal.isPrey()){ //&& !myAnimal.isDead()) {
+            	for(PredatorPrey_Cell neighbor: adjNeighbors){
+        			if(neighbor.getNextAnimal()==null){         				
+        				neighbor.setNextAnimal(myAnimal);
+        				neighbor.setState(PredatorPreyCell_State.PREY);
+        			}
+        			
+        		}
+            	if(canReproduce()){
+            		setState(PredatorPreyCell_State.PREY);
+            		setNextAnimal(new Prey(preyReproductionTime));
+            		
+            	}else{
+            		setState(PredatorPreyCell_State.EMPTY);
+            		setNextAnimal(null);
+            	}	
+            }}
+            	/*
                 adjNeighbors.stream()
                         .skip((long) Math.random() * adjNeighbors.size())
                         .filter(PredatorPrey_Cell::nextStateEmpty)
@@ -124,8 +188,9 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
                 }
             }
             myAnimal.updateMovesSinceReproduction();
-        }
+        }*/
         moved=true;
+        
     }
     
     public boolean canReproduce() {
@@ -156,9 +221,11 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPreyCell_State> {
     	return myAnimal.isPrey();
     }
     public void setNextAnimal(Animal a){
-    	
     	currAndNextAnimal[1] = a;
     	
+    }
+    public Animal getNextAnimal(){
+    	return currAndNextAnimal[1];
     }
     
 }

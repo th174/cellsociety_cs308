@@ -8,7 +8,6 @@ public class Predator extends Animal {
 
     public Predator(int reproduction, int starvation) {
         super(reproduction);
-        System.out.println("making a new shark");
         reproductionTime = reproduction;
         daysToStarvation = starvation;
         movesSinceEaten = 0;
@@ -21,14 +20,13 @@ public class Predator extends Animal {
 
     public boolean canReproduce() {
     	if(movesSinceReproduction >= reproductionTime){
-    		movesSinceReproduction --;
+    		movesSinceReproduction =0;
     		return true;
     	}
         return false;
     }
 
     public boolean isStarved() {
-    	System.out.println(" starving?? " + movesSinceEaten + "  an " +daysToStarvation);
         return movesSinceEaten >= daysToStarvation;
     }
     public void updateMovesSinceEaten(){
