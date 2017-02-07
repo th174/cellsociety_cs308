@@ -99,7 +99,7 @@ public class CellSocietyView {
         pause.setAccelerator(new KeyCodeCombination(KeyCode.SPACE));
         pause.setOnAction(e -> pause.setText(myResources.getString(pause() ? myResources.getString("Unpause") : myResources.getString("Pause"))));
         MenuItem restart = new MenuItem(myResources.getString("Restart"));
-        restart.setAccelerator(new KeyCodeCombination(KeyCode.F5));
+        restart.setAccelerator(new KeyCodeCombination(KeyCode.R, OS.contains("mac") ? KeyCombination.META_DOWN : KeyCombination.CONTROL_DOWN));
         restart.setOnAction(e -> seek(0));
         MenuItem speedUp = new MenuItem(myResources.getString("Speed_Up"));
         speedUp.setAccelerator(new KeyCodeCombination(KeyCode.EQUALS));
