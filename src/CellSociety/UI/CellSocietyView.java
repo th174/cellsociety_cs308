@@ -9,7 +9,7 @@ import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -77,7 +77,6 @@ public class CellSocietyView {
         return myResources.getString("Title");
     }
 
-
     private void update() {
         mySimulationGrid.update();
         cellViews.forEach(e -> e.updateView(mySimulationGrid.getColumns(), mySimulationGrid.getRows(), windowWidth, windowHeight));
@@ -122,7 +121,13 @@ public class CellSocietyView {
         slowDown.setOnAction(e -> slowDown());
         MenuItem reverse = new MenuItem(myResources.getString("Reverse"));
         reverse.setOnAction((e -> reverse()));
-        simulation.getItems().addAll(pause, restart, speedUp, slowDown);
+        MenuItem seek = new MenuItem(myResources.getString("Seek..."));
+        seek.setOnAction(e -> seek());
+        MenuItem stepForward = new MenuItem(myResources.getString("Step_Forward"));
+        stepForward.setOnAction(e -> stepForward());
+        MenuItem stepBackward = new MenuItem(myResources.getString("Step_Backward"));
+        stepBackward.setOnAction(e -> stepBackward());
+        simulation.getItems().addAll(pause, speedUp, slowDown, reverse, seek, stepForward, stepBackward, restart);
         Menu help = new Menu(myResources.getString("Help"));
         MenuItem viewHelp = new MenuItem(myResources.getString("View_Help"));
         viewHelp.setOnAction(e -> openHelp());
@@ -162,6 +167,25 @@ public class CellSocietyView {
         System.out.printf("New animation speed:\t%.2f\n", myAnimation.getCurrentRate());
     }
 
+    private void stepForward() {
+        update();
+        myAnimation.pause();
+    }
+
+    private void stepBackward() {
+        reverse();
+        update();
+        reverse();
+        myAnimation.pause();
+    }
+
+    private void seek() {
+        TextInputDialog dbox = new TextInputDialog();
+        dbox.setHeaderText(myResources.getString("Seek..."));
+        dbox.setContentText(myResources.getString("SeekContent"));
+        seek(Integer.parseInt(dbox.showAndWait().orElse(-1 + "")));
+    }
+
     private void seek(int time) {
         mySimulationGrid.forEach(e -> e.seek(time));
     }
@@ -181,7 +205,7 @@ public class CellSocietyView {
         fileChooser.setTitle(myResources.getString("Open_File"));
         fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Cell Society Data Files", "*.xml"));
         File xmlInput;
-        while (Objects.isNull(xmlInput = fileChooser.showOpenDialog(null)) && Objects.isNull(myAnimation));
+        while (Objects.isNull(xmlInput = fileChooser.showOpenDialog(null)) && Objects.isNull(myAnimation)) ;
         mySimulationGrid = readXML(xmlInput);
         cellViews = mySimulationGrid.asCollection(Abstract_Cell.class).stream().map(e -> new CellView(e, this)).collect(Collectors.toSet());
         simulationPane.getChildren().addAll(cellViews);
