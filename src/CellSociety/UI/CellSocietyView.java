@@ -114,10 +114,10 @@ public class CellSocietyView {
         seek.setAccelerator(new KeyCodeCombination(KeyCode.S));
         seek.setOnAction(e -> seek());
         MenuItem stepForward = new MenuItem(myResources.getString("Step_Forward"));
-        stepForward.setAccelerator(new KeyCodeCombination(KeyCode.MINUS, OS.contains("mac") ? KeyCombination.META_DOWN : KeyCombination.CONTROL_DOWN));
+        stepForward.setAccelerator(new KeyCodeCombination(KeyCode.EQUALS, OS.contains("mac") ? KeyCombination.META_DOWN : KeyCombination.CONTROL_DOWN));
         stepForward.setOnAction(e -> stepForward());
         MenuItem stepBackward = new MenuItem(myResources.getString("Step_Backward"));
-        stepBackward.setAccelerator(new KeyCodeCombination(KeyCode.EQUALS, OS.contains("mac") ? KeyCombination.META_DOWN : KeyCombination.CONTROL_DOWN));
+        stepBackward.setAccelerator(new KeyCodeCombination(KeyCode.MINUS, OS.contains("mac") ? KeyCombination.META_DOWN : KeyCombination.CONTROL_DOWN));
         stepBackward.setOnAction(e -> stepBackward());
         simulation.getItems().addAll(pause, speedUp, slowDown, reverse, seek, stepForward, stepBackward, restart);
         Menu help = new Menu(myResources.getString("Help"));
