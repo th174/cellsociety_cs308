@@ -22,7 +22,7 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPrey_CellState> {
      * <p>
      * Each turn if there is a fish adjacent to a shark the shark eats it. If there are
      * multiple adjacent fish the shark eats one at random. If there are no adjacent fish
-     * the shark moves in the same manner as fish. After eating or moving if the shark has
+     * the shark moves in a random direction. After eating or moving if the shark has
      * survived the number of turns necessary to breed it produces a new shark if there is
      * an empty adjacent cell.
      *
@@ -40,7 +40,7 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPrey_CellState> {
             if (getCurrentState().willStarve()) {
                 setNextState(PredatorPrey_CellState.EMPTY);
             } else {
-                if (!predate(getPreyNeighbor())) {
+                if (!predatorEat(getPreyNeighbor())) {
                     move(getEmptyNeighbor());
                 }
                 if (getCurrentState().canReproduce()) {
@@ -51,19 +51,22 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPrey_CellState> {
     }
 
     private PredatorPrey_Cell getEmptyNeighbor() {
-        Collection<PredatorPrey_Cell> neighbors = getNeighbors().asCollection(PredatorPrey_Cell.class).stream().filter(PredatorPrey_Cell::nextStateEmpty).collect(Collectors.toSet());
+        Collection<PredatorPrey_Cell> neighbors = getNeighbors().asCollection(PredatorPrey_Cell.class).
+        		stream().filter(PredatorPrey_Cell::nextStateEmpty).collect(Collectors.toSet());
         return neighbors.stream().skip((long) (Math.random() * neighbors.size())).findAny().orElse(null);
     }
 
     private PredatorPrey_Cell getPreyNeighbor() {
-        Collection<PredatorPrey_Cell> potentialFood = getNeighbors().asCollection(PredatorPrey_Cell.class).stream().filter(e -> e.getCurrentState().equals(PredatorPrey_CellState.PREY)).collect(Collectors.toSet());
+        Collection<PredatorPrey_Cell> potentialFood = getNeighbors().asCollection(PredatorPrey_Cell.class).
+        		stream().filter(e -> e.getCurrentState().equals(PredatorPrey_CellState.PREY)).collect(Collectors.toSet());
         return potentialFood.stream().skip((long) (Math.random() * potentialFood.size())).findAny().orElse(null);
     }
 
-    private boolean predate(PredatorPrey_Cell cell) {
+    private boolean predatorEat(PredatorPrey_Cell cell) {
         if (Objects.nonNull(cell)) {
             cell.setNextState(PredatorPrey_CellState.EMPTY);
-            setNextState(new PredatorPrey_CellState(getCurrentState(), -1, getCurrentState().getMaxStarvationTimer()));
+            setNextState(new PredatorPrey_CellState(getCurrentState(), -1, getCurrentState().
+            		getMaxStarvationTimer()));
             return true;
         }
         return false;

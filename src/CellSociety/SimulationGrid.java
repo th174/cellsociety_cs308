@@ -43,7 +43,6 @@ public class SimulationGrid<E extends Abstract_Cell> {
     public void update() {
         forEach(Abstract_Cell::updateState);
         forEach(Abstract_Cell::interact);
-
     }
 
     /**
