@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Simulation type="PredatorPrey" width="3" height="3" fps="1">
+    <Cell>
+        <State>EMPTY</State>
+        <ReproductionTimer>9999</ReproductionTimer>
+        <StarvationTimer>9999</StarvationTimer>
+    </Cell>
+    <Cell yPos="1" xPos="2">
+        <State>PREDATOR</State>
+        <ReproductionTimer>9999</ReproductionTimer>
+        <StarvationTimer>9999</StarvationTimer>
+    </Cell>
+    <Cell xPos="1" yPos="1">
+        <State>PREY</State>
+        <ReproductionTimer>9999</ReproductionTimer>
+        <StarvationTimer>9999</StarvationTimer>
+    </Cell>
+</Simulation>

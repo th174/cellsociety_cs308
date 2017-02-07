@@ -42,6 +42,10 @@ public class CellStateTimeline<T extends Abstract_CellState> {
         isReversed = !isReversed;
     }
 
+    public int getIndex(){
+        return currentIndex;
+    }
+
     public T getCurrentState() {
         return myStateTimeline.get(currentIndex);
     }

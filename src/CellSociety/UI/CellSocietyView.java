@@ -40,8 +40,7 @@ public class CellSocietyView {
     public static final double ANIMATION_RATE_STEP = 5.0 / 4;
     public static final double ANIMATION_RATE_CAP = 12;
     public static final double ANIMATION_FRAMERATE = 60;
-    public static final String RESOURCES_LOCATION = "resources/Menu";
-    public static final String TITLE = "Cell Society";
+    public static final String RESOURCES_LOCATION = "resources/Strings";
     public static final int MENU_HEIGHT = 12;
     private double framesPerSecond = 3;
     private ResourceBundle myResources;
@@ -75,8 +74,9 @@ public class CellSocietyView {
     }
 
     public String getTitle() {
-        return TITLE;
+        return myResources.getString("Title");
     }
+
 
     private void update() {
         mySimulationGrid.update();
@@ -180,8 +180,10 @@ public class CellSocietyView {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(myResources.getString("Open_File"));
         fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Cell Society Data Files", "*.xml"));
-        mySimulationGrid = readXML(fileChooser.showOpenDialog(null));
-        cellViews = mySimulationGrid.asCollection().stream().map(e -> new CellView(e, this)).collect(Collectors.toSet());
+        File xmlInput;
+        while (Objects.isNull(xmlInput = fileChooser.showOpenDialog(null)) && Objects.isNull(myAnimation));
+        mySimulationGrid = readXML(xmlInput);
+        cellViews = mySimulationGrid.asCollection(Abstract_Cell.class).stream().map(e -> new CellView(e, this)).collect(Collectors.toSet());
         simulationPane.getChildren().addAll(cellViews);
         if (Objects.nonNull(myAnimation)) {
             pause();

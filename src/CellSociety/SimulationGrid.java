@@ -41,9 +41,9 @@ public class SimulationGrid<E extends Abstract_Cell> {
     }
 
     public void update() {
-    	System.out.println("###########UPDATING##############3");
         forEach(Abstract_Cell::updateState);
         forEach(Abstract_Cell::interact);
+
     }
 
     /**
@@ -103,8 +103,8 @@ public class SimulationGrid<E extends Abstract_Cell> {
      *
      * @return Collection of Cells
      */
-    public Collection<E> asCollection() {
-        return Arrays.stream(cells).flatMap(Arrays::stream).filter(Objects::nonNull).map(e -> (E) e).collect(Collectors.toList());
+    public <U> Collection<U> asCollection(Class<U> cell) {
+        return Arrays.stream(cells).flatMap(Arrays::stream).filter(Objects::nonNull).filter(cell::isInstance).map(cell::cast).collect(Collectors.toSet());
     }
 
     /**
@@ -132,5 +132,9 @@ public class SimulationGrid<E extends Abstract_Cell> {
      */
     public int getRows() {
         return cells[1].length;
+    }
+
+    public String getSimulationType() {
+        return cellType.getName().split("_")[0];
     }
 }

@@ -25,11 +25,11 @@ public class Fire_Cell extends Abstract_Cell<Fire_CellState> {
 
     @Override
     public void interact() {
-        if (getAdjNeighbors().asCollection().stream().anyMatch(e -> e.getState().equals(Fire_CellState.BURNING)) &&
-                Math.random() < probCatchFire && getState().equals(Fire_CellState.TREE)) {
-            setState(Fire_CellState.BURNING);
-        } else if (getState().equals(Fire_CellState.BURNING)) {
-            setState(Fire_CellState.EMPTY);
+        if (getAdjNeighbors().asCollection(Fire_Cell.class).stream().anyMatch(e -> e.getCurrentState().equals(Fire_CellState.BURNING)) &&
+                Math.random() < probCatchFire && getCurrentState().equals(Fire_CellState.TREE)) {
+            setNextState(Fire_CellState.BURNING);
+        } else if (getCurrentState().equals(Fire_CellState.BURNING)) {
+            setNextState(Fire_CellState.EMPTY);
         }
     }
 }

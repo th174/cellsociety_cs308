@@ -16,7 +16,7 @@ public class CellView extends Rectangle {
     }
 
     public void updateView(int columns, int rows, double windowWidth, double windowHeight) {
-        setFill(myCell.getState().getFill());
+        setFill(myCell.getCurrentState().getFill());
         setWidth(windowWidth / columns - CELL_BORDER * 2);
         setHeight(windowHeight / rows - CELL_BORDER * 2);
         setX(windowWidth * myCell.getX() / columns + CELL_BORDER);

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Simulation type="GameOfLife" width="42" height="42" fps="5">
+	<Cell>
+		<State>DEAD</State>
+	</Cell>
+	<Cell xPos="1" yPos="2">
+		<State>ALIVE</State>
+	</Cell>
+	<Cell xPos="2" yPos="3">
+		<State>ALIVE</State>
+	</Cell>
+	<Cell xPos="3" yPos="3">
+		<State>ALIVE</State>
+	</Cell>
+	<Cell xPos="3" yPos="2">
+		<State>ALIVE</State>
+	</Cell>
+	<Cell xPos="3" yPos="1">
+		<State>ALIVE</State>
+	</Cell>
+</Simulation>

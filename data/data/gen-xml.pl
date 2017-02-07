@@ -34,12 +34,12 @@ print OUTPUT "\n<Simulation type=\"$simulationType\" width=\"$xSize\" height=\"$
 #################################################################
 #CHANGE THIS FOR INITIAL STATE
 
-initGrid($state[0],"");
+initGrid($state[0]);
 for(1, 3, 5, 7, 9, 11) {
     initRows($state[1], [ ($_ + 1) * $ySize / 13 ],
-        "\n\t\t<ReproductionTimer>7</ReproductionTimer>\n\t\t<StarvationTimer>4</StarvationTimer>");
+        "\n\t\t<ReproductionTimer>5</ReproductionTimer>\n\t\t<StarvationTimer>2</StarvationTimer>");
     initRows($state[2], [ $_ * $ySize / 13 ],
-        "\n\t\t<ReproductionTimer>7</ReproductionTimer>\n\t\t<StarvationTimer>1</StarvationTimer>");
+        "\n\t\t<ReproductionTimer>5</ReproductionTimer>\n\t\t<StarvationTimer>2</StarvationTimer>");
 }
 #initRows($state[1], [ $ySize /2]);
 #initColumn($state[1], [ 0, 2, 4, 6, 8, 10, 14, 16 ]);

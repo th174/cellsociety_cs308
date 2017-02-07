@@ -34,4 +34,6 @@ public abstract class Abstract_CellState implements Comparable<Abstract_CellStat
      * @return Graphical representation of this CellState
      */
     public abstract Paint getFill();
+
+    public abstract Abstract_CellState getSuccessorState();
 }

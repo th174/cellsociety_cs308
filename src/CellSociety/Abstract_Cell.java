@@ -27,7 +27,7 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
      */
     public void updateState() {
         myTimeline.advance();
-        setState(getState());
+        setNextState((T) getCurrentState().getSuccessorState());
     }
 
     public abstract void interact();
@@ -59,29 +59,6 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
         myTimeline.reverse();
     }
 
-    /**
-     * @return currentState of cell
-     */
-    public T getState() {
-        return myTimeline.getCurrentState();
-    }
-
-    /**
-     * Sets the state that this cell will change into the next time updateState is called
-     *
-     * @param state CellState on next update
-     */
-    public void setState(T state) {
-        myTimeline.setNextState(state);
-    }
-
-    /**
-     * @return Debug String representation
-     */
-    public String toString() {
-        return "\nxPos = " + xPos + "\t\tyPos = " + yPos + "\t\tCurrentState = " + getState() + " \t\tNextState = " + getNextState();
-    }
-
     protected SimulationGrid<? extends Abstract_Cell<T>> getParentGrid() {
         return parentGrid;
     }
@@ -95,13 +72,28 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
         parentGrid = grid;
     }
 
-    protected T getNextState() {
-        return myTimeline.getNextState();
+    /**
+     * @return currentState of cell
+     */
+    public T getCurrentState() {
+        return myTimeline.getCurrentState();
     }
 
-    protected void move(Abstract_Cell<T> cell, T state) {
-        cell.setState(getState());
-        setState(state);
+    /**
+     * Sets the state that this cell will change into the next time updateState is called
+     *
+     * @param state CellState on next update
+     */
+    public void setNextState(T state) {
+        myTimeline.setNextState(state);
+    }
+
+    public int getTimelineIndex() {
+        return myTimeline.getIndex();
+    }
+
+    protected T getNextState() {
+        return myTimeline.getNextState();
     }
 
     public int getX() {
@@ -110,5 +102,12 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
 
     public int getY() {
         return yPos;
+    }
+
+    /**
+     * @return Debug String representation
+     */
+    public String toString() {
+        return "\nxPos = " + xPos + "\t\tyPos = " + yPos + "\t\tCurrentState = " + getCurrentState() + " \t\tNextState = " + getNextState();
     }
 }
