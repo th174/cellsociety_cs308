@@ -14,7 +14,8 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -38,10 +39,9 @@ import java.util.stream.Collectors;
 public class CellSocietyView {
     public static final boolean SYSTEM_MENU_BAR = true;
     public static final double ANIMATION_RATE_STEP = 5.0 / 4;
-    public static final double ANIMATION_RATE_CAP = 12;
+    public static final double ANIMATION_RATE_CAP = 15;
     public static final double ANIMATION_FRAMERATE = 60;
     public static final String RESOURCES_LOCATION = "resources/Strings";
-    public static final int MENU_HEIGHT = 12;
     private double framesPerSecond = 3;
     private ResourceBundle myResources;
     private Timeline myAnimation;
@@ -62,7 +62,6 @@ public class CellSocietyView {
         myResources = ResourceBundle.getBundle(RESOURCES_LOCATION);
         myBorderPane.setTop(initMenu());
         myBorderPane.setBottom(openNewFile());
-        myScene.setOnKeyPressed(this::handleKeyPress);
         KeyFrame frame = new KeyFrame(Duration.seconds(1 / framesPerSecond), e -> update());
         myAnimation = new Timeline(ANIMATION_FRAMERATE, frame);
         myAnimation.setCycleCount(Timeline.INDEFINITE);
@@ -82,56 +81,51 @@ public class CellSocietyView {
         cellViews.forEach(e -> e.updateView(mySimulationGrid.getColumns(), mySimulationGrid.getRows(), windowWidth, windowHeight));
     }
 
-    /**
-     * Handle Keyboard user keyboard input
-     *
-     * @param k
-     */
-    private void handleKeyPress(KeyEvent k) {
-        if (k.getCode() == KeyCode.SPACE) {
-            pause();
-        } else if (k.getCode() == KeyCode.EQUALS) {
-            speedUp();
-        } else if (k.getCode() == KeyCode.MINUS) {
-            slowDown();
-        } else if (k.getCode() == KeyCode.R) {
-            reverse();
-        } else if (k.getCode() == KeyCode.S) {
-            seek(10);
-        }
-    }
-
     private MenuBar initMenu() {
+        String OS = System.getProperty("os.name").toLowerCase();
         Menu file = new Menu(myResources.getString("File"));
         MenuItem open = new MenuItem(myResources.getString("Open..."));
+        open.setAccelerator(new KeyCodeCombination(KeyCode.O, OS.contains("mac") ? KeyCombination.META_DOWN : KeyCombination.CONTROL_DOWN));
         open.setOnAction(e -> ((BorderPane) myScene.getRoot()).setBottom(openNewFile()));
         MenuItem save = new MenuItem(myResources.getString("Save"));
+        save.setAccelerator(new KeyCodeCombination(KeyCode.S, OS.contains("mac") ? KeyCombination.META_DOWN : KeyCombination.CONTROL_DOWN));
         save.setOnAction(s -> save());
         MenuItem exit = new MenuItem(myResources.getString("Exit"));
+        exit.setAccelerator(new KeyCodeCombination(KeyCode.ESCAPE, OS.contains("mac") ? KeyCombination.META_DOWN : KeyCombination.CONTROL_DOWN));
         exit.setOnAction(s -> exit());
         file.getItems().addAll(open, save, exit);
         Menu simulation = new Menu(myResources.getString("Simulation"));
         MenuItem pause = new MenuItem(myResources.getString("Pause"));
+        pause.setAccelerator(new KeyCodeCombination(KeyCode.SPACE));
         pause.setOnAction(e -> pause.setText(myResources.getString(pause() ? myResources.getString("Unpause") : myResources.getString("Pause"))));
         MenuItem restart = new MenuItem(myResources.getString("Restart"));
+        restart.setAccelerator(new KeyCodeCombination(KeyCode.F5));
         restart.setOnAction(e -> seek(0));
         MenuItem speedUp = new MenuItem(myResources.getString("Speed_Up"));
+        speedUp.setAccelerator(new KeyCodeCombination(KeyCode.EQUALS));
         speedUp.setOnAction(e -> speedUp());
         MenuItem slowDown = new MenuItem(myResources.getString("Slow_Down"));
+        slowDown.setAccelerator(new KeyCodeCombination(KeyCode.MINUS));
         slowDown.setOnAction(e -> slowDown());
         MenuItem reverse = new MenuItem(myResources.getString("Reverse"));
+        reverse.setAccelerator(new KeyCodeCombination(KeyCode.R));
         reverse.setOnAction((e -> reverse()));
         MenuItem seek = new MenuItem(myResources.getString("Seek..."));
+        seek.setAccelerator(new KeyCodeCombination(KeyCode.S));
         seek.setOnAction(e -> seek());
         MenuItem stepForward = new MenuItem(myResources.getString("Step_Forward"));
+        stepForward.setAccelerator(new KeyCodeCombination(KeyCode.MINUS, OS.contains("mac") ? KeyCombination.META_DOWN : KeyCombination.CONTROL_DOWN));
         stepForward.setOnAction(e -> stepForward());
         MenuItem stepBackward = new MenuItem(myResources.getString("Step_Backward"));
+        stepBackward.setAccelerator(new KeyCodeCombination(KeyCode.EQUALS, OS.contains("mac") ? KeyCombination.META_DOWN : KeyCombination.CONTROL_DOWN));
         stepBackward.setOnAction(e -> stepBackward());
         simulation.getItems().addAll(pause, speedUp, slowDown, reverse, seek, stepForward, stepBackward, restart);
         Menu help = new Menu(myResources.getString("Help"));
         MenuItem viewHelp = new MenuItem(myResources.getString("View_Help"));
+        viewHelp.setAccelerator(new KeyCodeCombination(KeyCode.F1));
         viewHelp.setOnAction(e -> openHelp());
         MenuItem about = new MenuItem(myResources.getString("About"));
+        about.setAccelerator(new KeyCodeCombination(KeyCode.F1, OS.contains("mac") ? KeyCombination.META_DOWN : KeyCombination.CONTROL_DOWN));
         about.setOnAction(e -> about());
         help.getItems().addAll(viewHelp, about);
         MenuBar myMenu = new MenuBar(file, simulation, help);
