@@ -149,16 +149,20 @@ public class CellSocietyView {
     }
 
     private void speedUp() {
-        double rate = myAnimation.getCurrentRate();
-        if (rate * ANIMATION_RATE_STEP < ANIMATION_RATE_CAP) {
-            myAnimation.setRate(rate * ANIMATION_RATE_STEP);
+        if (myAnimation.getStatus().equals(Animation.Status.RUNNING)) {
+            double rate = myAnimation.getCurrentRate();
+            if (rate * ANIMATION_RATE_STEP < ANIMATION_RATE_CAP) {
+                myAnimation.setRate(rate * ANIMATION_RATE_STEP);
+            }
+            System.out.printf("New animation speed:\t%.2f\n", myAnimation.getCurrentRate());
         }
-        System.out.printf("New animation speed:\t%.2f\n", myAnimation.getCurrentRate());
     }
 
     private void slowDown() {
-        myAnimation.setRate(myAnimation.getCurrentRate() / ANIMATION_RATE_STEP);
-        System.out.printf("New animation speed:\t%.2f\n", myAnimation.getCurrentRate());
+        if (myAnimation.getStatus().equals(Animation.Status.RUNNING)) {
+            myAnimation.setRate(myAnimation.getCurrentRate() / ANIMATION_RATE_STEP);
+            System.out.printf("New animation speed:\t%.2f\n", myAnimation.getCurrentRate());
+        }
     }
 
     private void stepForward() {
