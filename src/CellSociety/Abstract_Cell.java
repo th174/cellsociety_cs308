@@ -1,5 +1,8 @@
 package CellSociety;
 
+import CellSociety.Grids.AbstractSimulationGrid;
+import CellSociety.Grids.RectangularSimulationGrid;
+
 import java.util.Objects;
 
 /**
@@ -8,7 +11,7 @@ import java.util.Objects;
 public abstract class Abstract_Cell<T extends Abstract_CellState> {
     private final int xPos;
     private final int yPos;
-    private SimulationGrid<? extends Abstract_Cell<T>> parentGrid;
+    private AbstractSimulationGrid<? extends Abstract_Cell<T>> parentGrid;
     private CellStateTimeline<T> myTimeline;
 
     protected Abstract_Cell(String[] args, T state) {
@@ -35,17 +38,17 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
     /**
      * @return Grid of neighboring cells. See SimulationGrid::getNeighbors
      */
-    public <U extends Abstract_Cell<T>> SimulationGrid<U> getNeighbors() {
+    public AbstractSimulationGrid<? extends Abstract_Cell<T>> getNeighbors() {
         if (Objects.nonNull(parentGrid)) {
-            return (SimulationGrid<U>) parentGrid.getNeighbors(xPos, yPos);
+            return parentGrid.getNeighbors(xPos, yPos);
         } else {
             return null;
         }
     }
 
-    public <U extends Abstract_Cell<T>> SimulationGrid<U> getAdjNeighbors() {
-        if (Objects.nonNull(parentGrid)) {
-            return (SimulationGrid<U>) parentGrid.getAdjNeighbors(xPos, yPos);
+    public AbstractSimulationGrid<? extends Abstract_Cell<T>> getAdjNeighbors() {
+        if (Objects.nonNull(parentGrid) && parentGrid instanceof RectangularSimulationGrid) {
+            return ((RectangularSimulationGrid<? extends Abstract_Cell<T>>) parentGrid).getAdjNeighbors(xPos, yPos);
         } else {
             return null;
         }
@@ -59,7 +62,7 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
         myTimeline.reverse();
     }
 
-    protected SimulationGrid<? extends Abstract_Cell<T>> getParentGrid() {
+    protected AbstractSimulationGrid<? extends Abstract_Cell<T>> getParentGrid() {
         return parentGrid;
     }
 
@@ -68,7 +71,7 @@ public abstract class Abstract_Cell<T extends Abstract_CellState> {
      *
      * @param grid parent SimulationGrid
      */
-    public <U extends Abstract_Cell<T>> void setParentGrid(SimulationGrid<U> grid) {
+    public <U extends Abstract_Cell<T>> void setParentGrid(AbstractSimulationGrid<U> grid) {
         parentGrid = grid;
     }
 
