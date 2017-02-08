@@ -14,8 +14,8 @@ public final class PredatorPrey_CellState extends AbstractDiscrete_CellState {
     private PredatorPreyState myState;
     private int maxReproductionTimer;
     private int maxStarvationTimer;
-    int starvationTimer;
-    int reproductionTimer;
+    private int starvationTimer;
+    private int reproductionTimer;
 
     private PredatorPrey_CellState(PredatorPreyState state) {
         myState = state;

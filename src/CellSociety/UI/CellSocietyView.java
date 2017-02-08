@@ -1,7 +1,9 @@
 package CellSociety.UI;
 
 import CellSociety.Abstract_Cell;
-import CellSociety.Grids.RectangularSimulationGrid;
+import CellSociety.Abstract_CellState;
+import CellSociety.Grids.Abstract_SimulationGrid;
+import CellSociety.UI.CellView.Abstract_CellView;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -30,13 +32,13 @@ import java.awt.*;
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 
-public class CellSocietyView {
+public class CellSocietyView<T extends Abstract_CellView> {
     public static final boolean SYSTEM_MENU_BAR = true;
     public static final double ANIMATION_RATE_STEP = 5.0 / 4;
     public static final double ANIMATION_RATE_CAP = 15;
@@ -46,8 +48,8 @@ public class CellSocietyView {
     private ResourceBundle myResources;
     private Timeline myAnimation;
     private Scene myScene;
-    private RectangularSimulationGrid<? extends Abstract_Cell> mySimulationGrid;
-    private Set<CellView> cellViews;
+    private Abstract_SimulationGrid<? extends Abstract_Cell> mySimulationGrid;
+    private Collection<T> cellViews;
     private double windowWidth;
     private double windowHeight;
 
@@ -80,7 +82,15 @@ public class CellSocietyView {
 
     private MenuBar initMenu() {
         String OS = System.getProperty("os.name").toLowerCase();
-        Menu file = new Menu(myResources.getString("File"));
+        Menu file = initFileMenu(OS);
+        Menu simulation = initSimulationMenu(OS);
+        Menu help = initHelpMenu(OS);
+        MenuBar myMenu = new MenuBar(file, simulation, help);
+        myMenu.setUseSystemMenuBar(SYSTEM_MENU_BAR);
+        return myMenu;
+    }
+
+    private Menu initFileMenu(String OS) {
         MenuItem open = new MenuItem(myResources.getString("Open..."));
         open.setAccelerator(new KeyCodeCombination(KeyCode.O, OS.contains("mac") ? KeyCombination.META_DOWN : KeyCombination.CONTROL_DOWN));
         open.setOnAction(e -> ((BorderPane) myScene.getRoot()).setBottom(openNewFile()));
@@ -90,8 +100,10 @@ public class CellSocietyView {
         MenuItem exit = new MenuItem(myResources.getString("Exit"));
         exit.setAccelerator(new KeyCodeCombination(KeyCode.ESCAPE, OS.contains("mac") ? KeyCombination.META_DOWN : KeyCombination.CONTROL_DOWN));
         exit.setOnAction(s -> exit());
-        file.getItems().addAll(open, save, exit);
-        Menu simulation = new Menu(myResources.getString("Simulation"));
+        return new Menu(myResources.getString("File"), null, open, save, exit);
+    }
+
+    private Menu initSimulationMenu(String OS) {
         MenuItem pause = new MenuItem(myResources.getString("Pause"));
         pause.setAccelerator(new KeyCodeCombination(KeyCode.SPACE));
         pause.setOnAction(e -> pause.setText(myResources.getString(pause() ? myResources.getString("Unpause") : myResources.getString("Pause"))));
@@ -116,18 +128,17 @@ public class CellSocietyView {
         MenuItem stepBackward = new MenuItem(myResources.getString("Step_Backward"));
         stepBackward.setAccelerator(new KeyCodeCombination(KeyCode.MINUS, OS.contains("mac") ? KeyCombination.META_DOWN : KeyCombination.CONTROL_DOWN));
         stepBackward.setOnAction(e -> stepBackward());
-        simulation.getItems().addAll(pause, speedUp, slowDown, reverse, seek, stepForward, stepBackward, restart);
-        Menu help = new Menu(myResources.getString("Help"));
+        return new Menu(myResources.getString("Simulation"), null, pause, speedUp, slowDown, reverse, seek, stepForward, stepBackward, restart);
+    }
+
+    private Menu initHelpMenu(String OS) {
         MenuItem viewHelp = new MenuItem(myResources.getString("View_Help"));
         viewHelp.setAccelerator(new KeyCodeCombination(KeyCode.F1));
         viewHelp.setOnAction(e -> openHelp());
         MenuItem about = new MenuItem(myResources.getString("About"));
         about.setAccelerator(new KeyCodeCombination(KeyCode.F1, OS.contains("mac") ? KeyCombination.META_DOWN : KeyCombination.CONTROL_DOWN));
         about.setOnAction(e -> about());
-        help.getItems().addAll(viewHelp, about);
-        MenuBar myMenu = new MenuBar(file, simulation, help);
-        myMenu.setUseSystemMenuBar(SYSTEM_MENU_BAR);
-        return myMenu;
+        return new Menu(myResources.getString("Help"), null, viewHelp, about);
     }
 
     private void exit() {
@@ -204,8 +215,8 @@ public class CellSocietyView {
             while (Objects.isNull(xmlInput = fileChooser.showOpenDialog(null)) && Objects.isNull(myAnimation)) ;
             mySimulationGrid = readXML(xmlInput);
         } while (Objects.isNull(mySimulationGrid));
-        cellViews = mySimulationGrid.asCollection(Abstract_Cell.class).stream().map(e -> new CellView(e, this)).collect(Collectors.toSet());
-        simulationPane.getChildren().addAll(cellViews);
+        cellViews = (Collection<T>) mySimulationGrid.asCollection(Abstract_Cell.class).stream().map(this::instantiateCellView).filter(Objects::nonNull).collect(Collectors.toSet());
+        simulationPane.getChildren().addAll(cellViews.stream().map(T::getView).collect(Collectors.toSet()));
         if (Objects.nonNull(myAnimation)) {
             pause();
         }
@@ -221,7 +232,7 @@ public class CellSocietyView {
         try {
             ImageIO.write(SwingFXUtils.fromFXImage(myScene.snapshot(null), null), "png", output);
         } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR,myResources.getString("ErrorSave")).show();
+            new Alert(Alert.AlertType.ERROR, myResources.getString("ErrorSave")).show();
         }
     }
 
@@ -229,7 +240,7 @@ public class CellSocietyView {
         try {
             Desktop.getDesktop().browse(new URI("http://coursework.cs.duke.edu/CompSci308_2017Spring/cellsociety_team21"));
         } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR,myResources.getString("ErrorHelp")).show();
+            new Alert(Alert.AlertType.ERROR, myResources.getString("ErrorHelp")).show();
         }
     }
 
@@ -247,7 +258,7 @@ public class CellSocietyView {
      * @param XMLFile name of XML file
      * @return generated SimulationGrid of cells based on XML input
      */
-    private RectangularSimulationGrid<? extends Abstract_Cell> readXML(File XMLFile) {
+    private Abstract_SimulationGrid<? extends Abstract_Cell> readXML(File XMLFile) {
         try {
             Document file = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(XMLFile);
             Element root = file.getDocumentElement();
@@ -256,8 +267,8 @@ public class CellSocietyView {
                 framesPerSecond = Double.parseDouble(root.getAttribute("fps"));
             }
             String simulationType = root.getAttribute("type");
+            String shape = root.getAttribute("shape");
             Class<? extends Abstract_Cell> cellType = (Class<? extends Abstract_Cell>) Class.forName("CellSociety." + simulationType + "." + simulationType + "_Cell");
-            //instantiate cells
             NodeList cells = file.getElementsByTagName("Cell");
             for (int i = 0; i < cells.getLength(); i++) {
                 Element currentElement = (Element) cells.item(i);
@@ -284,9 +295,19 @@ public class CellSocietyView {
                     return null;
                 }
             }
-            return new RectangularSimulationGrid<>(grid, cellType);
+            return (Abstract_SimulationGrid<? extends Abstract_Cell>) Class.forName("CellSociety.Grids." + shape + "_SimulationGrid").getConstructor(String[][][].class, Class.class).newInstance(grid, cellType);
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, myResources.getString("ErrorReadXML")).show();
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private T instantiateCellView(Abstract_Cell<Abstract_CellState> cell) {
+        try {
+            return (T) Class.forName("CellSociety.UI.CellView." + mySimulationGrid.getGridType() + "_CellView").getConstructor(Abstract_Cell.class).newInstance(cell);
+        } catch (Exception e1) {
+            e1.printStackTrace();
             return null;
         }
     }

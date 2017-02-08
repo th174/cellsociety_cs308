@@ -5,20 +5,20 @@ import CellSociety.Abstract_Cell;
 /**
  * Created by th174 on 1/29/2017.
  */
-public class RectangularSimulationGrid<E extends Abstract_Cell> extends AbstractSimulationGrid<E> {
+public class Square_SimulationGrid<E extends Abstract_Cell> extends Abstract_SimulationGrid<E> {
 
-    private RectangularSimulationGrid(E[][] array) {
+    private Square_SimulationGrid(E[][] array) {
         super(array);
     }
 
-    public RectangularSimulationGrid(String[][][] paramsArray, Class<E> type) throws Exception {
+    public Square_SimulationGrid(String[][][] paramsArray, Class<E> type) throws Exception {
         super(paramsArray, type);
         this.forEach(e -> e.setParentGrid(this));
     }
 
     @Override
-    public RectangularSimulationGrid<E> getNeighbors(int x, int y) {
-        return new RectangularSimulationGrid<>(getNeighborsAsArray(x, y));
+    public Square_SimulationGrid<E> getNeighbors(int x, int y) {
+        return new Square_SimulationGrid<>(getNeighborsAsArray(x, y));
     }
 
     /**
@@ -28,8 +28,8 @@ public class RectangularSimulationGrid<E extends Abstract_Cell> extends Abstract
      * @param y
      * @return 3 by 3 Grid
      */
-    public RectangularSimulationGrid<E> getAdjNeighbors(int x, int y) {
-        RectangularSimulationGrid<E> neighbors = getNeighbors(x, y);
+    public Square_SimulationGrid<E> getAdjNeighbors(int x, int y) {
+        Square_SimulationGrid<E> neighbors = getNeighbors(x, y);
         neighbors.set(LEFT, TOP, null);
         neighbors.set(LEFT, BOTTOM, null);
         neighbors.set(RIGHT, TOP, null);

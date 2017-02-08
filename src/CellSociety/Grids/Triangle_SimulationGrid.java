@@ -5,13 +5,13 @@ import CellSociety.Abstract_Cell;
 /**
  * Created by th174 on 2/7/2017.
  */
-public class TriangularSimulationGrid<E extends Abstract_Cell> extends AbstractSimulationGrid<E> {
+public class Triangle_SimulationGrid<E extends Abstract_Cell> extends Abstract_SimulationGrid<E> {
 
-    private TriangularSimulationGrid(E[][] array) {
+    private Triangle_SimulationGrid(E[][] array) {
         super(array);
     }
 
-    public TriangularSimulationGrid(String[][][] paramsArray, Class<E> type) throws Exception {
+    public Triangle_SimulationGrid(String[][][] paramsArray, Class<E> type) throws Exception {
         super(paramsArray, type);
         this.forEach(e -> e.setParentGrid(this));
     }
@@ -24,7 +24,7 @@ public class TriangularSimulationGrid<E extends Abstract_Cell> extends AbstractS
      * @return 3 by 3 Grid
      */
     @Override
-    public TriangularSimulationGrid<E> getNeighbors(int x, int y) {
+    public Triangle_SimulationGrid<E> getNeighbors(int x, int y) {
         E[][] neighbors = getNeighborsAsArray(x, y);
         neighbors[LEFT][TOP] = null;
         neighbors[LEFT][BOTTOM] = null;
@@ -35,6 +35,6 @@ public class TriangularSimulationGrid<E extends Abstract_Cell> extends AbstractS
         } else {
             neighbors[CENTER][TOP] = null;
         }
-        return new TriangularSimulationGrid<>(neighbors);
+        return new Triangle_SimulationGrid<>(neighbors);
     }
 }

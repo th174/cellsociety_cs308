@@ -14,6 +14,8 @@ my @state = ("EMPTY", "PREDATOR", "PREY");   #for PredatorPrey
 #my $additionalArgs = "\n\t\t<ProbCatch>.55</ProbCatch>";   #for Fire
 my $additionalArgs = "";                                    #for the rest
 
+my $shape = "Square";
+
 my $xSize = 91;
 my $ySize = 91;
 my $fps = 3;
@@ -22,7 +24,7 @@ my $randomState = "rand";
 
 open(OUTPUT, "> $simulationType.xml");
 print OUTPUT '<?xml version="1.0" encoding="UTF-8" ?>';
-print OUTPUT "\n<Simulation type=\"$simulationType\" width=\"$xSize\" height=\"$ySize\" fps=\"$fps\">\n";
+print OUTPUT "\n<Simulation type=\"$simulationType\" shape=\"$shape\"width=\"$xSize\" height=\"$ySize\" fps=\"$fps\">\n";
 
 #################################################################
 #You can initialize entire rows and colums by leaving the attribute blank
@@ -34,7 +36,7 @@ print OUTPUT "\n<Simulation type=\"$simulationType\" width=\"$xSize\" height=\"$
 #################################################################
 #CHANGE THIS FOR INITIAL STATE
 
-initGrid($state[0],"");
+initGrid($state[0], "");
 for(1, 3, 5, 7, 9, 11) {
     initRows($state[1], [ ($_ + 1) * $ySize / 13 ],
         "\n\t\t<ReproductionTimer>7</ReproductionTimer>\n\t\t<StarvationTimer>4</StarvationTimer>");

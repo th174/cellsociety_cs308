@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 /**
  * Created by th174 on 2/7/2017.
  */
-public abstract class AbstractSimulationGrid<E extends Abstract_Cell> {
+public abstract class Abstract_SimulationGrid<E extends Abstract_Cell> {
     public static int LEFT = 0;
     public static int RIGHT = 2;
     public static int TOP = 0;
@@ -22,7 +22,7 @@ public abstract class AbstractSimulationGrid<E extends Abstract_Cell> {
     private int columns;
     private int rows;
 
-    protected AbstractSimulationGrid(E[][] array) {
+    protected Abstract_SimulationGrid(E[][] array) {
         cells = new ArrayList<>();
         columns = array.length;
         rows = array[0].length;
@@ -31,7 +31,7 @@ public abstract class AbstractSimulationGrid<E extends Abstract_Cell> {
         }
     }
 
-    public AbstractSimulationGrid(String[][][] paramsArray, Class<E> type) throws Exception {
+    public Abstract_SimulationGrid(String[][][] paramsArray, Class<E> type) throws Exception {
         cellType = type;
         cells = new ArrayList<>();
         columns = paramsArray.length;
@@ -61,7 +61,7 @@ public abstract class AbstractSimulationGrid<E extends Abstract_Cell> {
         return neighbors;
     }
 
-    public abstract AbstractSimulationGrid<E> getNeighbors(int x, int y);
+    public abstract Abstract_SimulationGrid<E> getNeighbors(int x, int y);
 
     public long countTotalOfState(Abstract_CellState state) {
         return asCollection(cellType).parallelStream().filter(e -> e.getCurrentState().equals(state)).count();
@@ -122,6 +122,10 @@ public abstract class AbstractSimulationGrid<E extends Abstract_Cell> {
     }
 
     public String getSimulationType() {
-        return cellType.getName().split("_")[0];
+        return cellType.getSimpleName().split("_")[0];
+    }
+
+    public String getGridType() {
+        return this.getClass().getSimpleName().split("_")[0];
     }
 }
