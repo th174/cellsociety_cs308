@@ -1,0 +1,8 @@
+Markdown
+------------
+**sea26 & dkp13**
+Since, there wasn't a lot of refactoring to do in the code, 
+the one piece of refactoring was made in an if statement in the PredatorPrey_Cell. 
+ The debate was in how to implement the new method created inside the other method. 
+
+The other one was how to implement this when having the else statement which was done by just adding it after the if statement.

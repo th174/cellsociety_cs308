@@ -30,12 +30,8 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPrey_Cell, Predator
      */
     @Override
     public void interact() {
-        if (getTimelineIndex() % 2 == 1 && getCurrentState().equals(PredatorPrey_CellState.PREY)) {
-            if (getCurrentState().canReproduce()) {
-                reproduce(getEmptyNeighbor());
-            } else {
-                move(getEmptyNeighbor());
-            }
+        if (getTimelineIndex() % 2 != 0 && getCurrentState().equals(PredatorPrey_CellState.PREY) && !reproduced(getEmptyNeighbor())) {
+            move(getEmptyNeighbor());
         } else if (getTimelineIndex() % 2 == 0 && getCurrentState().equals(PredatorPrey_CellState.PREDATOR)) {
             if (getCurrentState().willStarve()) {
                 setNextState(PredatorPrey_CellState.EMPTY);
@@ -43,15 +39,13 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPrey_Cell, Predator
                 if (!predatorEat(getPreyNeighbor())) {
                     move(getEmptyNeighbor());
                 }
-                if (getCurrentState().canReproduce()) {
-                    reproduce(getEmptyNeighbor());
-                }
+                reproduced(getEmptyNeighbor());
             }
         }
     }
 
     private PredatorPrey_Cell getEmptyNeighbor() {
-        Collection<PredatorPrey_Cell> neighbors = getNeighbors().stream().filter(PredatorPrey_Cell::nextStateEmpty).collect(Collectors.toSet());
+        Collection<PredatorPrey_Cell> neighbors = getNeighbors().stream().filter(e -> e.getNextState().equals(PredatorPrey_CellState.EMPTY)).collect(Collectors.toSet());
         return neighbors.stream().skip((long) (Math.random() * neighbors.size())).findAny().orElse(null);
     }
 
@@ -76,14 +70,14 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPrey_Cell, Predator
         }
     }
 
-    private void reproduce(PredatorPrey_Cell cell) {
-        if (Objects.nonNull(cell)) {
-            cell.setNextState(new PredatorPrey_CellState(getCurrentState(), getCurrentState().getMaxReproductionTimer(), -1));
-            setNextState(new PredatorPrey_CellState(getCurrentState(), getCurrentState().getMaxReproductionTimer(), getCurrentState().getMaxStarvationTimer()));
+    private boolean reproduced(PredatorPrey_Cell cell) {
+        if (getCurrentState().canReproduce()) {
+            if (Objects.nonNull(cell)) {
+                cell.setNextState(new PredatorPrey_CellState(getCurrentState(), getCurrentState().getMaxReproductionTimer(), -1));
+                setNextState(new PredatorPrey_CellState(getCurrentState(), getCurrentState().getMaxReproductionTimer(), getCurrentState().getMaxStarvationTimer()));
+            }
+            return true;
         }
-    }
-
-    private boolean nextStateEmpty() {
-        return getNextState().equals(PredatorPrey_CellState.EMPTY);
+        return false;
     }
 }

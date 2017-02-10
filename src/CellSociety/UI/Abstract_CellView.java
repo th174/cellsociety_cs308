@@ -1,24 +1,22 @@
-package CellSociety.UI.CellView;
+package CellSociety.UI;
 
 import CellSociety.Abstract_Cell;
-import CellSociety.Abstract_CellState;
 import javafx.scene.shape.Shape;
 
 
 /**
  * Created by th174 on 2/7/2017.
  */
-public abstract class Abstract_CellView {
-    private Abstract_Cell<Abstract_CellState> myCell;
+public abstract class Abstract_CellView<E extends Abstract_Cell> {
+    private E myCell;
     private Shape myView;
 
-    public Abstract_CellView(Abstract_Cell<Abstract_CellState> cell) {
+    public Abstract_CellView(E cell) {
         myCell = cell;
     }
 
     public void updateView(int columns, int rows, double windowWidth, double windowHeight) {
         myView.setFill(myCell.getCurrentState().getFill());
-
     }
 
     protected void setShape(Shape view) {
@@ -29,7 +27,7 @@ public abstract class Abstract_CellView {
         return myView;
     }
 
-    public Abstract_Cell<Abstract_CellState> getCell() {
+    public E getCell() {
         return myCell;
     }
 }

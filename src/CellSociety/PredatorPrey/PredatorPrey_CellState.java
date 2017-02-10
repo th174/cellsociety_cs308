@@ -40,6 +40,7 @@ public final class PredatorPrey_CellState extends AbstractDiscrete_CellState<Pre
         starvationTimer = maxStarvationTimer;
     }
 
+    @Override
     public PredatorPrey_CellState getSuccessorState() {
         return new PredatorPrey_CellState(this, reproductionTimer - 1, starvationTimer - 1);
     }

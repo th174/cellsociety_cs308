@@ -1,6 +1,5 @@
 package CellSociety.GameOfLife;
 
-
 import CellSociety.AbstractDiscrete_CellState;
 import javafx.scene.paint.Color;
 

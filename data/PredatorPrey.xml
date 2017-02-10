@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Simulation type="PredatorPrey" width="91" height="91" fps="3" shape="Square">
+<Simulation type="PredatorPrey" width="91" height="91" fps="3" shape="Hexagon">
 	<Cell>
 		<State>EMPTY</State>
 	</Cell>
@@ -10,7 +10,7 @@
 	</Cell>
 	<Cell yPos="7">
 		<State>PREY</State>
-		<ReproductionTimer>7</ReproductionTimer>
+		<ReproductionTimer>10</ReproductionTimer>
 		<StarvationTimer>1</StarvationTimer>
 	</Cell>
 	<Cell yPos="28">
@@ -20,7 +20,7 @@
 	</Cell>
 	<Cell yPos="21">
 		<State>PREY</State>
-		<ReproductionTimer>7</ReproductionTimer>
+		<ReproductionTimer>10</ReproductionTimer>
 		<StarvationTimer>1</StarvationTimer>
 	</Cell>
 	<Cell yPos="42">
@@ -30,7 +30,7 @@
 	</Cell>
 	<Cell yPos="35">
 		<State>PREY</State>
-		<ReproductionTimer>7</ReproductionTimer>
+		<ReproductionTimer>10</ReproductionTimer>
 		<StarvationTimer>1</StarvationTimer>
 	</Cell>
 	<Cell yPos="56">
@@ -40,7 +40,7 @@
 	</Cell>
 	<Cell yPos="49">
 		<State>PREY</State>
-		<ReproductionTimer>7</ReproductionTimer>
+		<ReproductionTimer>10</ReproductionTimer>
 		<StarvationTimer>1</StarvationTimer>
 	</Cell>
 	<Cell yPos="70">
@@ -50,7 +50,7 @@
 	</Cell>
 	<Cell yPos="63">
 		<State>PREY</State>
-		<ReproductionTimer>7</ReproductionTimer>
+		<ReproductionTimer>10</ReproductionTimer>
 		<StarvationTimer>1</StarvationTimer>
 	</Cell>
 	<Cell yPos="84">
@@ -60,7 +60,7 @@
 	</Cell>
 	<Cell yPos="77">
 		<State>PREY</State>
-		<ReproductionTimer>7</ReproductionTimer>
+		<ReproductionTimer>10</ReproductionTimer>
 		<StarvationTimer>1</StarvationTimer>
 	</Cell>
 </Simulation>

@@ -7,10 +7,10 @@ import CellSociety.Abstract_Cell;
  */
 public class GameOfLife_Cell extends Abstract_Cell<GameOfLife_Cell, GameOfLife_CellState> {
     //Gotta pull out them magic numbers
-    public static final int TWO = 2;
-    public static final int THREE = 3;
+    private static final int TWO = 2;
+    private static final int THREE = 3;
 
-    public GameOfLife_Cell(int x, int y, String[] params) {
+    public GameOfLife_Cell(int x, int y, String... params) {
         this(x, y, new GameOfLife_CellState(params[0]));
     }
 

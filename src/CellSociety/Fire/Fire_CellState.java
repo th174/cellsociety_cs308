@@ -25,6 +25,7 @@ public final class Fire_CellState extends AbstractDiscrete_CellState<Fire_CellSt
         return getState().equals(FireState.EMPTY) ? Color.YELLOW : getState().equals(FireState.TREE) ? Color.GREEN : Color.RED;
     }
 
+    @Override
     public Fire_CellState getSuccessorState() {
         return new Fire_CellState(getState());
     }

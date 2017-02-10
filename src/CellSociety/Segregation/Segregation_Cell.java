@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
  * Created by th174 on 1/29/2017.
  */
 public class Segregation_Cell extends Abstract_Cell<Segregation_Cell,Segregation_CellState> {
-    public static final double DEFAULT_SATISFACTORY_THRESHOLD = 0.5;
+    private static final double DEFAULT_SATISFACTORY_THRESHOLD = 0.5;
     private double satisfactionThreshold;
 
-    public Segregation_Cell(int x, int y, String[] params) {
+    public Segregation_Cell(int x, int y, String... params) {
         this(x, y, new Segregation_CellState(params[0]), DEFAULT_SATISFACTORY_THRESHOLD);
         if (params.length > 1) {
             satisfactionThreshold = Double.parseDouble(params[1]);
@@ -35,10 +35,6 @@ public class Segregation_Cell extends Abstract_Cell<Segregation_Cell,Segregation
                 emptyCells.stream().skip((long) (emptyCells.size() * Math.random())).findAny().ifPresent(this::move);
             }
         }
-    }
-
-    private boolean nextStateEmpty() {
-        return getNextState().equals(Segregation_CellState.EMPTY);
     }
 
     protected void move(Segregation_Cell cell) {
