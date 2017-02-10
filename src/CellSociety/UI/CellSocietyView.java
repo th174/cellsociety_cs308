@@ -54,8 +54,10 @@ public class CellSocietyView<T extends Abstract_CellView> {
     private double windowWidth;
     private double windowHeight;
     private String cellShape;
+    private XMLReaderImpl myXMLReader;
 
     public CellSocietyView(double width, double height) {
+    	myXMLReader = new XMLReaderImpl();
         windowWidth = width;
         windowHeight = height;
         BorderPane myBorderPane = new BorderPane();
@@ -215,15 +217,15 @@ public class CellSocietyView<T extends Abstract_CellView> {
         File xmlInput;
         while (Objects.isNull(xmlInput = fileChooser.showOpenDialog(null)) && Objects.isNull(myAnimation)) ;
         try {
-            mySimulationGrid = readXML(xmlInput);
+            mySimulationGrid = myXMLReader.readXML(xmlInput);
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, myResources.getString("ErrorReadXML")).show();
             try {
-                mySimulationGrid = readXML(xmlInput);
+                mySimulationGrid = myXMLReader.readXML(xmlInput);
             } catch (Exception e1) {
                 new Alert(Alert.AlertType.ERROR, myResources.getString("ErrorReadXML")).show();
                 try {
-                    mySimulationGrid = readXML(xmlInput);
+                    mySimulationGrid = myXMLReader.readXML(xmlInput);
                 } catch (Exception e2) {
                     new Alert(Alert.AlertType.ERROR, myResources.getString("ErrorReadXML")).show();
                     exit();
@@ -267,73 +269,86 @@ public class CellSocietyView<T extends Abstract_CellView> {
         about.show();
     }
 
-    /**
-     * Read and parse xml file using DOM
-     *
-     * @param XMLFile name of XML file
-     * @return generated SimulationGrid of cells based on XML input
-     */
-    private <E extends Abstract_Cell<E, F>, F extends Abstract_CellState> SimulationGrid<E> readXML(File XMLFile) throws Exception {
-        try {
-            Document file = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(XMLFile);
-            Element root = file.getDocumentElement();
-            int width = root.hasAttribute("width") ? Integer.parseInt(root.getAttribute("width")) : 50;
-            int height = root.hasAttribute("height") ? Integer.parseInt(root.getAttribute("height")) : 50;
-            framesPerSecond = root.hasAttribute("fps") ? Double.parseDouble(root.getAttribute("fps")) : framesPerSecond;
-            String simulationType = root.hasAttribute("type") ? root.getAttribute("type") : "GameOfLife";
-            cellShape = root.hasAttribute("shape") ? root.getAttribute("shape") : "Square";
-            String boundsType = root.hasAttribute("bounds") ? root.getAttribute("bounds") : "Finite";
-            String neighborsMode = root.hasAttribute("neighbors_mode") ? root.getAttribute("neighbors_mode") : "";
-            String[][][] grid = new String[width][height][0];
-            Class<? extends Abstract_Cell> cellType = (Class<? extends Abstract_Cell>) Class.forName("CellSociety." + simulationType + "." + simulationType + "_Cell");
-            NodeList cells = file.getElementsByTagName("Cell");
-            for (int i = 0; i < cells.getLength(); i++) {
-                Element currentElement = (Element) cells.item(i);
-                try {
-                    if (!currentElement.hasAttribute("xPos") && !currentElement.hasAttribute("yPos")) {
-                        for (int j = 0; j < grid.length; j++) {
-                            for (int k = 0; k < grid[j].length; k++) {
-                                grid[j][k] = getConstructorParamsFromXMLElement(currentElement);
-                            }
-                        }
-                    } else if (!currentElement.hasAttribute("xPos")) {
-                        for (int j = 0; j < grid.length; j++) {
-                            grid[j][Integer.parseInt(currentElement.getAttribute("yPos"))] = getConstructorParamsFromXMLElement(currentElement);
-                        }
-                    } else if (!currentElement.hasAttribute("yPos")) {
-                        for (int j = 0; j < grid[0].length; j++) {
-                            grid[Integer.parseInt(currentElement.getAttribute("xPos"))][j] = getConstructorParamsFromXMLElement(currentElement);
-                        }
-                    } else {
-                        grid[Integer.parseInt(currentElement.getAttribute("xPos"))][Integer.parseInt(currentElement.getAttribute("yPos"))] = getConstructorParamsFromXMLElement(currentElement);
-                    }
-                } catch (Exception e) {
-                    throw new Exception(myResources.getString("ErrorReadXML"));
-                }
-            }
-            SimulationGrid simulationGrid = new SimulationGrid<>(grid, cellType);
-            NeighborsGetter gridShape = (NeighborsGetter) Class.forName("CellSociety.Grids.SimulationGrid$" + neighborsMode + cellShape + "sGrid").getConstructor(SimulationGrid.class).newInstance(simulationGrid);
-            BoundsHandler gridBounds = (BoundsHandler) Class.forName("CellSociety.Grids.SimulationGrid$" + boundsType + "Bounds").getConstructor(SimulationGrid.class).newInstance(simulationGrid);
-            return simulationGrid.setShapeType(gridShape).setBoundsType(gridBounds);
-        } catch (Exception e) {
-            throw new Exception(myResources.getString("ErrorReadXML"));
-        }
+    
+    public class XMLReaderImpl implements XMLReader{
+        /**
+         * Read and parse xml file using DOM
+         *
+         * @param XMLFile name of XML file
+         * @return generated SimulationGrid of cells based on XML input
+         */
+		@Override
+		public <E extends Abstract_Cell<E, F>, F extends Abstract_CellState> SimulationGrid<E> readXML(File XMLFile)
+				throws Exception {
+			try {
+	            Document file = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(XMLFile);
+	            Element root = file.getDocumentElement();
+	            int width = root.hasAttribute("width") ? Integer.parseInt(root.getAttribute("width")) : 50;
+	            int height = root.hasAttribute("height") ? Integer.parseInt(root.getAttribute("height")) : 50;
+	            framesPerSecond = root.hasAttribute("fps") ? Double.parseDouble(root.getAttribute("fps")) : framesPerSecond;
+	            String simulationType = root.hasAttribute("type") ? root.getAttribute("type") : "GameOfLife";
+	            cellShape = root.hasAttribute("shape") ? root.getAttribute("shape") : "Square";
+	            String boundsType = root.hasAttribute("bounds") ? root.getAttribute("bounds") : "Finite";
+	            String neighborsMode = root.hasAttribute("neighbors_mode") ? root.getAttribute("neighbors_mode") : "";
+	            String[][][] grid = new String[width][height][0];
+	            Class<? extends Abstract_Cell> cellType = (Class<? extends Abstract_Cell>) Class.forName("CellSociety." + simulationType + "." + simulationType + "_Cell");
+	            NodeList cells = file.getElementsByTagName("Cell");
+	            for (int i = 0; i < cells.getLength(); i++) {
+	                Element currentElement = (Element) cells.item(i);
+	                try {
+	                    if (!currentElement.hasAttribute("xPos") && !currentElement.hasAttribute("yPos")) {
+	                        for (int j = 0; j < grid.length; j++) {
+	                            for (int k = 0; k < grid[j].length; k++) {
+	                                grid[j][k] = getConstructorParamsFromXMLElement(currentElement);
+	                            }
+	                        }
+	                    } else if (!currentElement.hasAttribute("xPos")) {
+	                        for (int j = 0; j < grid.length; j++) {
+	                            grid[j][Integer.parseInt(currentElement.getAttribute("yPos"))] = getConstructorParamsFromXMLElement(currentElement);
+	                        }
+	                    } else if (!currentElement.hasAttribute("yPos")) {
+	                        for (int j = 0; j < grid[0].length; j++) {
+	                            grid[Integer.parseInt(currentElement.getAttribute("xPos"))][j] = getConstructorParamsFromXMLElement(currentElement);
+	                        }
+	                    } else {
+	                        grid[Integer.parseInt(currentElement.getAttribute("xPos"))][Integer.parseInt(currentElement.getAttribute("yPos"))] = getConstructorParamsFromXMLElement(currentElement);
+	                    }
+	                } catch (Exception e) {
+	                    throw new Exception(myResources.getString("ErrorReadXML"));
+	                }
+	            }
+	            SimulationGrid simulationGrid = new SimulationGrid<>(grid, cellType);
+	            NeighborsGetter gridShape = (NeighborsGetter) Class.forName("CellSociety.Grids.SimulationGrid$" + neighborsMode + cellShape + "sGrid").getConstructor(SimulationGrid.class).newInstance(simulationGrid);
+	            BoundsHandler gridBounds = (BoundsHandler) Class.forName("CellSociety.Grids.SimulationGrid$" + boundsType + "Bounds").getConstructor(SimulationGrid.class).newInstance(simulationGrid);
+	            return simulationGrid.setShapeType(gridShape).setBoundsType(gridBounds);
+	        } catch (Exception e) {
+	            throw new Exception(myResources.getString("ErrorReadXML"));
+	        }
+		}
+		
+		@Override
+		public <T> T instantiateCellView(Abstract_Cell<? extends Abstract_Cell, ? extends Abstract_CellState> cell) {
+			try {
+	            return (T) Class.forName("CellSociety.UI.AbstractRegularPolygon_CellView$" + cellShape).getConstructor(Abstract_Cell.class).newInstance(cell);
+	        } catch (Exception e1) {
+	            e1.printStackTrace();
+	            return null;
+	        }
+		}
+    	
+		
+
+		@Override
+		public String[] getConstructorParamsFromXMLElement(Element currentElement) throws Exception {
+			java.util.List<String> constructorParams = new ArrayList<>();
+	        for (int j = 0; j < currentElement.getElementsByTagName("*").getLength(); j++) {
+	            constructorParams.add(currentElement.getElementsByTagName("*").item(j).getTextContent().toUpperCase());
+	        }
+	        return constructorParams.toArray(new String[constructorParams.size()]);
+	    
+		}
+
     }
 
-    private T instantiateCellView(Abstract_Cell<? extends Abstract_Cell, ? extends Abstract_CellState> cell) {
-        try {
-            return (T) Class.forName("CellSociety.UI.AbstractRegularPolygon_CellView$" + cellShape).getConstructor(Abstract_Cell.class).newInstance(cell);
-        } catch (Exception e1) {
-            e1.printStackTrace();
-            return null;
-        }
-    }
 
-    private String[] getConstructorParamsFromXMLElement(Element currentElement) throws Exception {
-        java.util.List<String> constructorParams = new ArrayList<>();
-        for (int j = 0; j < currentElement.getElementsByTagName("*").getLength(); j++) {
-            constructorParams.add(currentElement.getElementsByTagName("*").item(j).getTextContent().toUpperCase());
-        }
-        return constructorParams.toArray(new String[constructorParams.size()]);
-    }
 }
