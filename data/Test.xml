@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Simulation type="Segregation" width="50" height="50" fps=".5" shape="Hexagon">
+<Simulation type="Segregation" width="6" height="6" fps=".5" shape="Triangle">
     <Cell>
-        <State>rand</State>
+        <State>EMPTY</State>
         <Threshold>.6</Threshold>
+    </Cell>
+    <Cell xPos ="3" yPos = "3">
+        <State>X</State>
+        <Threshold>.2</Threshold>
     </Cell>
 </Simulation>

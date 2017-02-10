@@ -1,29 +1,19 @@
 package CellSociety.Segregation;
 
 import CellSociety.AbstractDiscrete_CellState;
-import CellSociety.Abstract_CellState;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 /**
  * Created by th174 on 1/29/2017.
  */
-public class Segregation_CellState extends AbstractDiscrete_CellState {
-    public static final Segregation_CellState X = new Segregation_CellState(SegregationState.X);
-    public static final Segregation_CellState O = new Segregation_CellState(SegregationState.O);
-    public static final Segregation_CellState EMPTY = new Segregation_CellState(SegregationState.EMPTY);
-    private SegregationState myState;
-
-    private Segregation_CellState(SegregationState state) {
-        myState = state;
-    }
+public class Segregation_CellState extends AbstractDiscrete_CellState<Segregation_CellState.SegregationState> {
+    public static final Segregation_CellState X = new Segregation_CellState("X");
+    public static final Segregation_CellState O = new Segregation_CellState("O");
+    public static final Segregation_CellState EMPTY = new Segregation_CellState("EMPTY");
 
     public Segregation_CellState(String s) {
-        myState = s.equals("rand") ? randomState(SegregationState.class) : SegregationState.valueOf(s);
-    }
-
-    protected SegregationState getState() {
-        return myState;
+        super(s.toLowerCase().equals("rand") ? randomState(SegregationState.class) : SegregationState.valueOf(s.toUpperCase()));
     }
 
     @Override
@@ -33,14 +23,10 @@ public class Segregation_CellState extends AbstractDiscrete_CellState {
 
     @Override
     public Segregation_CellState getSuccessorState() {
-        return new Segregation_CellState(getState());
+        return new Segregation_CellState(getState().toString());
     }
 
-    public String toString() {
-        return myState.toString();
-    }
-
-    private enum SegregationState {
+    protected enum SegregationState {
         X, O, EMPTY
     }
 }

@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 /**
  * Created by th174 on 1/29/2017.
  */
-public class PredatorPrey_Cell extends Abstract_Cell<PredatorPrey_CellState> {
+public class PredatorPrey_Cell extends Abstract_Cell<PredatorPrey_Cell, PredatorPrey_CellState> {
 
     public PredatorPrey_Cell(int x, int y, String... params) {
         super(x, y, new PredatorPrey_CellState(params));
@@ -51,22 +51,19 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPrey_CellState> {
     }
 
     private PredatorPrey_Cell getEmptyNeighbor() {
-        Collection<PredatorPrey_Cell> neighbors = getNeighbors().asCollection(PredatorPrey_Cell.class).
-        		stream().filter(PredatorPrey_Cell::nextStateEmpty).collect(Collectors.toSet());
+        Collection<PredatorPrey_Cell> neighbors = getNeighbors().stream().filter(PredatorPrey_Cell::nextStateEmpty).collect(Collectors.toSet());
         return neighbors.stream().skip((long) (Math.random() * neighbors.size())).findAny().orElse(null);
     }
 
     private PredatorPrey_Cell getPreyNeighbor() {
-        Collection<PredatorPrey_Cell> potentialFood = getNeighbors().asCollection(PredatorPrey_Cell.class).
-        		stream().filter(e -> e.getCurrentState().equals(PredatorPrey_CellState.PREY)).collect(Collectors.toSet());
+        Collection<PredatorPrey_Cell> potentialFood = getNeighbors().stream().filter(e -> e.getCurrentState().equals(PredatorPrey_CellState.PREY)).collect(Collectors.toSet());
         return potentialFood.stream().skip((long) (Math.random() * potentialFood.size())).findAny().orElse(null);
     }
 
     private boolean predatorEat(PredatorPrey_Cell cell) {
         if (Objects.nonNull(cell)) {
             cell.setNextState(PredatorPrey_CellState.EMPTY);
-            setNextState(new PredatorPrey_CellState(getCurrentState(), -1, getCurrentState().
-            		getMaxStarvationTimer()));
+            setNextState(new PredatorPrey_CellState(getCurrentState(), -1, getCurrentState().getMaxStarvationTimer()));
             return true;
         }
         return false;

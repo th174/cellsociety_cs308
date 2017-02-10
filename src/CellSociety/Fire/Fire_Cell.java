@@ -5,7 +5,7 @@ import CellSociety.Abstract_Cell;
 /**
  * Created by th174 on 1/29/2017.
  */
-public class Fire_Cell extends Abstract_Cell<Fire_CellState> {
+public class Fire_Cell extends Abstract_Cell<Fire_Cell, Fire_CellState> {
     public static final double DEFAULT_PROB_CATCH_FIRE = 0.5;
     private double probCatchFire;
 
@@ -25,7 +25,7 @@ public class Fire_Cell extends Abstract_Cell<Fire_CellState> {
 
     @Override
     public void interact() {
-        if (getAdjNeighbors().asCollection(Fire_Cell.class).stream().anyMatch(e -> e.getCurrentState().equals(Fire_CellState.BURNING)) &&
+        if (getAdjNeighbors().parallelStream().anyMatch(e -> e.getCurrentState().equals(Fire_CellState.BURNING)) &&
                 Math.random() < probCatchFire && getCurrentState().equals(Fire_CellState.TREE)) {
             setNextState(Fire_CellState.BURNING);
         } else if (getCurrentState().equals(Fire_CellState.BURNING)) {

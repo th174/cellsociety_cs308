@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 /**
  * Created by th174 on 1/29/2017.
  */
-public class Segregation_Cell extends Abstract_Cell<Segregation_CellState> {
+public class Segregation_Cell extends Abstract_Cell<Segregation_Cell,Segregation_CellState> {
     public static final double DEFAULT_SATISFACTORY_THRESHOLD = 0.5;
     private double satisfactionThreshold;
 
@@ -28,10 +28,10 @@ public class Segregation_Cell extends Abstract_Cell<Segregation_CellState> {
     @Override
     public void interact() {
         if (!getCurrentState().equals(Segregation_CellState.EMPTY)) {
-            double sameStateNeighbors = getNeighbors().asCollection(Segregation_Cell.class).parallelStream().filter(e -> e.getCurrentState().equals(getCurrentState())).count();
-            double totalStateNeighbors = getNeighbors().asCollection(Segregation_Cell.class).parallelStream().filter(e -> !e.getCurrentState().equals(Segregation_CellState.EMPTY)).count();
+            double sameStateNeighbors = getNeighbors().parallelStream().filter(e -> e.getCurrentState().equals(getCurrentState())).count();
+            double totalStateNeighbors = getNeighbors().parallelStream().filter(e -> !e.getCurrentState().equals(Segregation_CellState.EMPTY)).count();
             if (sameStateNeighbors / totalStateNeighbors < satisfactionThreshold) {
-                Collection<Segregation_Cell> emptyCells = getParentGrid().asCollection(Segregation_Cell.class).stream().filter(Segregation_Cell::nextStateEmpty).collect(Collectors.toSet());
+                Collection<Segregation_Cell> emptyCells = getParentGrid().stream().filter(e -> e.getNextState().equals(Segregation_CellState.EMPTY)).collect(Collectors.toSet());
                 emptyCells.stream().skip((long) (emptyCells.size() * Math.random())).findAny().ifPresent(this::move);
             }
         }

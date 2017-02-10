@@ -2,7 +2,7 @@ package CellSociety.UI;
 
 import CellSociety.Abstract_Cell;
 import CellSociety.Abstract_CellState;
-import CellSociety.Grids.Abstract_SimulationGrid;
+import CellSociety.Grids.SimulationGrid;
 import CellSociety.UI.CellView.Abstract_CellView;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -48,7 +48,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
     private ResourceBundle myResources;
     private Timeline myAnimation;
     private Scene myScene;
-    private Abstract_SimulationGrid<? extends Abstract_Cell> mySimulationGrid;
+    private SimulationGrid<? extends Abstract_Cell> mySimulationGrid;
     private Collection<T> cellViews;
     private double windowWidth;
     private double windowHeight;
@@ -215,7 +215,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
             while (Objects.isNull(xmlInput = fileChooser.showOpenDialog(null)) && Objects.isNull(myAnimation)) ;
             mySimulationGrid = readXML(xmlInput);
         } while (Objects.isNull(mySimulationGrid));
-        cellViews = (Collection<T>) mySimulationGrid.asCollection(Abstract_Cell.class).stream().map(this::instantiateCellView).filter(Objects::nonNull).collect(Collectors.toSet());
+        cellViews = mySimulationGrid.parallelStream().map(this::instantiateCellView).filter(Objects::nonNull).collect(Collectors.toSet());
         simulationPane.getChildren().addAll(cellViews.stream().map(T::getView).collect(Collectors.toSet()));
         if (Objects.nonNull(myAnimation)) {
             pause();
@@ -258,7 +258,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
      * @param XMLFile name of XML file
      * @return generated SimulationGrid of cells based on XML input
      */
-    private Abstract_SimulationGrid<? extends Abstract_Cell> readXML(File XMLFile) {
+    private SimulationGrid<? extends Abstract_Cell> readXML(File XMLFile) {
         try {
             Document file = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(XMLFile);
             Element root = file.getDocumentElement();
@@ -267,7 +267,8 @@ public class CellSocietyView<T extends Abstract_CellView> {
                 framesPerSecond = Double.parseDouble(root.getAttribute("fps"));
             }
             String simulationType = root.getAttribute("type");
-            String shape = root.getAttribute("shape");
+            String shape = root.hasAttribute("shape") ? root.getAttribute("shape") : "Rectangle";
+            String boundsType = root.hasAttribute("bounds") ? root.getAttribute("bounds") : "finite";
             Class<? extends Abstract_Cell> cellType = (Class<? extends Abstract_Cell>) Class.forName("CellSociety." + simulationType + "." + simulationType + "_Cell");
             NodeList cells = file.getElementsByTagName("Cell");
             for (int i = 0; i < cells.getLength(); i++) {
@@ -295,7 +296,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
                     return null;
                 }
             }
-            return (Abstract_SimulationGrid<? extends Abstract_Cell>) Class.forName("CellSociety.Grids." + shape + "_SimulationGrid").getConstructor(String[][][].class, Class.class).newInstance(grid, cellType);
+            return (SimulationGrid<? extends Abstract_Cell>) Class.forName("CellSociety.Grids." + shape + "_SimulationGrid").getConstructor(String[][][].class, Class.class, String.class).newInstance(grid, cellType, boundsType);
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, myResources.getString("ErrorReadXML")).show();
             e.printStackTrace();
@@ -303,7 +304,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
         }
     }
 
-    private T instantiateCellView(Abstract_Cell<Abstract_CellState> cell) {
+    private T instantiateCellView(Abstract_Cell<? extends Abstract_Cell, ? extends Abstract_CellState> cell) {
         try {
             return (T) Class.forName("CellSociety.UI.CellView." + mySimulationGrid.getGridType() + "_CellView").getConstructor(Abstract_Cell.class).newInstance(cell);
         } catch (Exception e1) {

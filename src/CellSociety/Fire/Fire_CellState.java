@@ -7,22 +7,17 @@ import javafx.scene.paint.Paint;
 /**
  * Created by th174 on 1/29/2017.
  */
-public final class Fire_CellState extends AbstractDiscrete_CellState {
+public final class Fire_CellState extends AbstractDiscrete_CellState<Fire_CellState.FireState> {
     public static final Fire_CellState BURNING = new Fire_CellState(FireState.BURNING);
     public static final Fire_CellState EMPTY = new Fire_CellState(FireState.EMPTY);
     public static final Fire_CellState TREE = new Fire_CellState(FireState.TREE);
-    private FireState myState;
 
     private Fire_CellState(FireState state) {
-        myState = state;
+        super(state);
     }
 
     public Fire_CellState(String s) {
-        myState = s.equals("rand") ? randomState(FireState.class) : FireState.valueOf(s);
-    }
-
-    protected FireState getState() {
-        return myState;
+        super(s.toLowerCase().equals("rand") ? randomState(FireState.class) : FireState.valueOf(s.toUpperCase()));
     }
 
     @Override
@@ -34,7 +29,7 @@ public final class Fire_CellState extends AbstractDiscrete_CellState {
         return new Fire_CellState(getState());
     }
 
-    private enum FireState {
+    enum FireState {
         EMPTY, TREE, BURNING
     }
 }

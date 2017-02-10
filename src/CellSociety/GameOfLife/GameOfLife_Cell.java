@@ -5,7 +5,7 @@ import CellSociety.Abstract_Cell;
 /**
  * Created by th174 on 1/29/2017.
  */
-public class GameOfLife_Cell extends Abstract_Cell<GameOfLife_CellState> {
+public class GameOfLife_Cell extends Abstract_Cell<GameOfLife_Cell, GameOfLife_CellState> {
     //Gotta pull out them magic numbers
     public static final int TWO = 2;
     public static final int THREE = 3;
@@ -20,7 +20,7 @@ public class GameOfLife_Cell extends Abstract_Cell<GameOfLife_CellState> {
 
     @Override
     public void interact() {
-        int numAlive = (int) getNeighbors().asCollection(GameOfLife_Cell.class).parallelStream()
+        int numAlive = (int) getNeighbors().parallelStream()
                 .filter(e -> e.getCurrentState().equals(GameOfLife_CellState.ALIVE))
                 .count();
         if (numAlive < TWO && getCurrentState().equals(GameOfLife_CellState.ALIVE)) {
