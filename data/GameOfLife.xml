@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Simulation type="GameOfLife" width="42" height="42" fps="5" shape="Square" bounds="Wrapped">
+<Simulation type="GameOfLife" shape="Square" width="91" height="91" fps="3" boundsType="Finite">
 	<Cell>
 		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="3">
-		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="1" yPos="2">
 		<State>ALIVE</State>

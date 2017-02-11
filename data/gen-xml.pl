@@ -4,15 +4,15 @@ use warnings;
 
 
 #change this between simulations:
-my $simulationType = "PredatorPrey";
+my $simulationType = "GameOfLife";
 #my @state = ("EMPTY","X","O");              #for Segregation
-#my @state = ("DEAD", "ALIVE");              #for GameOfLife
-my @state = ("EMPTY", "PREDATOR", "PREY");   #for PredatorPrey
+my @state = ("DEAD", "ALIVE");              #for GameOfLife
+#my @state = ("EMPTY", "PREDATOR", "PREY");   #for PredatorPrey
 #my @state = ("EMPTY", "TREE", "BURNING");   #for Fire
 
 #my $additionalArgs = "\n\t\t<Threshold>.7</Threshold>";    #for Segregation
 #my $additionalArgs = "\n\t\t<ProbCatch>.55</ProbCatch>";   #for Fire
-my $additionalArgs = "";                                    #for the rest
+my $boundsType = "Finite";
 
 my $shape = "Square";
 
@@ -24,7 +24,7 @@ my $randomState = "rand";
 
 open(OUTPUT, "> $simulationType.xml");
 print OUTPUT '<?xml version="1.0" encoding="UTF-8" ?>';
-print OUTPUT "\n<Simulation type=\"$simulationType\" shape=\"$shape\"width=\"$xSize\" height=\"$ySize\" fps=\"$fps\">\n";
+print OUTPUT "\n<Simulation type=\"$simulationType\" shape=\"$shape\" width=\"$xSize\" height=\"$ySize\" fps=\"$fps\" bounds=\"$boundsType\">\n";
 
 #################################################################
 #You can initialize entire rows and colums by leaving the attribute blank
@@ -37,19 +37,19 @@ print OUTPUT "\n<Simulation type=\"$simulationType\" shape=\"$shape\"width=\"$xS
 #CHANGE THIS FOR INITIAL STATE
 
 initGrid($state[0], "");
-for(1, 3, 5, 7, 9, 11) {
-    initRows($state[1], [ ($_ + 1) * $ySize / 13 ],
-        "\n\t\t<ReproductionTimer>7</ReproductionTimer>\n\t\t<StarvationTimer>4</StarvationTimer>");
-    initRows($state[2], [ $_ * $ySize / 13 ],
-        "\n\t\t<ReproductionTimer>7</ReproductionTimer>\n\t\t<StarvationTimer>1</StarvationTimer>");
-}
+#for(1, 3, 5, 7, 9, 11) {
+#    initRows($state[1], [ ($_ + 1) * $ySize / 13 ],
+#        "\n\t\t<ReproductionTimer>7</ReproductionTimer>\n\t\t<StarvationTimer>4</StarvationTimer>");
+#    initRows($state[2], [ $_ * $ySize / 13 ],
+#        "\n\t\t<ReproductionTimer>7</ReproductionTimer>\n\t\t<StarvationTimer>1</StarvationTimer>");
+#}
 #initRows($state[1], [ $ySize /2]);
 #initColumn($state[1], [ 0, 2, 4, 6, 8, 10, 14, 16 ]);
-#initCells($state[1], [ [ 1, 2 ], [ 2, 3 ], [ 3, 3 ], [ 3, 2 ], [ 3, 1 ] ]);
+initCells($state[1], [ [ 1, 2 ], [ 2, 3 ], [ 3, 3 ], [ 3, 2 ], [ 3, 1 ] ],"");
 #for (my $x = 1; $x <= $xSize; $x++) {
 #    for (my $y = 1; $y <= $ySize; $y++) {
 #        if ($x >= 4 && $x < 7 && $y >= 5 && $y < 13 && !($x == 5 && ($y == 6 || $y == 11 ))) {
-#            initCells($state[1], [ [ $x, $y ] ]);
+#            initCells($state[1], [ [ $x, $y ] ],"");
 #        }
 #    }
 #}

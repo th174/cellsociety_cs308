@@ -51,7 +51,7 @@ public abstract class AbstractRegularPolygon_CellView<E extends Abstract_Cell> e
     /**
      * Created by th174 on 2/7/2017.
      */
-    private static final class Hexagon<E extends Abstract_Cell> extends AbstractRegularPolygon_CellView<E> {
+    public static final class Hexagon<E extends Abstract_Cell> extends AbstractRegularPolygon_CellView<E> {
         public static final int HEXAGON_SIDES = 6;
         private static final double LENGTH_OVER_RADIUS = Math.sqrt(3);
         private static final double THIRTY_DEGREES = Math.toRadians(30);
@@ -92,7 +92,7 @@ public abstract class AbstractRegularPolygon_CellView<E extends Abstract_Cell> e
     /**
      * Created by th174 on 2/4/2017.
      */
-    private static final class Square<E extends Abstract_Cell> extends AbstractRegularPolygon_CellView<E> {
+    public static final class Square<E extends Abstract_Cell> extends AbstractRegularPolygon_CellView<E> {
         public static final int SQUARE_SIDES = 4;
         private static final double SIDE_LENGTH_OVER_RADIUS = 2 / Math.sqrt(2);
         private static final double QUARTER_SPIN = Math.toRadians(45);
@@ -133,7 +133,7 @@ public abstract class AbstractRegularPolygon_CellView<E extends Abstract_Cell> e
     /**
      * Created by th174 on 2/8/2017.
      */
-    private static final class Triangle<E extends Abstract_Cell> extends AbstractRegularPolygon_CellView<E> {
+    public static final class Triangle<E extends Abstract_Cell> extends AbstractRegularPolygon_CellView<E> {
         public static final int TRIANGLE_SIDES = 3;
         private static final double UPSIDE_DOWN = Math.toRadians(180);
         private static final double SIDE_LENGTH_OVER_RADIUS = Math.sqrt(3);

@@ -2,6 +2,7 @@ package CellSociety.Grids;
 
 import CellSociety.Abstract_Cell;
 import CellSociety.Abstract_CellState;
+import javafx.util.Pair;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -17,7 +18,7 @@ public class SimulationGrid<E extends Abstract_Cell<E, ? extends Abstract_CellSt
     public static final int TOP = 0;
     public static final int BOTTOM = 2;
     public static final int CENTER = 1;
-    private final List<List<E>> cells;
+    private final Map<Pair<Integer, Integer>, E> cells;
     private Class<E> cellType;
     private int columns;
     private int rows;
@@ -25,11 +26,13 @@ public class SimulationGrid<E extends Abstract_Cell<E, ? extends Abstract_CellSt
     private NeighborsGetter<SimulationGrid<E>> shapeMode;
 
     private SimulationGrid(E[][] array) {
-        cells = new ArrayList<>();
         columns = array.length;
         rows = array[0].length;
-        for (E[] row : array) {
-            cells.add(Arrays.asList(row));
+        cells = new HashMap<>();
+        for (int i = 0; i < columns; i++) {
+            for (int j = 0; j < rows; j++) {
+                cells.put(new Pair<>(i, j), array[i][j]);
+            }
         }
     }
 
@@ -53,15 +56,14 @@ public class SimulationGrid<E extends Abstract_Cell<E, ? extends Abstract_CellSt
         cellType = type;
         boundsMode = bounds;
         shapeMode = shape;
-        cells = new ArrayList<>();
+        cells = new HashMap<>();
         columns = paramsArray.length;
         rows = paramsArray[0].length;
         for (int i = 0; i < paramsArray.length; i++) {
             for (int j = 0; j < paramsArray[0].length; j++) {
-                cells.add(new ArrayList<>());
                 String[] temp = Arrays.copyOf(paramsArray[i][j], paramsArray[i][j].length);
-                cells.get(i).add(cellType.getConstructor(int.class, int.class, String[].class).newInstance(i, j, temp));
-                cells.get(i).get(j).setParentGrid(this);
+                cells.put(new Pair<>(i, j), cellType.getConstructor(int.class, int.class, String[].class).newInstance(i, j, temp));
+                cells.get(new Pair<>(i, j)).setParentGrid(this);
             }
         }
     }
@@ -71,7 +73,7 @@ public class SimulationGrid<E extends Abstract_Cell<E, ? extends Abstract_CellSt
         forEach(Abstract_Cell::interact);
     }
 
-    private E[][] getNearbyCellsAsArray(int x, int y, int distanceX, int distanceY) {
+    public E[][] getNearbyCellsAsArray(int x, int y, int distanceX, int distanceY) {
         E[][] neighbors = (E[][]) Array.newInstance(cellType, distanceX * 2 + 1, distanceY * 2 + 1);
         for (int i = 0; i < neighbors.length; i++) {
             for (int j = 0; j < neighbors[i].length; j++) {
@@ -98,12 +100,11 @@ public class SimulationGrid<E extends Abstract_Cell<E, ? extends Abstract_CellSt
      * @return AbstractCell
      */
     private E get(int x, int y) {
-        int[] loc = boundsMode.handleBounds(x, y, this);
-        return (loc[0] >= 0 && loc[0] < cells.size() && loc[1] >= 0 && loc[1] < cells.get(x).size()) ? cells.get(x).get(y) : null;
+        return cells.get(boundsMode.handleBounds(x, y, this));
     }
 
     private void set(int x, int y, E cell) {
-        cells.get(x).set(y, cell);
+        cells.put(new Pair<>(x, y), cell);
         if (Objects.nonNull(cell)) {
             cell.setParentGrid(this);
         }
@@ -118,7 +119,7 @@ public class SimulationGrid<E extends Abstract_Cell<E, ? extends Abstract_CellSt
     }
 
     public Stream<E> parallelStream() {
-        return cells.parallelStream().flatMap(List::stream).unordered().filter(Objects::nonNull);
+        return cells.values().parallelStream().unordered().filter(Objects::nonNull);
     }
 
     /**
@@ -166,27 +167,28 @@ public class SimulationGrid<E extends Abstract_Cell<E, ? extends Abstract_CellSt
 
     public final class FiniteBounds implements BoundsHandler<SimulationGrid<E>> {
         @Override
-        public int[] handleBounds(int x, int y, SimulationGrid<E> grid) {
-            return new int[]{x, y};
+        public Pair<Integer, Integer> handleBounds(int x, int y, SimulationGrid<E> grid) {
+            return new Pair<>(x, y);
         }
     }
 
     public final class WrappedBounds implements BoundsHandler<SimulationGrid<E>> {
         @Override
-        public int[] handleBounds(int x, int y, SimulationGrid<E> grid) {
-            return new int[]{actualMod(x, grid.columns), actualMod(y, grid.rows)};
+        public Pair<Integer, Integer> handleBounds(int x, int y, SimulationGrid<E> grid) {
+            return new Pair<>(actualMod(x, grid.columns), actualMod(y, grid.rows));
         }
     }
 
     public final class InfiniteBounds implements BoundsHandler<SimulationGrid<E>> {
         @Override
-        public int[] handleBounds(int x, int y, SimulationGrid<E> grid) {
+        public Pair<Integer, Integer> handleBounds(int x, int y, SimulationGrid<E> grid) {
             //TODO: this
-            return new int[0];
+            return new Pair<>(0, 0);
         }
     }
 
     public final class SquaresGrid implements NeighborsGetter<SimulationGrid<E>> {
+        @Override
         public SimulationGrid<E> getNeighbors(int x, int y, SimulationGrid<E> grid) {
             return new SimulationGrid<>(grid.getNearbyCellsAsArray(x, y, 1, 1));
         }
@@ -227,6 +229,7 @@ public class SimulationGrid<E extends Abstract_Cell<E, ? extends Abstract_CellSt
     }
 
     public final class TrianglesGrid implements NeighborsGetter<SimulationGrid<E>> {
+        @Override
         public SimulationGrid<E> getNeighbors(int x, int y, SimulationGrid<E> grid) {
             E[][] neighbors = getNearbyCellsAsArray(x, y, 1, 2);
             if ((x + y) % 2 == 0) {
@@ -241,6 +244,7 @@ public class SimulationGrid<E extends Abstract_Cell<E, ? extends Abstract_CellSt
     }
 
     public final class AdjacentTrianglesGrid implements NeighborsGetter<SimulationGrid<E>> {
+        @Override
         public SimulationGrid<E> getNeighbors(int x, int y, SimulationGrid<E> grid) {
             E[][] neighbors = getNearbyCellsAsArray(x, y, 1, 1);
             neighbors[RIGHT][TOP] = null;

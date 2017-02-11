@@ -11,7 +11,7 @@ public abstract class Abstract_CellView<E extends Abstract_Cell> {
     private E myCell;
     private Shape myView;
 
-    public Abstract_CellView(E cell) {
+    protected Abstract_CellView(E cell) {
         myCell = cell;
     }
 
@@ -27,7 +27,7 @@ public abstract class Abstract_CellView<E extends Abstract_Cell> {
         return myView;
     }
 
-    public E getCell() {
+    protected E getCell() {
         return myCell;
     }
 }

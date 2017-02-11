@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 /**
  * Created by th174 on 1/29/2017.
  */
-public class Segregation_Cell extends Abstract_Cell<Segregation_Cell,Segregation_CellState> {
+public class Segregation_Cell extends Abstract_Cell<Segregation_Cell, Segregation_CellState> {
     private static final double DEFAULT_SATISFACTORY_THRESHOLD = 0.5;
     private double satisfactionThreshold;
 

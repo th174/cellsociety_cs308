@@ -1,0 +1,93 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use Data::Dumper;
+
+my $simulationType = "GameOfLife";
+my @state = ("DEAD", "ALIVE");              #for GameOfLife
+my $shape = "Square";
+my $boundsType = "Wrapped";
+
+my $fileName = $ARGV[0];
+my $xSize = 50;
+my $ySize = 50;
+
+my $fps = 6;
+
+local $/;
+open(INPUT, "< $fileName");
+open(OUTPUT, "> $simulationType.FromRLE.xml");
+
+print OUTPUT '<?xml version="1.0" encoding="UTF-8" ?>';
+print OUTPUT "\n<Simulation type=\"$simulationType\" shape=\"$shape\" width=\"$xSize\" height=\"$ySize\" fps=\"$fps\" bounds=\"$boundsType\">\n";
+
+initGrid($state[0], "");
+
+my @array = split(/\$/,<INPUT>);
+my $y = 0;
+for (@array) {
+    my $x = 0;
+    while ($_ =~ /(\d*)\s*([bo])/g){
+        initCells($state[$2 eq "o"], [ [ $x, $y ] ], "");
+        $x++;
+        for (my $i = 1; $i < $1; $i++) {
+            initCells($state[$2 eq "o"], [ [ $x, $y ] ], "");
+            $x++;
+        }
+    }
+    $y++;
+
+}
+
+print "\n";
+
+sub initCells {
+    my $state = shift;
+    my $cells = shift;
+    foreach my $cell (@$cells) {
+        my $x = @$cell[0];
+        my $y = @$cell[1];
+        print OUTPUT
+            "\t<Cell xPos=\"$x\" yPos=\"$y\">".
+                "\n\t\t<State>$state</State>".
+                shift.
+                "\n\t</Cell>\n";
+    }
+}
+
+sub initRows {
+    my $state = shift;
+    my $rows = shift;
+    foreach my $y (@$rows) {
+        print OUTPUT
+            "\t<Cell yPos=\"$y\">".
+                "\n\t\t<State>$state</State>".
+                shift.
+                "\n\t</Cell>\n";
+    }
+}
+
+sub initColumn {
+    my $state = shift;
+    my $columns = shift;
+    foreach my $x (@$columns) {
+        print OUTPUT
+            "\t<Cell xPos=\"$x\">".
+                "\n\t\t<State>$state</State>".
+                shift.
+                "\n\t</Cell>\n";
+    }
+}
+
+sub initGrid {
+    my $state = shift;
+    print OUTPUT
+        "\t<Cell>".
+            "\n\t\t<State>$state</State>".
+            shift.
+            "\n\t</Cell>\n";
+}
+
+print OUTPUT "</Simulation>\n";
+close INPUT;
+close OUTPUT;

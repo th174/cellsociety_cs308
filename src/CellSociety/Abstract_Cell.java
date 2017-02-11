@@ -37,7 +37,7 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
     /**
      * @return Grid of neighboring cells. See SimulationGrid::getNeighbors
      */
-    public SimulationGrid<E> getNeighbors() {
+    protected SimulationGrid<E> getNeighbors() {
         if (Objects.nonNull(parentGrid)) {
             return parentGrid.getNeighbors(xPos, yPos);
         } else {
@@ -90,7 +90,7 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
         myTimeline.setNextState(state);
     }
 
-    public int getTimelineIndex() {
+    protected int getTimelineIndex() {
         return myTimeline.getIndex();
     }
 
