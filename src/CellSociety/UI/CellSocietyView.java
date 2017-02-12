@@ -10,15 +10,12 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.collections.ObservableMap;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.*;
 import javafx.scene.control.Dialog;
@@ -104,7 +101,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
     private void update() {
         mySimulationGrid.update();
         cellViews.forEach(e -> e.updateView(mySimulationGrid.getColumns() * zoom, mySimulationGrid.getRows() * zoom, windowWidth, windowHeight));
-        updateChart();
+//        updateChart();
     }
 
     private Node openNewFile() {
@@ -122,7 +119,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
             } catch (Exception e) {
                 attemptsRemaining--;
                 e.printStackTrace();
-                new Alert(Alert.AlertType.ERROR, e.toString()).showAndWait();
+                new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
             }
             if (attemptsRemaining < 0) {
                 exit();
@@ -134,7 +131,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
         Group simulationGroup = new Group();
         simulationGroup.getChildren().addAll(cellViews.stream().map(T::getView).collect(Collectors.toSet()));
         simulationPane.setContent(simulationGroup);
-        createChart();
+//        createChart();
         //simulationGroup.getChildren().add(myChart);
         return simulationPane;
     }
@@ -148,44 +145,44 @@ public class CellSocietyView<T extends Abstract_CellView> {
         }
     }
 
-    private void createChart() {
+//    private void createChart() {
+//
+//        final NumberAxis xAxis = new NumberAxis();
+//        final NumberAxis yAxis = new NumberAxis();
+//        xAxis.setAutoRanging(true);
+//        xAxis.setLabel("Time");
+//        yAxis.setLabel("Concentration of Cells");
+//        ObservableMap<String, Double> cellConcentrations = mySimulationGrid.getCellConcentrations();
+//        LineChart<Integer, Double> cellData = new LineChart(xAxis, yAxis);
+//        cellData.setAnimated(true);
+//
+//        mySeries = new ArrayList<Series<Integer, Double>>();
+//        System.out.println(cellConcentrations.keySet());
+//        for (String state : cellConcentrations.keySet()) {
+//
+//            XYChart.Series<Integer, Double> series = new XYChart.Series<>();
+//            series.setName(state);
+//            cellData.getData().add(series);
+//            mySeries.add(series);
+//        }
+//
+//        myChart = cellData;
+//    }
 
-        final NumberAxis xAxis = new NumberAxis();
-        final NumberAxis yAxis = new NumberAxis();
-        xAxis.setAutoRanging(true);
-        xAxis.setLabel("Time");
-        yAxis.setLabel("Concentration of Cells");
-        ObservableMap<String, Double> cellConcentrations = mySimulationGrid.getCellConcentrations();
-        LineChart<Integer, Double> cellData = new LineChart(xAxis, yAxis);
-        cellData.setAnimated(true);
-
-        mySeries = new ArrayList<Series<Integer, Double>>();
-        System.out.println(cellConcentrations.keySet());
-        for (String state : cellConcentrations.keySet()) {
-
-            XYChart.Series<Integer, Double> series = new XYChart.Series<>();
-            series.setName(state);
-            cellData.getData().add(series);
-            mySeries.add(series);
-        }
-
-        myChart = cellData;
-    }
-
-    private void updateChart() {
-        ObservableMap<String, Double> cellConcentrations = mySimulationGrid.getCellConcentrations();
-        for (String state : cellConcentrations.keySet()) {
-            for (Series series : mySeries) {
-                if (state.equals(series.getName())) {//found a match
-                    series.getData().add(new XYChart.Data<Integer, Double>(myAnimation.getKeyFrames().size(),
-                            cellConcentrations.get(state)));
-                    //System.out.println("new x val  for state "+ state + " " +myAnimation.getKeyFrames().size());
-                    //System.out.println("new y val for state "+ state + " " + cellConcentrations.get(state));
-                }
-            }
-
-        }
-    }
+//    private void updateChart() {
+//        ObservableMap<String, Double> cellConcentrations = mySimulationGrid.getCellConcentrations();
+//        for (String state : cellConcentrations.keySet()) {
+//            for (Series series : mySeries) {
+//                if (state.equals(series.getName())) {//found a match
+//                    series.getData().add(new XYChart.Data<Integer, Double>(myAnimation.getKeyFrames().size(),
+//                            cellConcentrations.get(state)));
+//                    //System.out.println("new x val  for state "+ state + " " +myAnimation.getKeyFrames().size());
+//                    //System.out.println("new y val for state "+ state + " " + cellConcentrations.get(state));
+//                }
+//            }
+//
+//        }
+//    }
 
     private class CellSocietyMenu {
         private MenuBar myMenu;
@@ -497,15 +494,16 @@ public class CellSocietyView<T extends Abstract_CellView> {
                             simulationGrid = new SimulationGridImpl<>(grid, cellType);
                             NeighborsGetter gridShape;
                             try {
-                                gridShape = (NeighborsGetter) Class.forName("CellSociety.Grids.SimulationGrid$" + neighborMode + cellShape + "sGrid").getConstructor(SimulationGrid.class).newInstance(simulationGrid);
+                                gridShape = (NeighborsGetter) Class.forName("CellSociety.Grids.SimulationGridImpl$" + neighborMode + cellShape + "sGrid").getConstructor(SimulationGridImpl.class).newInstance(simulationGrid);
                                 try {
-                                    BoundsHandler gridBounds = (BoundsHandler) Class.forName("CellSociety.Grids.SimulationGrid$" + boundsType + "Bounds").getConstructor(SimulationGrid.class).newInstance(simulationGrid);
+                                    BoundsHandler gridBounds = (BoundsHandler) Class.forName("CellSociety.Grids.SimulationGridImpl$" + boundsType + "Bounds").getConstructor(SimulationGridImpl.class).newInstance(simulationGrid);
                                     simulationGrid.setShapeType(gridShape).setBoundsType(gridBounds);
                                 } catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
                                     throw new Exception(myResources.getString("BoundsTypeException") + boundsType);
                                 }
                             } catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
-                                throw new Exception(myResources.getString("NeighborShapeException") + cellShape + ", " + neighborMode);
+                                e.printStackTrace();
+                                throw new Exception(myResources.getString("ShapeException") + neighborMode + cellShape);
                             }
                         } catch (SimulationGrid.CellInstantiationException e) {
                             throw new Exception(myResources.getString("CellInstantiationException") + e.getMessage());
