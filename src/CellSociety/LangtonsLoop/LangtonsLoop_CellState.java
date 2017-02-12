@@ -30,7 +30,8 @@ public final class LangtonsLoop_CellState extends AbstractDiscrete_CellState<Lan
     }
 
     enum LangtonsLoopState {
-        CORE, SHEATH, FORWARD, TURN, EMPTY
+    	EMPTY, CORE, SHEATH, TURNSUPPORT, TURN, DISCONNECT, FINISH, GROWTH
+    	//black, blue, red,   green,     yellow, pink,      white,   cyan
     }
 
 }
