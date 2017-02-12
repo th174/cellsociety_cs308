@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Simulation type="GameOfLife" shape="Square" width="50" height="50" fps="6" bounds="Wrapped" outlines="violet">
+<Simulation type="GameOfLife" shape="Square" width="50" height="50" fps="6" bounds="Wrapped" outlines="blueviolet">
 	<Cell>
 		<State>DEAD</State>
 	</Cell>
@@ -40,7 +40,7 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="12" yPos="0">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="13" yPos="0">
 		<State>DEAD</State>
@@ -76,19 +76,7 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="24" yPos="0">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="25" yPos="0">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="26" yPos="0">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="27" yPos="0">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="28" yPos="0">
-		<State>DEAD</State>
+		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="0" yPos="1">
 		<State>DEAD</State>
@@ -127,10 +115,10 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="12" yPos="1">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="13" yPos="1">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="14" yPos="1">
 		<State>DEAD</State>
@@ -157,24 +145,12 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="22" yPos="1">
-		<State>DEAD</State>
+		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="23" yPos="1">
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="24" yPos="1">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="25" yPos="1">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="26" yPos="1">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="27" yPos="1">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="28" yPos="1">
 		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="0" yPos="2">
@@ -208,7 +184,7 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="10" yPos="2">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="11" yPos="2">
 		<State>DEAD</State>
@@ -235,10 +211,10 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="19" yPos="2">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="20" yPos="2">
-		<State>DEAD</State>
+		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="21" yPos="2">
 		<State>ALIVE</State>
@@ -256,13 +232,34 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="26" yPos="2">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="27" yPos="2">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="28" yPos="2">
 		<State>DEAD</State>
+	</Cell>
+	<Cell xPos="29" yPos="2">
+		<State>DEAD</State>
+	</Cell>
+	<Cell xPos="30" yPos="2">
+		<State>DEAD</State>
+	</Cell>
+	<Cell xPos="31" yPos="2">
+		<State>DEAD</State>
+	</Cell>
+	<Cell xPos="32" yPos="2">
+		<State>DEAD</State>
+	</Cell>
+	<Cell xPos="33" yPos="2">
+		<State>DEAD</State>
+	</Cell>
+	<Cell xPos="34" yPos="2">
+		<State>ALIVE</State>
+	</Cell>
+	<Cell xPos="35" yPos="2">
+		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="0" yPos="3">
 		<State>DEAD</State>
@@ -280,7 +277,7 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="5" yPos="3">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="6" yPos="3">
 		<State>DEAD</State>
@@ -292,22 +289,22 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="9" yPos="3">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="10" yPos="3">
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="11" yPos="3">
-		<State>DEAD</State>
+		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="12" yPos="3">
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="13" yPos="3">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="14" yPos="3">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="15" yPos="3">
 		<State>ALIVE</State>
@@ -319,22 +316,22 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="18" yPos="3">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="19" yPos="3">
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="20" yPos="3">
-		<State>DEAD</State>
+		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="21" yPos="3">
-		<State>DEAD</State>
+		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="22" yPos="3">
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="23" yPos="3">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="24" yPos="3">
 		<State>DEAD</State>
@@ -350,6 +347,27 @@
 	</Cell>
 	<Cell xPos="28" yPos="3">
 		<State>DEAD</State>
+	</Cell>
+	<Cell xPos="29" yPos="3">
+		<State>DEAD</State>
+	</Cell>
+	<Cell xPos="30" yPos="3">
+		<State>DEAD</State>
+	</Cell>
+	<Cell xPos="31" yPos="3">
+		<State>DEAD</State>
+	</Cell>
+	<Cell xPos="32" yPos="3">
+		<State>DEAD</State>
+	</Cell>
+	<Cell xPos="33" yPos="3">
+		<State>DEAD</State>
+	</Cell>
+	<Cell xPos="34" yPos="3">
+		<State>ALIVE</State>
+	</Cell>
+	<Cell xPos="35" yPos="3">
+		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="0" yPos="4">
 		<State>ALIVE</State>
@@ -367,7 +385,7 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="5" yPos="4">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="6" yPos="4">
 		<State>DEAD</State>
@@ -376,13 +394,13 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="8" yPos="4">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="9" yPos="4">
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="10" yPos="4">
-		<State>DEAD</State>
+		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="11" yPos="4">
 		<State>DEAD</State>
@@ -397,13 +415,13 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="15" yPos="4">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="16" yPos="4">
 		<State>DEAD</State>
 	</Cell>
-	<Cell xPos="17" yPos="4">
+	<Cell xPos="16" yPos="4">
 		<State>ALIVE</State>
+	</Cell>
+	<Cell xPos="17" yPos="4">
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="18" yPos="4">
 		<State>DEAD</State>
@@ -412,30 +430,9 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="20" yPos="4">
-		<State>DEAD</State>
+		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="21" yPos="4">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="22" yPos="4">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="23" yPos="4">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="24" yPos="4">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="25" yPos="4">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="26" yPos="4">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="27" yPos="4">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="28" yPos="4">
 		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="0" yPos="5">
@@ -454,22 +451,22 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="5" yPos="5">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="6" yPos="5">
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="7" yPos="5">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="8" yPos="5">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="9" yPos="5">
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="10" yPos="5">
-		<State>DEAD</State>
+		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="11" yPos="5">
 		<State>DEAD</State>
@@ -481,55 +478,43 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="14" yPos="5">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="15" yPos="5">
 		<State>ALIVE</State>
 	</Cell>
-	<Cell xPos="16" yPos="5">
+	<Cell xPos="15" yPos="5">
 		<State>DEAD</State>
 	</Cell>
+	<Cell xPos="16" yPos="5">
+		<State>ALIVE</State>
+	</Cell>
 	<Cell xPos="17" yPos="5">
-		<State>DEAD</State>
+		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="18" yPos="5">
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="19" yPos="5">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="20" yPos="5">
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="21" yPos="5">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="22" yPos="5">
-		<State>DEAD</State>
+		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="23" yPos="5">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="24" yPos="5">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="25" yPos="5">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="26" yPos="5">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="27" yPos="5">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="28" yPos="5">
-		<State>DEAD</State>
+		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="0" yPos="6">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="1" yPos="6">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="2" yPos="6">
 		<State>DEAD</State>
@@ -541,7 +526,7 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="5" yPos="6">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="6" yPos="6">
 		<State>DEAD</State>
@@ -556,7 +541,7 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="10" yPos="6">
-		<State>DEAD</State>
+		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="11" yPos="6">
 		<State>DEAD</State>
@@ -580,7 +565,7 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="18" yPos="6">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="19" yPos="6">
 		<State>DEAD</State>
@@ -598,19 +583,7 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="24" yPos="6">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="25" yPos="6">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="26" yPos="6">
 		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="27" yPos="6">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="28" yPos="6">
-		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="0" yPos="7">
 		<State>DEAD</State>
@@ -628,10 +601,10 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="5" yPos="7">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="6" yPos="7">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="7" yPos="7">
 		<State>DEAD</State>
@@ -646,7 +619,7 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="11" yPos="7">
-		<State>DEAD</State>
+		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="12" yPos="7">
 		<State>DEAD</State>
@@ -658,45 +631,6 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="15" yPos="7">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="16" yPos="7">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="17" yPos="7">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="18" yPos="7">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="19" yPos="7">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="20" yPos="7">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="21" yPos="7">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="22" yPos="7">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="23" yPos="7">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="24" yPos="7">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="25" yPos="7">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="26" yPos="7">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="27" yPos="7">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="28" yPos="7">
 		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="0" yPos="8">
@@ -721,7 +655,7 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="7" yPos="8">
-		<State>ALIVE</State>
+		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="8" yPos="8">
 		<State>DEAD</State>
@@ -736,789 +670,9 @@
 		<State>DEAD</State>
 	</Cell>
 	<Cell xPos="12" yPos="8">
-		<State>DEAD</State>
+		<State>ALIVE</State>
 	</Cell>
 	<Cell xPos="13" yPos="8">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="14" yPos="8">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="15" yPos="8">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="16" yPos="8">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="17" yPos="8">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="18" yPos="8">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="19" yPos="8">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="20" yPos="8">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="21" yPos="8">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="22" yPos="8">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="23" yPos="8">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="24" yPos="8">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="25" yPos="8">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="26" yPos="8">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="27" yPos="8">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="28" yPos="8">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="0" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="1" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="2" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="3" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="4" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="5" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="6" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="7" yPos="9">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="8" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="9" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="10" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="11" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="12" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="13" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="14" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="15" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="16" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="17" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="18" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="19" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="20" yPos="9">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="21" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="22" yPos="9">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="23" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="24" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="25" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="26" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="27" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="28" yPos="9">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="0" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="1" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="2" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="3" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="4" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="5" yPos="10">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="6" yPos="10">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="7" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="8" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="9" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="10" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="11" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="12" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="13" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="14" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="15" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="16" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="17" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="18" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="19" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="20" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="21" yPos="10">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="22" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="23" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="24" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="25" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="26" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="27" yPos="10">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="28" yPos="10">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="0" yPos="11">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="1" yPos="11">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="2" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="3" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="4" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="5" yPos="11">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="6" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="7" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="8" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="9" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="10" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="11" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="12" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="13" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="14" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="15" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="16" yPos="11">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="17" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="18" yPos="11">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="19" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="20" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="21" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="22" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="23" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="24" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="25" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="26" yPos="11">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="27" yPos="11">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="28" yPos="11">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="0" yPos="12">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="1" yPos="12">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="2" yPos="12">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="3" yPos="12">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="4" yPos="12">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="5" yPos="12">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="6" yPos="12">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="7" yPos="12">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="8" yPos="12">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="9" yPos="12">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="10" yPos="12">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="11" yPos="12">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="12" yPos="12">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="13" yPos="12">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="14" yPos="12">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="15" yPos="12">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="16" yPos="12">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="17" yPos="12">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="18" yPos="12">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="19" yPos="12">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="20" yPos="12">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="21" yPos="12">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="22" yPos="12">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="23" yPos="12">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="24" yPos="12">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="25" yPos="12">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="26" yPos="12">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="27" yPos="12">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="28" yPos="12">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="0" yPos="13">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="1" yPos="13">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="2" yPos="13">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="3" yPos="13">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="4" yPos="13">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="5" yPos="13">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="6" yPos="13">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="7" yPos="13">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="8" yPos="13">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="9" yPos="13">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="10" yPos="13">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="11" yPos="13">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="12" yPos="13">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="13" yPos="13">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="14" yPos="13">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="15" yPos="13">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="16" yPos="13">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="17" yPos="13">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="18" yPos="13">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="19" yPos="13">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="20" yPos="13">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="21" yPos="13">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="22" yPos="13">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="23" yPos="13">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="24" yPos="13">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="25" yPos="13">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="26" yPos="13">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="27" yPos="13">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="28" yPos="13">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="0" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="1" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="2" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="3" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="4" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="5" yPos="14">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="6" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="7" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="8" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="9" yPos="14">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="10" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="11" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="12" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="13" yPos="14">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="14" yPos="14">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="15" yPos="14">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="16" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="17" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="18" yPos="14">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="19" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="20" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="21" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="22" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="23" yPos="14">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="24" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="25" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="26" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="27" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="28" yPos="14">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="0" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="1" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="2" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="3" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="4" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="5" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="6" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="7" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="8" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="9" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="10" yPos="15">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="11" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="12" yPos="15">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="13" yPos="15">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="14" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="15" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="16" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="17" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="18" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="19" yPos="15">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="20" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="21" yPos="15">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="22" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="23" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="24" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="25" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="26" yPos="15">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="27" yPos="15">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="28" yPos="15">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="0" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="1" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="2" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="3" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="4" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="5" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="6" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="7" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="8" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="9" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="10" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="11" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="12" yPos="16">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="13" yPos="16">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="14" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="15" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="16" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="17" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="18" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="19" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="20" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="21" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="22" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="23" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="24" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="25" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="26" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="27" yPos="16">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="28" yPos="16">
-		<State>ALIVE</State>
-	</Cell>
-	<Cell xPos="0" yPos="17">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="1" yPos="17">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="2" yPos="17">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="3" yPos="17">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="4" yPos="17">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="5" yPos="17">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="6" yPos="17">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="7" yPos="17">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="8" yPos="17">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="9" yPos="17">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="10" yPos="17">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="11" yPos="17">
-		<State>DEAD</State>
-	</Cell>
-	<Cell xPos="12" yPos="17">
 		<State>ALIVE</State>
 	</Cell>
 </Simulation>

@@ -2,7 +2,6 @@ package CellSociety.ForagingAnts;
 
 import CellSociety.Abstract_CellState;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -75,21 +74,22 @@ public final class ForagingAnts_CellState extends Abstract_CellState<ForagingAnt
         return 0;
     }
 
-    public class foodPheromoneComparator implements Comparator<ForagingAnts_Cell>{
+    public class foodPheromoneComparator implements Comparator<ForagingAnts_Cell> {
 
         @Override
         public int compare(ForagingAnts_Cell o1, ForagingAnts_Cell o2) {
             // TODO Auto-generated method stub
-            return  (o2.getCurrentState().getFoodPheromone()-o1.getCurrentState().getFoodPheromone());
+            return (o2.getCurrentState().getFoodPheromone() - o1.getCurrentState().getFoodPheromone());
         }
 
     }
-    public class homePheromoneComparator implements Comparator<ForagingAnts_Cell>{
+
+    public class homePheromoneComparator implements Comparator<ForagingAnts_Cell> {
 
         @Override
         public int compare(ForagingAnts_Cell o1, ForagingAnts_Cell o2) {
             // TODO Auto-generated method stub
-            return  (o2.getCurrentState().getHomePheromone()-o1.getCurrentState().getHomePheromone());
+            return (o2.getCurrentState().getHomePheromone() - o1.getCurrentState().getHomePheromone());
         }
 
     }
@@ -133,5 +133,4 @@ public final class ForagingAnts_CellState extends Abstract_CellState<ForagingAnt
     public void setFoodPheromoneToMax() {
         foodPheromone = maxFoodPheromone;
     }
-	
 }

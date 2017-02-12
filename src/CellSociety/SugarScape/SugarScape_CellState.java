@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 
-public final class SugarScape_CellState extends Abstract_CellState<SugarScape_CellState.SugarScapeState> {
+public final class SugarScape_CellState extends Abstract_CellState<SugarScape_CellState,SugarScape_CellState.SugarScapeState> {
 	private int growBackTicks=1;
 	private int sugarGrowBackUnits=1;
 	private int maxCapacity;
@@ -30,13 +30,13 @@ public final class SugarScape_CellState extends Abstract_CellState<SugarScape_Ce
 	}
 
 	@Override
-	public int compareTo(Abstract_CellState<SugarScapeState> state) {
+	public int compareTo(SugarScape_CellState state) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public Paint getFill() {
+	public Color getFill() {
 		if(sugar < sugarFillCutoff) return Color.WHITE;
 		if(sugar < 2*sugarFillCutoff) return Color.LIGHTPINK;
 		if(sugar < 3*sugarFillCutoff) return Color.ORANGE;
@@ -45,10 +45,16 @@ public final class SugarScape_CellState extends Abstract_CellState<SugarScape_Ce
 	}
 
 	@Override
-	public Abstract_CellState<SugarScapeState> getSuccessorState() {
+	public SugarScape_CellState getSuccessorState() {
 		// TODO Auto-generated method stub
 		return new SugarScape_CellState(getState(),sugar);
 	}
+
+	@Override
+	public SugarScape_CellState getInactiveState() {
+		return null;
+	}
+
 	public void removeAgent(Agent a){
 		myAgents.remove(a);
 	}
@@ -61,6 +67,4 @@ public final class SugarScape_CellState extends Abstract_CellState<SugarScape_Ce
 	public void removeSugar(){
 		sugar=0;
 	}
-	
-
 }

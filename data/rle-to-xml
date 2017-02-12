@@ -18,8 +18,10 @@ local $/;
 open(INPUT, "< $fileName");
 open(OUTPUT, "> $simulationType.FromRLE.xml");
 
+my $gridOutline="blueviolet";
+
 print OUTPUT '<?xml version="1.0" encoding="UTF-8" ?>';
-print OUTPUT "\n<Simulation type=\"$simulationType\" shape=\"$shape\" width=\"$xSize\" height=\"$ySize\" fps=\"$fps\" bounds=\"$boundsType\">\n";
+print OUTPUT "\n<Simulation type=\"$simulationType\" shape=\"$shape\" width=\"$xSize\" height=\"$ySize\" fps=\"$fps\" bounds=\"$boundsType\" outlines=\"$gridOutline\">\n";
 
 initGrid($state[0], "");
 

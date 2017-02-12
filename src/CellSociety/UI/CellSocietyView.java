@@ -14,6 +14,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -217,7 +218,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
             zoomOut.setOnAction(e -> zoomOut());
             MenuItem colorShift = new MenuItem(myResources.getString("Set_Color"));
             colorShift.setOnAction(e -> setHueShift());
-            return new Menu(myResources.getString("View"), null, zoomAuto, zoomIn, zoomOut,colorShift);
+            return new Menu(myResources.getString("View"), null, zoomAuto, zoomIn, zoomOut, colorShift);
         }
 
         private void exit() {
@@ -237,12 +238,18 @@ public class CellSocietyView<T extends Abstract_CellView> {
             zoom = 1;
         }
 
-        private void setHueShift(){
-            TextInputDialog dbox = new TextInputDialog();
+        private void setHueShift() {
+            Dialog<Integer> dbox = new Dialog<>();
             dbox.setHeaderText(myResources.getString("Set_Color"));
             dbox.setContentText(myResources.getString("Set_Color_Content"));
-            int shift = Integer.parseInt(dbox.showAndWait().orElse(0 + ""));
-            cellViews.forEach(e->e.setHueShift(shift));
+            Slider hueSlider = new Slider(0, 255, 0);
+            dbox.setGraphic(hueSlider);
+            dbox.showAndWait();
+//            dbox.setOnCloseRequest(e -> {
+//                double shift = hueSlider.getValue();
+//                cellViews.forEach(f -> f.setHueShift(shift));
+//                dbox.close();
+//            });
         }
 
         private boolean pause() {
