@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 
-import CellSociety.AbstractDiscrete_CellState;
 import CellSociety.Abstract_CellState;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-public class ForagingAnts_CellState extends Abstract_CellState<ForagingAnts_CellState.ForagingAntsState> {
+public final class ForagingAnts_CellState extends Abstract_CellState<ForagingAnts_CellState.ForagingAntsState> {
 	
 	private int ants;
 	private int foodPheromone;
@@ -82,10 +81,10 @@ public class ForagingAnts_CellState extends Abstract_CellState<ForagingAnts_Cell
 		
 	}
 	public int compareFoodTo(ForagingAnts_CellState state){
-		return (int) (state.getFoodPheromone() -foodPheromone);
+		return (state.getFoodPheromone() -foodPheromone);
 	}
 	public int compareHomeTo(ForagingAnts_CellState state){
-		return (int) (state.getHomePheromone() -homePheromone);
+		return (state.getHomePheromone() -homePheromone);
 	}
 	public void removeAnt(Ant a){
 		myAnts.remove(a);
