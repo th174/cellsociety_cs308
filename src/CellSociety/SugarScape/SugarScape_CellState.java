@@ -1,5 +1,6 @@
 package CellSociety.SugarScape;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -12,6 +13,7 @@ public final class SugarScape_CellState extends Abstract_CellState<SugarScape_Ce
 	private int growBackTicks=1;
 	private int sugarGrowBackUnits=1;
 	private int maxCapacity;
+	private int ticks;
 	private int sugar;
 	private double sugarFillCutoff=maxCapacity/5.0;
 	private List<Agent> myAgents;
@@ -21,12 +23,14 @@ public final class SugarScape_CellState extends Abstract_CellState<SugarScape_Ce
 	}
 
 	public SugarScape_CellState(SugarScapeState state) {
-		super(state);
-		sugar=20;
+		this(state,0,0,null);
 	}
-	public SugarScape_CellState(SugarScapeState state, int startingSugar) {
+	public SugarScape_CellState(SugarScapeState state, int startingSugar, int life, List<Agent> nextAgents) {
 		super(state);
 		sugar=startingSugar;
+		ticks=life;
+		maxCapacity=20;
+		myAgents = nextAgents==null? new ArrayList<Agent>() : nextAgents;
 	}
 
 	@Override
@@ -46,13 +50,19 @@ public final class SugarScape_CellState extends Abstract_CellState<SugarScape_Ce
 
 	@Override
 	public SugarScape_CellState getSuccessorState() {
-		// TODO Auto-generated method stub
-		return new SugarScape_CellState(getState(),sugar);
+		return new SugarScape_CellState(getState(),sugar,ticks,myAgents);
 	}
 
 	@Override
 	public SugarScape_CellState getInactiveState() {
 		return null;
+	}
+	public void growSugar(){
+		ticks++;
+		if(ticks==growBackTicks){
+			ticks=0;
+			sugar = Math.min(sugar+sugarGrowBackUnits, maxCapacity);
+		}
 	}
 
 	public void removeAgent(Agent a){

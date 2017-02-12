@@ -2,6 +2,9 @@ package CellSociety.Grids;
 
 import CellSociety.Abstract_Cell;
 import CellSociety.Abstract_CellState;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.util.Pair;
 
 import java.lang.reflect.Array;
@@ -170,6 +173,25 @@ public class SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstract_Ce
         shapeMode = shape;
         return this;
     }
+    public ObservableMap<String, Double> getCellConcentrations(){
+    	Map<String,Double> cellMap = new HashMap<String,Double>();
+    	ObservableMap<String,Double> cellConcentrations = FXCollections.observableMap(cellMap);
+    	double totalCells = columns*rows;
+ 
+    	for(int i=0;i<rows;i++){
+    		for(int j=0;j<columns;j++){
+    			String aState = get(i,j).getCurrentState().toString();
+    			if(!cellConcentrations.containsKey(aState)){
+    				cellConcentrations.put(aState, 0.0);
+    			}
+    			cellConcentrations.put(aState, (cellConcentrations.get(aState)*totalCells+1.0)/totalCells);
+    		}
+    	}
+    	//forEach(Abstract_Cell a,stateCount::updateMapCount);
+    	
+    	return cellConcentrations;
+    }
+
 
     @Override
     public Iterator<E> iterator() {
