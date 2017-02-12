@@ -98,6 +98,14 @@ public class SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstract_Ce
         return (int) parallelStream().filter(e -> e.getCurrentState().equals(state)).count();
     }
 
+    public int getCurrentIndex(){
+        return stream().findAny().get().getCurrentIndex();
+    }
+
+    public int getMaxIndex(){
+        return stream().findAny().get().getMaxIndex();
+    }
+
     /**
      * Get the cell at coordinates x, y on grid
      *
