@@ -29,6 +29,8 @@ public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstrac
 
     Stream<E> stream();
 
+    Stream<E> parallelStream();
+
     void forEach(Consumer<? super E> method);
 
     int getColumns();
