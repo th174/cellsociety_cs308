@@ -41,23 +41,23 @@ public class SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstract_Ce
         }
     }
 
-    public SimulationGrid(String[][][] paramsArray, Class<E> type) throws Exception {
+    public SimulationGrid(String[][][] paramsArray, Class<E> type) throws CellInstantiationException {
         this(paramsArray, type, null, null);
         setShapeType(new SquaresGrid());
         setBoundsType(new FiniteBounds());
     }
 
-    public SimulationGrid(String[][][] paramsArray, Class<E> type, NeighborsGetter<SimulationGrid<E, T>> shape) throws Exception {
+    public SimulationGrid(String[][][] paramsArray, Class<E> type, NeighborsGetter<SimulationGrid<E, T>> shape) throws CellInstantiationException {
         this(paramsArray, type, null, shape);
         setShapeType(new SquaresGrid());
     }
 
-    public SimulationGrid(String[][][] paramsArray, Class<E> type, BoundsHandler<SimulationGrid<E, T>> bounds) throws Exception {
+    public SimulationGrid(String[][][] paramsArray, Class<E> type, BoundsHandler<SimulationGrid<E, T>> bounds) throws CellInstantiationException {
         this(paramsArray, type, bounds, null);
         setBoundsType(new FiniteBounds());
     }
 
-    public SimulationGrid(String[][][] paramsArray, Class<E> type, BoundsHandler<SimulationGrid<E, T>> bounds, NeighborsGetter<SimulationGrid<E, T>> shape) throws Exception {
+    public SimulationGrid(String[][][] paramsArray, Class<E> type, BoundsHandler<SimulationGrid<E, T>> bounds, NeighborsGetter<SimulationGrid<E, T>> shape) throws CellInstantiationException {
         cellType = type;
         boundsMode = bounds;
         shapeMode = shape;
@@ -95,11 +95,11 @@ public class SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstract_Ce
         return (int) parallelStream().filter(e -> e.getCurrentState().equals(state)).count();
     }
 
-    public int getCurrentIndex(){
+    public int getCurrentIndex() {
         return stream().findAny().get().getCurrentIndex();
     }
 
-    public int getMaxIndex(){
+    public int getMaxIndex() {
         return stream().findAny().get().getMaxIndex();
     }
 
@@ -176,8 +176,18 @@ public class SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstract_Ce
         return stream().iterator();
     }
 
-    private void instantiateCell(int x, int y, Object cellStateInitializer) throws Exception {
-        set(x, y, cellType.getConstructor(int.class, int.class, cellStateInitializer.getClass()).newInstance(x, y, cellStateInitializer));
+    private void instantiateCell(int x, int y, Object cellStateInitializer) throws CellInstantiationException {
+        try {
+            set(x, y, cellType.getConstructor(int.class, int.class, cellStateInitializer.getClass()).newInstance(x, y, cellStateInitializer));
+        } catch (Exception e){
+            throw new CellInstantiationException(x,y,cellType,cellStateInitializer);
+        }
+    }
+
+    public static class CellInstantiationException extends Exception {
+        public CellInstantiationException(int x, int y, Class<? extends Abstract_Cell> cellType, Object initializer) {
+            super("Instantiation of " + cellType.getName() + "at location (x,y) = (" + x + "," + y + ") failed, using initializer:\t" + initializer);
+        }
     }
 
     public final class FiniteBounds implements BoundsHandler<SimulationGrid<E, T>> {
