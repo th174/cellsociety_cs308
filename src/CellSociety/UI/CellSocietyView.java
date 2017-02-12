@@ -8,11 +8,17 @@ import CellSociety.Grids.SimulationGrid;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.*;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Menu;
@@ -29,6 +35,8 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
+import javafx.util.Pair;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -63,6 +71,8 @@ public class CellSocietyView<T extends Abstract_CellView> {
     private double windowHeight;
     private InputDataGetter myInputData;
     private double zoom;
+    private LineChart myChart;
+    private Collection<Series<Integer,Double>> mySeries;
 
     public CellSocietyView(double width, double height) {
         this(width, height, null);
@@ -94,6 +104,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
     private void update() {
         mySimulationGrid.update();
         cellViews.forEach(e -> e.updateView(mySimulationGrid.getColumns() * zoom, mySimulationGrid.getRows() * zoom, windowWidth, windowHeight));
+        updateChart();
     }
 
     private Node openNewFile() {
@@ -127,6 +138,8 @@ public class CellSocietyView<T extends Abstract_CellView> {
         Group simulationGroup = new Group();
         simulationGroup.getChildren().addAll(cellViews.stream().map(T::getView).collect(Collectors.toSet()));
         simulationPane.setContent(simulationGroup);
+        createChart();
+        //simulationGroup.getChildren().add(myChart);
         return simulationPane;
     }
 
@@ -137,6 +150,43 @@ public class CellSocietyView<T extends Abstract_CellView> {
             e1.printStackTrace();
             return null;
         }
+    }
+    private void createChart(){
+
+    	final NumberAxis xAxis = new NumberAxis();
+    	final NumberAxis yAxis = new NumberAxis();
+    	xAxis.setAutoRanging(true);
+    	xAxis.setLabel("Time");
+    	yAxis.setLabel("Concentration of Cells");
+    	ObservableMap<String, Double> cellConcentrations = mySimulationGrid.getCellConcentrations();
+    	LineChart<Integer,Double> cellData = new LineChart(xAxis, yAxis);
+    	cellData.setAnimated(true);
+    	
+    	mySeries = new ArrayList<Series<Integer,Double>>();
+    	System.out.println(cellConcentrations.keySet());
+    	for(String state: cellConcentrations.keySet()){
+    		
+    		XYChart.Series<Integer, Double> series = new XYChart.Series<>();
+    		series.setName(state);	
+    		cellData.getData().add(series);
+    		mySeries.add(series);
+    	}
+
+    	myChart =cellData;
+    }
+    private void updateChart(){
+    	ObservableMap<String, Double> cellConcentrations = mySimulationGrid.getCellConcentrations();
+    	for(String state: cellConcentrations.keySet()){
+    		for(Series series:mySeries){
+    			if(state.equals(series.getName())){//found a match
+    				series.getData().add(new XYChart.Data<Integer,Double>(myAnimation.getKeyFrames().size(), 
+    						cellConcentrations.get(state)));
+    				//System.out.println("new x val  for state "+ state + " " +myAnimation.getKeyFrames().size());
+    				//System.out.println("new y val for state "+ state + " " + cellConcentrations.get(state));
+    			}
+    		}
+    		
+    	}
     }
 
     private class CellSocietyMenu {
@@ -151,9 +201,10 @@ public class CellSocietyView<T extends Abstract_CellView> {
             myMenu.setUseSystemMenuBar(SYSTEM_MENU_BAR);
         }
 
-        public MenuBar getMenuBar() {
+        public MenuBar getMenuBar() { 
             return myMenu;
         }
+        
 
         private Menu initFileMenu() {
             MenuItem open = new MenuItem(myResources.getString("Open..."));

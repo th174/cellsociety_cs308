@@ -2,6 +2,7 @@ package CellSociety;
 
 import CellSociety.Grids.SimulationGrid;
 
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -89,6 +90,7 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
     public T getNextState() {
         return myTimeline.getNextState();
     }
+
 
     public T getInactiveState() {
         return getCurrentState().getInactiveState();
