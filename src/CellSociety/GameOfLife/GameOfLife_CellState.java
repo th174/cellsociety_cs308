@@ -14,6 +14,10 @@ public final class GameOfLife_CellState extends AbstractDiscrete_CellState<GameO
         super(state);
     }
 
+    public GameOfLife_CellState(GameOfLife_CellState state) {
+        this(state.getState());
+    }
+
     public GameOfLife_CellState(String... params) {
         super(params[0].toLowerCase().equals("rand") ? randomState(GameOfLifeState.class) : GameOfLifeState.valueOf(params[0].toUpperCase()));
     }
@@ -25,7 +29,7 @@ public final class GameOfLife_CellState extends AbstractDiscrete_CellState<GameO
 
     @Override
     public GameOfLife_CellState getSuccessorState() {
-        return new GameOfLife_CellState(getState());
+        return new GameOfLife_CellState(this);
     }
 
     @Override

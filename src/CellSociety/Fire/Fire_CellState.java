@@ -2,7 +2,6 @@ package CellSociety.Fire;
 
 import CellSociety.AbstractDiscrete_CellState;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 /**
  * Created by th174 on 1/29/2017.
@@ -14,8 +13,14 @@ public final class Fire_CellState extends AbstractDiscrete_CellState<Fire_CellSt
     public static final Fire_CellState TREE = new Fire_CellState(FireState.TREE, DEFAULT_FLAMMABILITY);
     private double flammability;
 
-    private Fire_CellState(FireState state, double flammability) {
+
+    private Fire_CellState(FireState state, double probCatch) {
         super(state);
+        flammability = probCatch;
+    }
+
+    public Fire_CellState(Fire_CellState fireState, double probCatch) {
+        this(fireState.getState(), probCatch);
     }
 
     public Fire_CellState(String... params) {
@@ -24,7 +29,7 @@ public final class Fire_CellState extends AbstractDiscrete_CellState<Fire_CellSt
     }
 
     public double getFlammability() {
-        return getState().equals(FireState.TREE) ? flammability : 0;
+        return equals(TREE) ? flammability : 0;
     }
 
     @Override
@@ -34,17 +39,17 @@ public final class Fire_CellState extends AbstractDiscrete_CellState<Fire_CellSt
 
     @Override
     public Fire_CellState getSuccessorState() {
-        return new Fire_CellState(getState(), flammability);
+        return new Fire_CellState(this, flammability);
     }
 
     @Override
     public Fire_CellState getInactiveState() {
-        return new Fire_CellState(FireState.EMPTY, flammability);
+        return new Fire_CellState(EMPTY, flammability);
     }
 
     @Override
     public String toString() {
-        return super.toString()+String.format("\n\t\t<Flammability>%f</Flammability",flammability);
+        return super.toString() + String.format("\n\t\t<Flammability>%f</Flammability", flammability);
     }
 
     enum FireState {

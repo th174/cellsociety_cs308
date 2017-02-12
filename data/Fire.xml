@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Simulation type="Fire" width="102" height="102" fps="5" shape="Triangle" neighbors_mode="Adjacent">
+<Simulation type="Fire" width="50" height="50" fps="5" shape="Triangle" outlines="black" neighbors="Adjacent">
 	<Cell>
 		<State>TREE</State>
-		<ProbCatch>.55</ProbCatch>
+		<Flammability>.55</Flammability>
 	</Cell>
-	<Cell yPos="50">
+	<Cell yPos="25">
 		<State>BURNING</State>
-		<ProbCatch>.55</ProbCatch>
+		<Flammability>.55</Flammability>
 	</Cell>
 </Simulation>

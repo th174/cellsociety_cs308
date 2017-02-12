@@ -24,11 +24,11 @@ public class GameOfLife_Cell extends Abstract_Cell<GameOfLife_Cell, GameOfLife_C
                 .filter(e -> e.getCurrentState().equals(GameOfLife_CellState.ALIVE))
                 .count();
         if (numAlive < TWO && getCurrentState().equals(GameOfLife_CellState.ALIVE)) {
-            setNextState(GameOfLife_CellState.DEAD);
+            setNextState(new GameOfLife_CellState(GameOfLife_CellState.DEAD));
         } else if (numAlive > THREE && getCurrentState().equals(GameOfLife_CellState.ALIVE)) {
-            setNextState(GameOfLife_CellState.DEAD);
+            setNextState(new GameOfLife_CellState(GameOfLife_CellState.DEAD));
         } else if (numAlive == THREE && getCurrentState().equals(GameOfLife_CellState.DEAD)) {
-            setNextState(GameOfLife_CellState.ALIVE);
+            setNextState(new GameOfLife_CellState(GameOfLife_CellState.ALIVE));
         }
     }
 }

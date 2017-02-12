@@ -18,9 +18,9 @@ public class Fire_Cell extends Abstract_Cell<Fire_Cell, Fire_CellState> {
     @Override
     public void interact() {
         if (getNeighbors().parallelStream().anyMatch(e -> e.getCurrentState().equals(Fire_CellState.BURNING)) && Math.random() < getCurrentState().getFlammability()) {
-            setNextState(Fire_CellState.BURNING);
+            setNextState(new Fire_CellState(Fire_CellState.BURNING, getCurrentState().getFlammability()));
         } else if (getCurrentState().equals(Fire_CellState.BURNING)) {
-            setNextState(Fire_CellState.EMPTY);
+            setNextState(new Fire_CellState(Fire_CellState.EMPTY, getCurrentState().getFlammability()));
         }
     }
 }

@@ -49,17 +49,4 @@ public abstract class AbstractRegularPolygon_CellView<E extends Abstract_Cell> e
     public Polygon getView() {
         return (Polygon) super.getView();
     }
-
-    /**
-     * Created by th174 on 2/7/2017.
-     */
-
-
-    /**
-     * Created by th174 on 2/4/2017.
-     */
-
-    /**
-     * Created by th174 on 2/8/2017.
-     */
 }

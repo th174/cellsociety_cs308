@@ -30,6 +30,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -60,6 +61,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
     public static final double ANIMATION_FRAMERATE = 60;
     public static final String RESOURCES_LOCATION = "resources/Strings";
     public static final double ZOOM_STEP = 11.0 / 10;
+    public static final double DEFAULT_SIZE = 900;
     private static final ResourceBundle myResources = ResourceBundle.getBundle(RESOURCES_LOCATION);
     private Timeline myAnimation;
     private Scene myScene;
@@ -71,6 +73,10 @@ public class CellSocietyView<T extends Abstract_CellView> {
     private double zoom;
     private LineChart myChart;
     private Collection<Series<Integer, Double>> mySeries;
+
+    public CellSocietyView() {
+        this(DEFAULT_SIZE, DEFAULT_SIZE);
+    }
 
     public CellSocietyView(double width, double height) {
         this(width, height, null);
@@ -210,8 +216,10 @@ public class CellSocietyView<T extends Abstract_CellView> {
             return myMenu;
         }
 
-
         private Menu initFileMenu() {
+            MenuItem newWindow = new MenuItem(myResources.getString("New..."));
+            newWindow.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.SHORTCUT_DOWN));
+            newWindow.setOnAction(e -> newSimulation());
             MenuItem open = new MenuItem(myResources.getString("Open..."));
             open.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.SHORTCUT_DOWN));
             open.setOnAction(e -> ((BorderPane) myScene.getRoot()).setBottom(openNewFile()));
@@ -224,7 +232,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
             MenuItem exit = new MenuItem(myResources.getString("Exit"));
             exit.setAccelerator(new KeyCodeCombination(KeyCode.ESCAPE, KeyCombination.SHORTCUT_DOWN));
             exit.setOnAction(s -> exit());
-            return new Menu(myResources.getString("File"), null, open, saveAs, exportPNG, exit);
+            return new Menu(myResources.getString("File"), null, newWindow, open, saveAs, exportPNG, exit);
         }
 
         private Menu initSimulationMenu() {
@@ -278,6 +286,16 @@ public class CellSocietyView<T extends Abstract_CellView> {
             MenuItem colorShift = new MenuItem(myResources.getString("Set_Color"));
             colorShift.setOnAction(e -> setHueShift());
             return new Menu(myResources.getString("View"), null, zoomAuto, zoomIn, zoomOut, colorShift);
+        }
+
+        private void newSimulation() {
+            Stage newStage = new Stage();
+            CellSocietyView newUI = new CellSocietyView();
+            newStage.setResizable(false);
+            newStage.setScene(newUI.getScene());
+            newStage.sizeToScene();
+            newStage.setTitle(newUI.getTitle());
+            newStage.show();
         }
 
         private void exit() {
@@ -490,7 +508,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
                     simulationType = root.hasAttribute("type") ? root.getAttribute("type") : "GameOfLife";
                     cellShape = root.hasAttribute("shape") ? root.getAttribute("shape") : "Square";
                     boundsType = root.hasAttribute("bounds") ? root.getAttribute("bounds") : "Finite";
-                    neighborMode = root.hasAttribute("neighbors_mode") ? root.getAttribute("neighbors_mode") : "";
+                    neighborMode = root.hasAttribute("neighbors") ? root.getAttribute("neighbors") : "";
                     gridOutlineStyle = root.hasAttribute("outlines") ? root.getAttribute("outlines") : "";
                     try {
                         cellType = (Class<? extends Abstract_Cell>) Class.forName("CellSociety." + simulationType + "." + simulationType + "_Cell");
@@ -529,10 +547,10 @@ public class CellSocietyView<T extends Abstract_CellView> {
                                 try {
                                     BoundsHandler gridBounds = (BoundsHandler) Class.forName("CellSociety.Grids.SimulationGridImpl$" + boundsType + "Bounds").getConstructor(SimulationGridImpl.class).newInstance(simulationGrid);
                                     simulationGrid.setShapeType(gridShape).setBoundsType(gridBounds);
-                                } catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
+                                } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
                                     throw new Exception(myResources.getString("BoundsTypeException") + boundsType);
                                 }
-                            } catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
+                            } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
                                 e.printStackTrace();
                                 throw new Exception(myResources.getString("ShapeException") + neighborMode + cellShape);
                             }

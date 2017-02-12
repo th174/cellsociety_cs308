@@ -7,7 +7,6 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class CellSocietyMain extends Application {
-    public static final double SIZE = 900;
 
     public static void main(String[] args) {
         launch(args);
@@ -15,7 +14,7 @@ public class CellSocietyMain extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        CellSocietyView myUI = new CellSocietyView(SIZE, SIZE);
+        CellSocietyView myUI = new CellSocietyView();
         primaryStage.setResizable(false);
         primaryStage.setScene(myUI.getScene());
         primaryStage.sizeToScene();
