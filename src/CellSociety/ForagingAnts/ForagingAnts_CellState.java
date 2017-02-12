@@ -2,7 +2,6 @@ package CellSociety.ForagingAnts;
 
 import CellSociety.AbstractDiscrete_CellState;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,14 +30,28 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
         homePheromone = 0;
     }
 
+    public ForagingAnts_CellState(String... params) {
+        super(params[0].toLowerCase().equals("rand") ? randomState(ForagingAntsState.class) : ForagingAntsState.valueOf(params[0].toUpperCase()));
+        maxCapacity = params.length > 1 ? Integer.parseInt(params[1]) : 10;
+        maxFoodPheromone = params.length > 2 ? Integer.parseInt(params[2]) : 100;
+        maxHomePheromone = params.length > 3 ? Integer.parseInt(params[3]) : 100;
+        pheromoneConstant = params.length > 4 ? Integer.parseInt(params[4]) : 10;
+    }
+
     @Override
-    public Paint getFill() {
-        return getState().equals(ForagingAntsState.EMPTY) ? Color.BLUE : getState().equals(ForagingAntsState.SOURCE) ?
-                Color.DARKGRAY : getState().equals(ForagingAntsState.OBSTACLE) ? Color.WHITESMOKE : Color.DARKOLIVEGREEN;
+    public Color getFill() {
+        return getState().equals(ForagingAntsState.EMPTY) ? Color.BLUE :
+                getState().equals(ForagingAntsState.SOURCE) ? Color.DARKGRAY :
+                        getState().equals(ForagingAntsState.OBSTACLE) ? Color.WHITESMOKE :
+                                Color.DARKOLIVEGREEN;
     }
 
     public Collection<Ant> getAnts() {
         return myAnts;
+    }
+
+    public int getNumberOfAgents() {
+        return myAnts.size();
     }
 
     public void addAnt(Ant a) {
@@ -57,8 +70,7 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
 
     @Override
     public ForagingAnts_CellState getInactiveState() {
-        //TODO: Auto-generated method stub
-        return null;
+        return new ForagingAnts_CellState(ForagingAntsState.EMPTY);
     }
 
     public int getFoodPheromone() {
@@ -69,18 +81,12 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
         return homePheromone;
     }
 
-    @Override
-    public int compareTo(ForagingAnts_CellState state) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
     public int compareFoodTo(ForagingAnts_CellState state) {
-        return (int) (state.getFoodPheromone() - foodPheromone);
+        return state.getFoodPheromone() - foodPheromone;
     }
 
     public int compareHomeTo(ForagingAnts_CellState state) {
-        return (int) (state.getHomePheromone() - homePheromone);
+        return state.getHomePheromone() - homePheromone;
     }
 
     public void removeAnt(Ant a) {

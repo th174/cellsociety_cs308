@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-
 public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, ForagingAnts_CellState> {
 
     protected ForagingAnts_Cell(int x, int y, ForagingAnts_CellState state) {
@@ -22,20 +21,24 @@ public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, Foraging
     public void interact() {
         if (!getCurrentState().equals(ForagingAnts_CellState.OBSTACLE)) {
             Collection<ForagingAnts_Cell> neighbors = getNeighbors().stream().collect(Collectors.toSet());
-            for (Ant a : getCurrentState().getAnts()) {
-                if (a.hasFood()) returnToNest(neighbors, a);
-                else findFoodSource(neighbors, a);
-            }
+            getCurrentState().getAnts().forEach(a -> behaveTowards(neighbors, a));
         }
+    }
 
+    private void behaveTowards(Collection<ForagingAnts_Cell> neighbors, Ant a) {
+        if (a.hasFood()) {
+            returnToNest(neighbors, a);
+        } else {
+            findFoodSource(neighbors, a);
+        }
     }
 
     private void returnToNest(Collection<ForagingAnts_Cell> neighbors, Ant a) {
         //TODO: look at top 3
 
-        List<ForagingAnts_Cell> possibleNeighbors = neighbors.stream().filter(e ->
-                e.getCurrentState().canMoveToCell()).sorted((c, d) ->
-                c.getCurrentState().compareHomeTo(d.getCurrentState())).collect(Collectors.toList());//might want to refactor out
+        List<ForagingAnts_Cell> possibleNeighbors = neighbors.stream().filter(e -> e.getCurrentState().canMoveToCell())
+                .sorted((c, d) -> c.getCurrentState().compareHomeTo(d.getCurrentState()))
+                .collect(Collectors.toList());//might want to refactor out
         if (!possibleNeighbors.isEmpty()) {
             dropFoodPheromones(neighbors);
             //TODO: set orientation
@@ -52,9 +55,9 @@ public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, Foraging
         // TODO: find top 3 if any are options
 
         //now look at all neighbors sorted by being able to go to them and by their # of pheromones
-        List<ForagingAnts_Cell> possibleNeighbors = neighbors.stream().filter(e ->
-                e.getCurrentState().canMoveToCell()).sorted((c, d) ->
-                c.getCurrentState().compareFoodTo(d.getCurrentState())).collect(Collectors.toList());//might want to refactor out
+        List<ForagingAnts_Cell> possibleNeighbors = neighbors.stream().filter(e -> e.getCurrentState().canMoveToCell())
+                .sorted((c, d) -> c.getCurrentState().compareFoodTo(d.getCurrentState()))
+                .collect(Collectors.toList());//might want to refactor out
         if (!possibleNeighbors.isEmpty()) {
             dropHomePheromones(neighbors);
             //TODO: set oriention
@@ -67,9 +70,9 @@ public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, Foraging
     }
 
     private void dropHomePheromones(Collection<ForagingAnts_Cell> neighbors) {
-        if (getCurrentState().equals(ForagingAnts_CellState.SOURCE)) getCurrentState().setHomePheromoneToMax();
-
-        else if (getCurrentState().canDropHomePheromone()) {
+        if (getCurrentState().equals(ForagingAnts_CellState.SOURCE)) {
+            getCurrentState().setHomePheromoneToMax();
+        } else if (getCurrentState().canDropHomePheromone()) {
             int max = neighbors.stream().mapToInt(e -> e.getCurrentState().getHomePheromone()).sum();
             int desired = max - getCurrentState().getPheromoneConstant();
             int d = desired - getCurrentState().getHomePheromone();
@@ -78,11 +81,9 @@ public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, Foraging
     }
 
     private void dropFoodPheromones(Collection<ForagingAnts_Cell> neighbors) {
-        if (getCurrentState().equals(ForagingAnts_CellState.SOURCE)) getCurrentState().setFoodPheromoneToMax();
-        else if (getCurrentState().canDropFoodPheromone()) {
-
+        if (getCurrentState().equals(ForagingAnts_CellState.SOURCE)) {
+            getCurrentState().setFoodPheromoneToMax();
+        } else if (getCurrentState().canDropFoodPheromone()) {
         }
-
     }
-
 }
