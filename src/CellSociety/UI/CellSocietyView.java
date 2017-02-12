@@ -37,7 +37,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
-import javafx.util.Pair;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
