@@ -28,7 +28,6 @@ public class Turtle {
 	public boolean moveToCell(SimulationGrid<SlimeMold_Cell, SlimeMold_CellState> neighborsGrid){
 		int leftMostAngle = currentDirection +sniffAngle - wiggleBias;
 		int rightMostAngle = currentDirection-sniffAngle-wiggleBias;
-		//scan the grid
 		//can only move to wherever there isn't already a turtle
 		
 		

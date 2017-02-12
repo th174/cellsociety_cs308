@@ -15,15 +15,14 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
 	
 
 	public enum SlimeMoldState {
-		EMPTY, TURTLE, 
+		EMPTY, TURTLE
 	}
 
 	public SlimeMold_CellState(SlimeMoldState state) {
-		this(state,null);
+		this(state,null,1.0,0.9,0.1);
 	}
 	public SlimeMold_CellState(SlimeMoldState state, Turtle turt) {
-		super(state);
-		myTurtle = turt;
+		this(state,turt,1.0,0.9,0.1);
 	}
 	public SlimeMold_CellState(SlimeMoldState state, Turtle turt, double chem, double evaporation, double diffusion) {
 		super(state);
@@ -32,18 +31,26 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
 		evaporationRate=evaporation;
 		diffusionRate=diffusion;
 		nextTurtle=null;
+		nextChemical=chemical;
+	}
+	public SlimeMold_CellState(SlimeMoldState state, String... params){
+		super(params[0].toLowerCase().equals("rand") ? randomState(SlimeMoldState.class) : 
+			SlimeMoldState.valueOf(params[0].toUpperCase()));
+		if(params.length>0){
+			myTurtle = new Turtle();
+		}
 	}
 
 	@Override
 	public Color getFill() {
-		//color according to amount of chemical or trutle
 		return chemical>3*threshold? Color.WHITE: chemical>2*threshold ? Color.GREENYELLOW:
 				chemical>threshold? Color.GREEN: Color.BLACK;
 	}
 
 	@Override
 	public SlimeMold_CellState getSuccessorState() {
-		return new SlimeMold_CellState(SlimeMoldState.TURTLE,nextTurtle,nextChemical,evaporationRate,diffusionRate);
+		SlimeMoldState nextState= nextTurtle==null? SlimeMoldState.EMPTY : SlimeMoldState.TURTLE;
+		return new SlimeMold_CellState(nextState,nextTurtle,nextChemical,evaporationRate,diffusionRate);
 	}
 
 	@Override
