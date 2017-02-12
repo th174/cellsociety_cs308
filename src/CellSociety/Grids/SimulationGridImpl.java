@@ -280,6 +280,18 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         }
     }
 
+    public final class CornersSquaresGrid implements NeighborsGetter<SimulationGrid<E, T>> {
+        @Override
+        public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
+            E[][] neighbors = grid.getNearbyCellsAsArray(x, y, 1, 1);
+            neighbors[CENTER][TOP] = null;
+            neighbors[CENTER][BOTTOM] = null;
+            neighbors[RIGHT][CENTER] = null;
+            neighbors[LEFT][CENTER] = null;
+            return new SimulationGridImpl<>(neighbors);
+        }
+    }
+
     public final class HexagonsGrid implements NeighborsGetter<SimulationGrid<E, T>> {
         @Override
         public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
@@ -329,6 +341,21 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
                 neighbors[RIGHT][CENTER] = null;
             } else {
                 neighbors[LEFT][CENTER] = null;
+            }
+            return new SimulationGridImpl<>(neighbors);
+        }
+    }
+
+    public final class CornersTrianglesGrid implements NeighborsGetter<SimulationGrid<E, T>> {
+        @Override
+        public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
+            E[][] neighbors = getNearbyCellsAsArray(x, y, 1, 2);
+            neighbors[CENTER][1] = null;
+            neighbors[CENTER][3] = null;
+            if ((x + y) % 2 == 0) {
+                neighbors[LEFT][2] = null;
+            } else {
+                neighbors[RIGHT][2] = null;
             }
             return new SimulationGridImpl<>(neighbors);
         }
