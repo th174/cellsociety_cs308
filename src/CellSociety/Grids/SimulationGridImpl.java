@@ -7,10 +7,7 @@ import javafx.collections.ObservableMap;
 import javafx.util.Pair;
 
 import java.lang.reflect.Array;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -200,6 +197,15 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
     @Override
     public Iterator<E> iterator() {
         return stream().iterator();
+    }
+
+    @Override
+    public Set getDistinctCellStates() {
+        return getSingleCell().getCurrentState().getDistinctCellStates();
+    }
+
+    private E getSingleCell() {
+        return parallelStream().findAny().get();
     }
 
     private void instantiateCell(int x, int y, Object cellStateInitializer) throws CellInstantiationException {

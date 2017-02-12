@@ -42,7 +42,7 @@ public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstrac
 
     Iterator<E> iterator();
 
-    Set<T> getDistinctCellStates();
+    Set getDistinctCellStates();
 
     SimulationGrid<E, T> setBoundsType(BoundsHandler<SimulationGrid<E, T>> mode);
 
