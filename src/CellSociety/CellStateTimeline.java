@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by th174 on 1/31/2017.
  */
-public class CellStateTimeline<T extends Abstract_CellState> {
+public class CellStateTimeline<T extends Abstract_CellState<T, ?>> {
     private int currentIndex;
     private boolean isReversed;
     private List<T> myStateTimeline;
@@ -42,7 +42,7 @@ public class CellStateTimeline<T extends Abstract_CellState> {
         isReversed = !isReversed;
     }
 
-    public int getIndex(){
+    public int getIndex() {
         return currentIndex;
     }
 

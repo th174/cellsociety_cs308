@@ -5,14 +5,17 @@ import CellSociety.Abstract_CellState;
 import javafx.util.Pair;
 
 import java.lang.reflect.Array;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
  * Created by th174 on 2/7/2017.
  */
-public class SimulationGrid<E extends Abstract_Cell<E, ? extends Abstract_CellState>> implements Iterable<E> {
+public class SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstract_CellState<T, ?>> implements Iterable<E> {
     public static final int LEFT = 0;
     public static final int RIGHT = 2;
     public static final int TOP = 0;
@@ -20,10 +23,12 @@ public class SimulationGrid<E extends Abstract_Cell<E, ? extends Abstract_CellSt
     public static final int CENTER = 1;
     private final Map<Pair<Integer, Integer>, E> cells;
     private Class<E> cellType;
+    private int leftBound;
+    private int upperBound;
     private int columns;
     private int rows;
-    private BoundsHandler<SimulationGrid<E>> boundsMode;
-    private NeighborsGetter<SimulationGrid<E>> shapeMode;
+    private BoundsHandler<SimulationGrid<E, T>> boundsMode;
+    private NeighborsGetter<SimulationGrid<E, T>> shapeMode;
 
     private SimulationGrid(E[][] array) {
         columns = array.length;
@@ -42,17 +47,17 @@ public class SimulationGrid<E extends Abstract_Cell<E, ? extends Abstract_CellSt
         setBoundsType(new FiniteBounds());
     }
 
-    public SimulationGrid(String[][][] paramsArray, Class<E> type, NeighborsGetter<SimulationGrid<E>> shape) throws Exception {
+    public SimulationGrid(String[][][] paramsArray, Class<E> type, NeighborsGetter<SimulationGrid<E, T>> shape) throws Exception {
         this(paramsArray, type, null, shape);
         setShapeType(new SquaresGrid());
     }
 
-    public SimulationGrid(String[][][] paramsArray, Class<E> type, BoundsHandler<SimulationGrid<E>> bounds) throws Exception {
+    public SimulationGrid(String[][][] paramsArray, Class<E> type, BoundsHandler<SimulationGrid<E, T>> bounds) throws Exception {
         this(paramsArray, type, bounds, null);
         setBoundsType(new FiniteBounds());
     }
 
-    public SimulationGrid(String[][][] paramsArray, Class<E> type, BoundsHandler<SimulationGrid<E>> bounds, NeighborsGetter<SimulationGrid<E>> shape) throws Exception {
+    public SimulationGrid(String[][][] paramsArray, Class<E> type, BoundsHandler<SimulationGrid<E, T>> bounds, NeighborsGetter<SimulationGrid<E, T>> shape) throws Exception {
         cellType = type;
         boundsMode = bounds;
         shapeMode = shape;
@@ -61,9 +66,7 @@ public class SimulationGrid<E extends Abstract_Cell<E, ? extends Abstract_CellSt
         rows = paramsArray[0].length;
         for (int i = 0; i < paramsArray.length; i++) {
             for (int j = 0; j < paramsArray[0].length; j++) {
-                String[] temp = Arrays.copyOf(paramsArray[i][j], paramsArray[i][j].length);
-                cells.put(new Pair<>(i, j), cellType.getConstructor(int.class, int.class, String[].class).newInstance(i, j, temp));
-                cells.get(new Pair<>(i, j)).setParentGrid(this);
+                instantiateCell(i, j, paramsArray[i][j]);
             }
         }
     }
@@ -84,12 +87,12 @@ public class SimulationGrid<E extends Abstract_Cell<E, ? extends Abstract_CellSt
         return neighbors;
     }
 
-    public SimulationGrid<E> getNeighbors(int x, int y) {
+    public SimulationGrid<E, T> getNeighbors(int x, int y) {
         return shapeMode.getNeighbors(x, y, this);
     }
 
-    public long countTotalOfState(Abstract_CellState state) {
-        return parallelStream().filter(e -> e.getCurrentState().equals(state)).count();
+    public int countTotalOfState(T state) {
+        return (int) parallelStream().filter(e -> e.getCurrentState().equals(state)).count();
     }
 
     /**
@@ -150,12 +153,12 @@ public class SimulationGrid<E extends Abstract_Cell<E, ? extends Abstract_CellSt
         return rows;
     }
 
-    public SimulationGrid<E> setBoundsType(BoundsHandler<SimulationGrid<E>> mode) {
+    public SimulationGrid<E, T> setBoundsType(BoundsHandler<SimulationGrid<E, T>> mode) {
         boundsMode = mode;
         return this;
     }
 
-    public SimulationGrid<E> setShapeType(NeighborsGetter<SimulationGrid<E>> shape) {
+    public SimulationGrid<E, T> setShapeType(NeighborsGetter<SimulationGrid<E, T>> shape) {
         shapeMode = shape;
         return this;
     }
@@ -165,38 +168,71 @@ public class SimulationGrid<E extends Abstract_Cell<E, ? extends Abstract_CellSt
         return stream().iterator();
     }
 
-    public final class FiniteBounds implements BoundsHandler<SimulationGrid<E>> {
+    private void instantiateCell(int x, int y, Object cellStateInitializer) throws Exception {
+        set(x, y, cellType.getConstructor(int.class, int.class, cellStateInitializer.getClass()).newInstance(x, y, cellStateInitializer));
+    }
+
+    public final class FiniteBounds implements BoundsHandler<SimulationGrid<E, T>> {
         @Override
-        public Pair<Integer, Integer> handleBounds(int x, int y, SimulationGrid<E> grid) {
+        public Pair<Integer, Integer> handleBounds(int x, int y, SimulationGrid<E, T> grid) {
             return new Pair<>(x, y);
         }
     }
 
-    public final class WrappedBounds implements BoundsHandler<SimulationGrid<E>> {
+    public final class WrappedBounds implements BoundsHandler<SimulationGrid<E, T>> {
         @Override
-        public Pair<Integer, Integer> handleBounds(int x, int y, SimulationGrid<E> grid) {
+        public Pair<Integer, Integer> handleBounds(int x, int y, SimulationGrid<E, T> grid) {
             return new Pair<>(actualMod(x, grid.columns), actualMod(y, grid.rows));
         }
     }
 
-    public final class InfiniteBounds implements BoundsHandler<SimulationGrid<E>> {
+    public final class InfiniteBounds implements BoundsHandler<SimulationGrid<E, T>> {
         @Override
-        public Pair<Integer, Integer> handleBounds(int x, int y, SimulationGrid<E> grid) {
-            //TODO: this
-            return new Pair<>(0, 0);
+        public Pair<Integer, Integer> handleBounds(int x, int y, SimulationGrid<E, T> grid) {
+            try {
+                if (x < leftBound) {
+                    leftBound--;
+                    addNewColumn(x, stream().findAny().get().getCurrentState());
+                } else if (x > leftBound + columns) {
+                    addNewColumn(x, stream().findAny().get().getInactiveState());
+                } else if (y < upperBound) {
+                    upperBound--;
+                    addNewRow(y, stream().findAny().get().getInactiveState());
+                } else if (y > upperBound + rows) {
+                    addNewRow(y, stream().findAny().get().getInactiveState());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new Error("On line 205, you got fucked.");
+            }
+            return new Pair<>(x, y);
+        }
+
+        private void addNewColumn(int x, T state) throws Exception {
+            for (int y = upperBound; y < upperBound + rows; y++) {
+                instantiateCell(x, y, state);
+            }
+            columns++;
+        }
+
+        private void addNewRow(int y, T state) throws Exception {
+            for (int x = leftBound; x < leftBound + columns; x++) {
+                instantiateCell(x, y, state);
+            }
+            rows++;
         }
     }
 
-    public final class SquaresGrid implements NeighborsGetter<SimulationGrid<E>> {
+    public final class SquaresGrid implements NeighborsGetter<SimulationGrid<E, T>> {
         @Override
-        public SimulationGrid<E> getNeighbors(int x, int y, SimulationGrid<E> grid) {
+        public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             return new SimulationGrid<>(grid.getNearbyCellsAsArray(x, y, 1, 1));
         }
     }
 
-    public final class AdjacentSquaresGrid implements NeighborsGetter<SimulationGrid<E>> {
+    public final class AdjacentSquaresGrid implements NeighborsGetter<SimulationGrid<E, T>> {
         @Override
-        public SimulationGrid<E> getNeighbors(int x, int y, SimulationGrid<E> grid) {
+        public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             E[][] neighbors = grid.getNearbyCellsAsArray(x, y, 1, 1);
             neighbors[LEFT][TOP] = null;
             neighbors[LEFT][BOTTOM] = null;
@@ -206,9 +242,9 @@ public class SimulationGrid<E extends Abstract_Cell<E, ? extends Abstract_CellSt
         }
     }
 
-    public final class HexagonsGrid implements NeighborsGetter<SimulationGrid<E>> {
+    public final class HexagonsGrid implements NeighborsGetter<SimulationGrid<E, T>> {
         @Override
-        public SimulationGrid<E> getNeighbors(int x, int y, SimulationGrid<E> grid) {
+        public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             E[][] neighbors = grid.getNearbyCellsAsArray(x, y, 1, 1);
             if (x % 2 == 0) {
                 neighbors[RIGHT][TOP] = null;
@@ -221,16 +257,16 @@ public class SimulationGrid<E extends Abstract_Cell<E, ? extends Abstract_CellSt
         }
     }
 
-    public final class AdjacentHexagonsGrid implements NeighborsGetter<SimulationGrid<E>> {
+    public final class AdjacentHexagonsGrid implements NeighborsGetter<SimulationGrid<E, T>> {
         @Override
-        public SimulationGrid<E> getNeighbors(int x, int y, SimulationGrid<E> grid) {
+        public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             return new HexagonsGrid().getNeighbors(x, y, grid);
         }
     }
 
-    public final class TrianglesGrid implements NeighborsGetter<SimulationGrid<E>> {
+    public final class TrianglesGrid implements NeighborsGetter<SimulationGrid<E, T>> {
         @Override
-        public SimulationGrid<E> getNeighbors(int x, int y, SimulationGrid<E> grid) {
+        public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             E[][] neighbors = getNearbyCellsAsArray(x, y, 1, 2);
             if ((x + y) % 2 == 0) {
                 neighbors[RIGHT][TOP + TOP] = null;
@@ -243,9 +279,9 @@ public class SimulationGrid<E extends Abstract_Cell<E, ? extends Abstract_CellSt
         }
     }
 
-    public final class AdjacentTrianglesGrid implements NeighborsGetter<SimulationGrid<E>> {
+    public final class AdjacentTrianglesGrid implements NeighborsGetter<SimulationGrid<E, T>> {
         @Override
-        public SimulationGrid<E> getNeighbors(int x, int y, SimulationGrid<E> grid) {
+        public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             E[][] neighbors = getNearbyCellsAsArray(x, y, 1, 1);
             neighbors[RIGHT][TOP] = null;
             neighbors[LEFT][TOP] = null;

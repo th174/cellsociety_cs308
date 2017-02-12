@@ -4,7 +4,7 @@ package CellSociety;
 /**
  * Created by th174 on 1/31/2017.
  */
-public abstract class AbstractDiscrete_CellState<T extends Enum<T>> extends Abstract_CellState<T> {
+public abstract class AbstractDiscrete_CellState<E extends AbstractDiscrete_CellState<E, T>, T extends Enum<T>> extends Abstract_CellState<E, T> {
 
     protected AbstractDiscrete_CellState(T state) {
         super(state);
@@ -15,11 +15,7 @@ public abstract class AbstractDiscrete_CellState<T extends Enum<T>> extends Abst
     }
 
     @Override
-    public int compareTo(Abstract_CellState<T> cellState) {
-        if (cellState instanceof AbstractDiscrete_CellState) {
-            return getState().compareTo(cellState.getState());
-        } else {
-            throw new Error("invalid state:\tExpected: " + getClass().getName() + "\tActual: " + cellState.getClass().getName());
-        }
+    public int compareTo(E cellState) {
+        return getState().compareTo(cellState.getState());
     }
 }

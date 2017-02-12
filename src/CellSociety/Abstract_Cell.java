@@ -7,10 +7,10 @@ import java.util.Objects;
 /**
  * Created by th174 on 1/29/2017.
  */
-public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abstract_CellState> {
+public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abstract_CellState<T,?>> {
     private final int xPos;
     private final int yPos;
-    private SimulationGrid<E> parentGrid;
+    private SimulationGrid<E, T> parentGrid;
     private CellStateTimeline<T> myTimeline;
 
     protected Abstract_Cell(String[] args, T state) {
@@ -37,20 +37,12 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
     /**
      * @return Grid of neighboring cells. See SimulationGrid::getNeighbors
      */
-    protected SimulationGrid<E> getNeighbors() {
+    protected SimulationGrid<E, T> getNeighbors() {
         if (Objects.nonNull(parentGrid)) {
             return parentGrid.getNeighbors(xPos, yPos);
         } else {
             return null;
         }
-    }
-
-    public SimulationGrid<E> getAdjNeighbors() {
-//        if (Objects.nonNull(parentGrid) && parentGrid instanceof Square_SimulationGrid) {
-//            return ((Square_SimulationGrid<? extends Abstract_Cell<T>>) parentGrid).getAdjNeighbors(xPos, yPos);
-//        } else {
-        return null;
-//        }
     }
 
     public void seek(int index) {
@@ -61,7 +53,7 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
         myTimeline.reverse();
     }
 
-    protected SimulationGrid<E> getParentGrid() {
+    protected SimulationGrid<E, T> getParentGrid() {
         return parentGrid;
     }
 
@@ -70,7 +62,7 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
      *
      * @param grid parent SimulationGrid
      */
-    public void setParentGrid(SimulationGrid<E> grid) {
+    public void setParentGrid(SimulationGrid<E, T> grid) {
         parentGrid = grid;
     }
 
@@ -96,6 +88,10 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
 
     public T getNextState() {
         return myTimeline.getNextState();
+    }
+
+    public T getInactiveState() {
+        return getCurrentState().getInactiveState();
     }
 
     public int getX() {

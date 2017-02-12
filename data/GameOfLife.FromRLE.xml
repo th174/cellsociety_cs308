@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Simulation type="GameOfLife" shape="Square" width="50" height="50" fps="6" bounds="Wrapped">
+<Simulation type="GameOfLife" shape="Square" width="50" height="50" fps="6" bounds="Wrapped" outlines="violet">
 	<Cell>
 		<State>DEAD</State>
 	</Cell>

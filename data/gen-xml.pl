@@ -22,9 +22,11 @@ my $fps = 3;
 #for random state:
 my $randomState = "rand";
 
+my $gridOutline = "black";
+
 open(OUTPUT, "> $simulationType.xml");
 print OUTPUT '<?xml version="1.0" encoding="UTF-8" ?>';
-print OUTPUT "\n<Simulation type=\"$simulationType\" shape=\"$shape\" width=\"$xSize\" height=\"$ySize\" fps=\"$fps\" bounds=\"$boundsType\">\n";
+print OUTPUT "\n<Simulation type=\"$simulationType\" shape=\"$shape\" width=\"$xSize\" height=\"$ySize\" fps=\"$fps\" bounds=\"$boundsType\" outlines=\"$gridOutline\">\n";
 
 #################################################################
 #You can initialize entire rows and colums by leaving the attribute blank
