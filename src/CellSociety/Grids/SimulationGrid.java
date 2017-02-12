@@ -113,7 +113,7 @@ public class SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstract_Ce
      * @param y
      * @return AbstractCell
      */
-    private E get(int x, int y) {
+    public E get(int x, int y) {
         return cells.get(boundsMode.handleBounds(x, y, this));
     }
 
@@ -187,7 +187,6 @@ public class SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstract_Ce
     			cellConcentrations.put(aState, (cellConcentrations.get(aState)*totalCells+1.0)/totalCells);
     		}
     	}
-    	//forEach(Abstract_Cell a,stateCount::updateMapCount);
     	
     	return cellConcentrations;
     }
