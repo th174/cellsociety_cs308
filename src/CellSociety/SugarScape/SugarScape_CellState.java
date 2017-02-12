@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 public final class SugarScape_CellState extends Abstract_CellState<SugarScape_CellState, SugarScape_CellState.SugarScapeState> {
@@ -14,18 +15,20 @@ public final class SugarScape_CellState extends Abstract_CellState<SugarScape_Ce
     private int ticks;
     private int sugar;
     private double sugarFillCutoff = maxCapacity / 5.0;
-    private List<Agent> myAgents;
+    private Agent myAgent;
+    private Agent nextAgent;
 
     public SugarScape_CellState(SugarScapeState state) {
         this(state, 0, 0, null);
     }
 
-    public SugarScape_CellState(SugarScapeState state, int startingSugar, int life, List<Agent> nextAgents) {
+    public SugarScape_CellState(SugarScapeState state, int startingSugar, int life, Agent nextA) {
         super(state);
         sugar = startingSugar;
         ticks = life;
         maxCapacity = 20;
-        myAgents = nextAgents == null ? new ArrayList<Agent>() : nextAgents;
+        myAgent = nextA;
+        nextAgent=null;
     }
 
     @Override
@@ -45,7 +48,7 @@ public final class SugarScape_CellState extends Abstract_CellState<SugarScape_Ce
 
     @Override
     public SugarScape_CellState getSuccessorState() {
-        return new SugarScape_CellState(getState(), sugar, ticks, myAgents);
+        return new SugarScape_CellState(getState(), sugar, ticks, nextAgent);
     }
 
     @Override
@@ -62,11 +65,11 @@ public final class SugarScape_CellState extends Abstract_CellState<SugarScape_Ce
     }
 
     public void removeAgent(Agent a) {
-        myAgents.remove(a);
+        myAgent=null;
     }
 
-    public List<Agent> getAgents() {
-        return myAgents;
+    public Agent getAgent() {
+        return myAgent;
     }
 
     public int getSugar() {
@@ -80,4 +83,19 @@ public final class SugarScape_CellState extends Abstract_CellState<SugarScape_Ce
     public enum SugarScapeState {
         DEAD, ALIVE
     }
+    public boolean isEmpty(){
+    	return myAgent==null;
+    }
+    public boolean canReproduceHere(){
+    	return isEmpty() && nextAgent==null;
+    }
+    public void setNextAgent(Agent a){
+    	nextAgent=a;
+    }
+
+	@Override
+	public Set<SugarScapeState> getDistinctCellStates() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

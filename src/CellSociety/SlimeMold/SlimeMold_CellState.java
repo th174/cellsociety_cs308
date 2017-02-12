@@ -1,5 +1,8 @@
 package CellSociety.SlimeMold;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import CellSociety.AbstractDiscrete_CellState;
 import javafx.scene.paint.Color;
 
@@ -7,11 +10,11 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
     private double chemical;
     private double evaporationRate;
     private double diffusionRate;
-    private Turtle myTurtle;
+    private Collection<Turtle> myTurtles;
     private double threshold;//min required, so green
 
     private double nextChemical;
-    private Turtle nextTurtle;
+    private Collection<Turtle> nextTurtles;
 
 
     public enum SlimeMoldState {
@@ -19,28 +22,30 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
     }
 
     public SlimeMold_CellState(SlimeMoldState state) {
-        this(state, null, 1.0, 0.9, 0.1);
+        this(state, null, 1.0, 0.9, 0.1,new ArrayList<Turtle>());
     }
 
-    public SlimeMold_CellState(SlimeMoldState state, Turtle turt) {
-        this(state, turt, 1.0, 0.9, 0.1);
+    public SlimeMold_CellState(SlimeMoldState state, Collection<Turtle> turtles) {
+        this(state, turtles, 1.0, 0.9, 0.1, new ArrayList<Turtle>());
     }
 
-    public SlimeMold_CellState(SlimeMoldState state, Turtle turt, double chem, double evaporation, double diffusion) {
+    public SlimeMold_CellState(SlimeMoldState state, Collection<Turtle> turtles, double chem, double evaporation, 
+    		double diffusion, Collection<Turtle> nextTurts) {
         super(state);
-        myTurtle = turt;
+        myTurtles = turtles;
         chemical = chem;
         evaporationRate = evaporation;
         diffusionRate = diffusion;
-        nextTurtle = null;
+        nextTurtles = new ArrayList<Turtle>();
         nextChemical = chemical;
+        nextTurtles= nextTurts;
     }
 
     public SlimeMold_CellState(SlimeMoldState state, String... params) {
         super(params[0].toLowerCase().equals("rand") ? randomState(SlimeMoldState.class) :
                 SlimeMoldState.valueOf(params[0].toUpperCase()));
         if (params.length > 0) {
-            myTurtle = new Turtle();
+            myTurtles = new ArrayList<Turtle>();
         }
     }
 
@@ -52,8 +57,8 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
 
     @Override
     public SlimeMold_CellState getSuccessorState() {
-        SlimeMoldState nextState = nextTurtle == null ? SlimeMoldState.EMPTY : SlimeMoldState.TURTLE;
-        return new SlimeMold_CellState(nextState, nextTurtle, nextChemical, evaporationRate, diffusionRate);
+        SlimeMoldState nextState = nextTurtles.isEmpty() ? SlimeMoldState.EMPTY : SlimeMoldState.TURTLE;
+        return new SlimeMold_CellState(nextState, nextTurtles, nextChemical, evaporationRate, diffusionRate,new ArrayList<Turtle>());
     }
 
     @Override
@@ -63,11 +68,11 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
     }
 
     public boolean hasTurtle() {
-        return myTurtle != null;
+        return !myTurtles.isEmpty();
     }
 
-    public Turtle getTurtle() {
-        return myTurtle;
+    public Collection<Turtle> getTurtles() {
+        return myTurtles;
     }
 
     public double getChemical() {
@@ -88,17 +93,21 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
         nextChemical = chemical;
         return chemical * diffusionRate;
     }
-
     public void addNextChemical(double addChem) {
         nextChemical += addChem;
     }
-
-    public void setNextTurtle(Turtle t) {
-        nextTurtle = t;
+    public void addNextTurtle(Turtle t) {
+        nextTurtles.add(t);
     }
 
-    public Turtle getNextTurtle() {
-        return nextTurtle;
+    public Collection<Turtle> getNextTurtle() {
+        return nextTurtles;
+    }
+    public boolean hasNextTurtles(){
+    	return nextTurtles.isEmpty();
+    }
+    public void clearNextTurtles(){
+    	nextTurtles= new ArrayList<Turtle>();
     }
 
 }

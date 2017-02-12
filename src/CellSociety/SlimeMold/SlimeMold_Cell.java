@@ -13,15 +13,16 @@ public class SlimeMold_Cell extends Abstract_Cell<SlimeMold_Cell, SlimeMold_Cell
     @Override
     public void interact() {
         SimulationGrid<SlimeMold_Cell, SlimeMold_CellState> neighborsGrid = getNeighbors();
-        boolean turtleMoved;
+        
         if (getCurrentState().hasTurtle()) {
-            Turtle thisTurtle = getCurrentState().getTurtle();
-            thisTurtle.depositChemical(this);
-            turtleMoved = thisTurtle.followGradient(getCurrentState()) ? thisTurtle.moveToCell(neighborsGrid) : thisTurtle.moveSameDirection(neighborsGrid);
-            if (turtleMoved && getCurrentState().getNextTurtle() != null)
-                getCurrentState().setNextTurtle(null);
+        	for(Turtle turtle: getCurrentState().getTurtles()){
+        		turtle.depositChemical(this);
+                if(turtle.followGradient(getCurrentState())) turtle.moveToCell(neighborsGrid);
+                else turtle.moveSameDirection(neighborsGrid);
+                //remove turtle
+        	}
         }
-
+        
         diffuseAndEvaporate(neighborsGrid);
 
     }
