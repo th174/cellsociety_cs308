@@ -73,10 +73,10 @@ public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, Foraging
         if (getCurrentState().equals(ForagingAnts_CellState.SOURCE)) {
             getCurrentState().setHomePheromoneToMax();
         } else if (getCurrentState().canDropHomePheromone()) {
-            int max = neighbors.stream().mapToInt(e -> e.getCurrentState().getHomePheromone()).sum();
-            int desired = max - getCurrentState().getPheromoneConstant();
-            int d = desired - getCurrentState().getHomePheromone();
-            if (d > 0) getNextState().addHomePheromone(d);
+            int d;
+            if ((d = neighbors.stream().mapToInt(e -> e.getCurrentState().getHomePheromone()).sum() - getCurrentState().getPheromoneConstant() - getCurrentState().getHomePheromone()) > 0) {
+                getNextState().addHomePheromone(d);
+            }
         }
     }
 
