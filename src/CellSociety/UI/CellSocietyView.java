@@ -8,6 +8,7 @@ import CellSociety.Grids.SimulationGrid;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
@@ -15,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -22,10 +24,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
@@ -222,7 +221,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
         }
 
         private void exit() {
-            exit();
+            Platform.exit();
             System.exit(0);
         }
 
@@ -239,17 +238,29 @@ public class CellSocietyView<T extends Abstract_CellView> {
         }
 
         private void setHueShift() {
-            Dialog<Integer> dbox = new Dialog<>();
-            dbox.setHeaderText(myResources.getString("Set_Color"));
-            dbox.setContentText(myResources.getString("Set_Color_Content"));
-            Slider hueSlider = new Slider(0, 255, 0);
-            dbox.setGraphic(hueSlider);
+            Dialog dbox = new Dialog();
+            dbox.setTitle(myResources.getString("Set_Color"));
+            dbox.setHeaderText(myResources.getString("Set_Color_Content"));
+            dbox.getDialogPane().getButtonTypes().add(new ButtonType(myResources.getString("Okay"), ButtonBar.ButtonData.CANCEL_CLOSE));
+            GridPane content = new GridPane();
+            content.getColumnConstraints().add(new ColumnConstraints(90));
+            ColumnConstraints slidersColumn = new ColumnConstraints();
+            slidersColumn.setHgrow(Priority.ALWAYS);
+            content.getColumnConstraints().add(slidersColumn);
+            Slider hSlider = new Slider(0, 360, 0);
+            hSlider.valueProperty().addListener(e -> cellViews.forEach(f -> f.setHueShift(hSlider.getValue())));
+            content.add(new Label(myResources.getString("Hue")), 0, 0);
+            content.add(hSlider, 1, 0);
+            Slider sSlider = new Slider(0, 1, 1);
+            sSlider.valueProperty().addListener(e -> cellViews.forEach(f -> f.setSaturationShift(sSlider.getValue())));
+            content.add(new Label(myResources.getString("Saturation")), 0, 1);
+            content.add(sSlider, 1, 1);
+            Slider lSlider = new Slider(0, 2, 1);
+            lSlider.valueProperty().addListener(e -> cellViews.forEach(f -> f.setLightnessShift(lSlider.getValue())));
+            content.add(new Label(myResources.getString("Lightness")), 0, 2);
+            content.add(lSlider, 1, 2);
+            dbox.getDialogPane().setContent(content);
             dbox.showAndWait();
-//            dbox.setOnCloseRequest(e -> {
-//                double shift = hueSlider.getValue();
-//                cellViews.forEach(f -> f.setHueShift(shift));
-//                dbox.close();
-//            });
         }
 
         private boolean pause() {
@@ -292,10 +303,18 @@ public class CellSocietyView<T extends Abstract_CellView> {
         }
 
         private void seek() {
-            TextInputDialog dbox = new TextInputDialog();
-            dbox.setHeaderText(myResources.getString("Seek..."));
-            dbox.setContentText(myResources.getString("Seek_Content"));
-            seek(Integer.parseInt(dbox.showAndWait().orElse(-1 + "")));
+            Dialog dbox = new Dialog();
+            dbox.setTitle(myResources.getString("Seek..."));
+            dbox.setHeaderText(myResources.getString("Seek_Content"));
+            dbox.getDialogPane().getButtonTypes().add(new ButtonType(myResources.getString("Okay"), ButtonBar.ButtonData.CANCEL_CLOSE));
+            Slider seekBar = new Slider(0, mySimulationGrid.getCurrentIndex(), mySimulationGrid.getMaxIndex());
+            seekBar.setSnapToTicks(true);
+            seekBar.setMajorTickUnit(1);
+            seekBar.valueProperty().addListener(e -> {
+                seek((int) seekBar.getValue());
+            });
+            dbox.getDialogPane().setContent(seekBar);
+            dbox.showAndWait();
         }
 
         private void seek(int time) {
@@ -332,7 +351,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
             about.setHeaderText(myResources.getString("CellSociety"));
             about.setTitle(myResources.getString("About"));
             about.setContentText(myResources.getString("AboutContent"));
-            about.show();
+            about.showAndWait();
         }
     }
 

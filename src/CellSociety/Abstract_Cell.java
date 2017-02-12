@@ -53,6 +53,12 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
         myTimeline.reverse();
     }
 
+    public int getCurrentIndex(){
+        return myTimeline.getCurrentIndex();
+    }
+
+    public int getMaxIndex(){return myTimeline.getMaxIndex();}
+
     protected SimulationGrid<E, T> getParentGrid() {
         return parentGrid;
     }

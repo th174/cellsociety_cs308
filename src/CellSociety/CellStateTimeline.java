@@ -71,4 +71,12 @@ public class CellStateTimeline<T extends Abstract_CellState<T, ?>> {
     public int size() {
         return myStateTimeline.size();
     }
+
+    public int getCurrentIndex() {
+        return currentIndex;
+    }
+
+    public int getMaxIndex() {
+        return myStateTimeline.size() - 1;
+    }
 }
