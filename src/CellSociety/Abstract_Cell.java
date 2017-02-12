@@ -81,6 +81,14 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
         return myTimeline.getCurrentState();
     }
 
+    protected int getTimelineIndex() {
+        return myTimeline.getIndex();
+    }
+
+    public T getNextState() {
+        return myTimeline.getNextState();
+    }
+
     /**
      * Sets the state that this cell will change into the next time updateState is called
      *
@@ -88,14 +96,6 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
      */
     public void setNextState(T state) {
         myTimeline.setNextState(state);
-    }
-
-    protected int getTimelineIndex() {
-        return myTimeline.getIndex();
-    }
-
-    public T getNextState() {
-        return myTimeline.getNextState();
     }
 
     public T getInactiveState() {

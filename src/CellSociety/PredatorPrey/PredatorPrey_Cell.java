@@ -40,7 +40,7 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPrey_Cell, Predator
                     move(getEmptyNeighbor());
                 }
                 reproduced(getEmptyNeighbor());
-                
+
             }
         }
     }

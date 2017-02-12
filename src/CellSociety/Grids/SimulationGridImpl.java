@@ -73,6 +73,10 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         }
     }
 
+    private static int actualMod(int dividend, int divisor) {
+        return dividend % divisor + (dividend % divisor < 0 ? divisor : 0);
+    }
+
     public void update() {
         forEach(Abstract_Cell::updateState);
         forEach(Abstract_Cell::interact);
@@ -121,10 +125,6 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         if (Objects.nonNull(cell)) {
             cell.setParentGrid(this);
         }
-    }
-
-    private static int actualMod(int dividend, int divisor) {
-        return dividend % divisor + (dividend % divisor < 0 ? divisor : 0);
     }
 
     public Stream<E> stream() {

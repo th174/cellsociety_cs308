@@ -1,6 +1,5 @@
 package CellSociety.Grids;
 
-import CellSociety.Abstract_Cell;
 import javafx.util.Pair;
 
 /**

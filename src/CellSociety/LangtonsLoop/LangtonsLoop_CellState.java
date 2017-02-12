@@ -1,14 +1,9 @@
 package CellSociety.LangtonsLoop;
 
 import CellSociety.AbstractDiscrete_CellState;
-import CellSociety.Abstract_CellState;
 import javafx.scene.paint.Color;
 
 public final class LangtonsLoop_CellState extends AbstractDiscrete_CellState<LangtonsLoop_CellState, LangtonsLoop_CellState.LangtonsLoopState> {
-
-    enum LangtonsLoopState {
-        CORE, SHEATH, FORWARD, TURN, EMPTY
-    }
 
     public LangtonsLoop_CellState(LangtonsLoopState state) {
         super(state);
@@ -32,6 +27,10 @@ public final class LangtonsLoop_CellState extends AbstractDiscrete_CellState<Lan
     @Override
     public LangtonsLoop_CellState getInactiveState() {
         return new LangtonsLoop_CellState(LangtonsLoopState.EMPTY);
+    }
+
+    enum LangtonsLoopState {
+        CORE, SHEATH, FORWARD, TURN, EMPTY
     }
 
 }

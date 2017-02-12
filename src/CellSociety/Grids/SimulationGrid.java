@@ -41,13 +41,13 @@ public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstrac
 
     Iterator<E> iterator();
 
+    SimulationGrid<E, T> setBoundsType(BoundsHandler<SimulationGrid<E, T>> mode);
+
+    SimulationGrid<E, T> setShapeType(NeighborsGetter<SimulationGrid<E, T>> shape);
+
     class CellInstantiationException extends Exception {
         public CellInstantiationException(int x, int y, Class<? extends Abstract_Cell> cellType, Object initializer) {
             super("Instantiation of " + cellType.getName() + "at location (x,y) = (" + x + "," + y + ") failed, using initializer:\t" + initializer);
         }
     }
-
-    SimulationGrid<E, T> setBoundsType(BoundsHandler<SimulationGrid<E, T>> mode);
-
-    SimulationGrid<E, T> setShapeType(NeighborsGetter<SimulationGrid<E, T>> shape);
 }

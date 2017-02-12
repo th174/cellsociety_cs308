@@ -2,7 +2,6 @@ package CellSociety.UI.Shapes;
 
 import CellSociety.Abstract_Cell;
 import CellSociety.UI.AbstractRegularPolygon_CellView;
-import javafx.scene.paint.Color;
 
 /**
  * Created by th174 on 2/11/2017.

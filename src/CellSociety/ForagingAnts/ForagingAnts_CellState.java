@@ -1,7 +1,6 @@
 package CellSociety.ForagingAnts;
 
 import CellSociety.AbstractDiscrete_CellState;
-import CellSociety.Abstract_CellState;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -25,10 +24,6 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
         ants = 0;
         foodPheromone = 0;
         homePheromone = 0;
-    }
-
-    enum ForagingAntsState {
-        HOME, SOURCE, EMPTY, OBSTACLE
     }
 
     @Override
@@ -75,26 +70,6 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
         return 0;
     }
 
-    public class foodPheromoneComparator implements Comparator<ForagingAnts_Cell> {
-
-        @Override
-        public int compare(ForagingAnts_Cell o1, ForagingAnts_Cell o2) {
-            // TODO Auto-generated method stub
-            return (o2.getCurrentState().getFoodPheromone() - o1.getCurrentState().getFoodPheromone());
-        }
-
-    }
-
-    public class homePheromoneComparator implements Comparator<ForagingAnts_Cell> {
-
-        @Override
-        public int compare(ForagingAnts_Cell o1, ForagingAnts_Cell o2) {
-            // TODO Auto-generated method stub
-            return (o2.getCurrentState().getHomePheromone() - o1.getCurrentState().getHomePheromone());
-        }
-
-    }
-
     public int compareFoodTo(ForagingAnts_CellState state) {
         return (int) (state.getFoodPheromone() - foodPheromone);
     }
@@ -133,5 +108,29 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
 
     public void setFoodPheromoneToMax() {
         foodPheromone = maxFoodPheromone;
+    }
+
+    enum ForagingAntsState {
+        HOME, SOURCE, EMPTY, OBSTACLE
+    }
+
+    public class foodPheromoneComparator implements Comparator<ForagingAnts_Cell> {
+
+        @Override
+        public int compare(ForagingAnts_Cell o1, ForagingAnts_Cell o2) {
+            // TODO Auto-generated method stub
+            return (o2.getCurrentState().getFoodPheromone() - o1.getCurrentState().getFoodPheromone());
+        }
+
+    }
+
+    public class homePheromoneComparator implements Comparator<ForagingAnts_Cell> {
+
+        @Override
+        public int compare(ForagingAnts_Cell o1, ForagingAnts_Cell o2) {
+            // TODO Auto-generated method stub
+            return (o2.getCurrentState().getHomePheromone() - o1.getCurrentState().getHomePheromone());
+        }
+
     }
 }
