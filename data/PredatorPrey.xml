@@ -1,66 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Simulation type="PredatorPrey" width="91" height="91" fps="3" shape="Hexagon" bounds="Wrapped">
+<Simulation type="PredatorPrey" width="65" height="65" fps="3" shape="Hexagon" bounds="Wrapped" outlines="black">
 	<Cell>
 		<State>EMPTY</State>
 	</Cell>
-	<Cell yPos="14">
+	<Cell yPos="5">
 		<State>PREDATOR</State>
-		<ReproductionTimer>7</ReproductionTimer>
-		<StarvationTimer>4</StarvationTimer>
+		<ReproductionTimer>9</ReproductionTimer>
+		<StarvationTimer>6</StarvationTimer>
 	</Cell>
-	<Cell yPos="7">
+	<Cell yPos="10">
 		<State>PREY</State>
-		<ReproductionTimer>10</ReproductionTimer>
-		<StarvationTimer>1</StarvationTimer>
+		<ReproductionTimer>8</ReproductionTimer>
+		<StarvationTimer>6</StarvationTimer>
 	</Cell>
-	<Cell yPos="28">
+	<Cell yPos="15">
 		<State>PREDATOR</State>
-		<ReproductionTimer>7</ReproductionTimer>
-		<StarvationTimer>4</StarvationTimer>
+		<ReproductionTimer>9</ReproductionTimer>
+		<StarvationTimer>6</StarvationTimer>
 	</Cell>
-	<Cell yPos="21">
+	<Cell yPos="20">
 		<State>PREY</State>
-		<ReproductionTimer>10</ReproductionTimer>
-		<StarvationTimer>1</StarvationTimer>
+		<ReproductionTimer>8</ReproductionTimer>
+		<StarvationTimer>6</StarvationTimer>
 	</Cell>
-	<Cell yPos="42">
+	<Cell yPos="25">
 		<State>PREDATOR</State>
-		<ReproductionTimer>7</ReproductionTimer>
-		<StarvationTimer>4</StarvationTimer>
+		<ReproductionTimer>9</ReproductionTimer>
+		<StarvationTimer>6</StarvationTimer>
+	</Cell>
+	<Cell yPos="30">
+		<State>PREY</State>
+		<ReproductionTimer>8</ReproductionTimer>
+		<StarvationTimer>6</StarvationTimer>
 	</Cell>
 	<Cell yPos="35">
-		<State>PREY</State>
-		<ReproductionTimer>10</ReproductionTimer>
-		<StarvationTimer>1</StarvationTimer>
-	</Cell>
-	<Cell yPos="56">
 		<State>PREDATOR</State>
-		<ReproductionTimer>7</ReproductionTimer>
-		<StarvationTimer>4</StarvationTimer>
+		<ReproductionTimer>9</ReproductionTimer>
+		<StarvationTimer>6</StarvationTimer>
 	</Cell>
-	<Cell yPos="49">
+	<Cell yPos="40">
 		<State>PREY</State>
-		<ReproductionTimer>10</ReproductionTimer>
-		<StarvationTimer>1</StarvationTimer>
+		<ReproductionTimer>8</ReproductionTimer>
+		<StarvationTimer>6</StarvationTimer>
 	</Cell>
-	<Cell yPos="70">
+	<Cell yPos="45">
 		<State>PREDATOR</State>
-		<ReproductionTimer>7</ReproductionTimer>
-		<StarvationTimer>4</StarvationTimer>
+		<ReproductionTimer>9</ReproductionTimer>
+		<StarvationTimer>6</StarvationTimer>
 	</Cell>
-	<Cell yPos="63">
+	<Cell yPos="50">
 		<State>PREY</State>
-		<ReproductionTimer>10</ReproductionTimer>
-		<StarvationTimer>1</StarvationTimer>
+		<ReproductionTimer>8</ReproductionTimer>
+		<StarvationTimer>6</StarvationTimer>
 	</Cell>
-	<Cell yPos="84">
+	<Cell yPos="55">
 		<State>PREDATOR</State>
-		<ReproductionTimer>7</ReproductionTimer>
-		<StarvationTimer>4</StarvationTimer>
+		<ReproductionTimer>9</ReproductionTimer>
+		<StarvationTimer>6</StarvationTimer>
 	</Cell>
-	<Cell yPos="77">
+	<Cell yPos="60">
 		<State>PREY</State>
-		<ReproductionTimer>10</ReproductionTimer>
-		<StarvationTimer>1</StarvationTimer>
+		<ReproductionTimer>8</ReproductionTimer>
+		<StarvationTimer>6</StarvationTimer>
 	</Cell>
 </Simulation>

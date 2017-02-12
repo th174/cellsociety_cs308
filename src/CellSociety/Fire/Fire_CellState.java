@@ -42,6 +42,11 @@ public final class Fire_CellState extends AbstractDiscrete_CellState<Fire_CellSt
         return new Fire_CellState(FireState.EMPTY, flammability);
     }
 
+    @Override
+    public String toString() {
+        return super.toString()+String.format("\n\t\t<Flammability>%f</Flammability",flammability);
+    }
+
     enum FireState {
         EMPTY, TREE, BURNING
     }

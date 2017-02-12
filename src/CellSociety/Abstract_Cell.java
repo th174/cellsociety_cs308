@@ -2,13 +2,12 @@ package CellSociety;
 
 import CellSociety.Grids.SimulationGrid;
 
-import java.util.Map;
 import java.util.Objects;
 
 /**
  * Created by th174 on 1/29/2017.
  */
-public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abstract_CellState<T,?>> {
+public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abstract_CellState<T, ?>> {
     private final int xPos;
     private final int yPos;
     private SimulationGrid<E, T> parentGrid;
@@ -54,11 +53,13 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
         myTimeline.reverse();
     }
 
-    public int getCurrentIndex(){
+    public int getCurrentIndex() {
         return myTimeline.getCurrentIndex();
     }
 
-    public int getMaxIndex(){return myTimeline.getMaxIndex();}
+    public int getMaxIndex() {
+        return myTimeline.getMaxIndex();
+    }
 
     protected SimulationGrid<E, T> getParentGrid() {
         return parentGrid;
@@ -97,7 +98,6 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
         return myTimeline.getNextState();
     }
 
-
     public T getInactiveState() {
         return getCurrentState().getInactiveState();
     }
@@ -110,10 +110,8 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
         return yPos;
     }
 
-    /**
-     * @return Debug String representation
-     */
+    @Override
     public String toString() {
-        return "\nxPos = " + xPos + "\t\tyPos = " + yPos + "\t\tCurrentState = " + getCurrentState() + " \t\tNextState = " + getNextState();
+        return String.format("\n\t<Cell xPos=\"%d\" yPos=\"%d\">%s\n\t</Cell>", getX(), getY(), getCurrentState());
     }
 }

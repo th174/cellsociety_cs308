@@ -2,7 +2,6 @@ package CellSociety.PredatorPrey;
 
 import CellSociety.AbstractDiscrete_CellState;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 /**
  * Created by th174 on 1/29/2017.
@@ -65,6 +64,11 @@ public final class PredatorPrey_CellState extends AbstractDiscrete_CellState<Pre
 
     boolean willStarve() {
         return starvationTimer <= 0;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + String.format("\n\t\t<ReproductionTimer>%d</ReproductionTimer>\n\t\t<StarvationTimer>%d</StarvationTimer>", maxReproductionTimer, maxStarvationTimer);
     }
 
     enum PredatorPreyState {

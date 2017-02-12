@@ -2,7 +2,6 @@ package CellSociety.Segregation;
 
 import CellSociety.AbstractDiscrete_CellState;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 /**
  * Created by th174 on 1/29/2017.
@@ -41,6 +40,11 @@ public class Segregation_CellState extends AbstractDiscrete_CellState<Segregatio
     @Override
     public Segregation_CellState getInactiveState() {
         return new Segregation_CellState(SegregationState.EMPTY, satisfactionThreshold);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + String.format("\n\t\t<Threshold>%f</Threshold>", satisfactionThreshold);
     }
 
     enum SegregationState {

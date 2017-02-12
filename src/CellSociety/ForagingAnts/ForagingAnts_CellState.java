@@ -1,5 +1,6 @@
 package CellSociety.ForagingAnts;
 
+import CellSociety.AbstractDiscrete_CellState;
 import CellSociety.Abstract_CellState;
 import javafx.scene.paint.Color;
 
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 
-public final class ForagingAnts_CellState extends Abstract_CellState<ForagingAnts_CellState, ForagingAnts_CellState.ForagingAntsState> {
+public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<ForagingAnts_CellState, ForagingAnts_CellState.ForagingAntsState> {
 
     private int ants;
     private int foodPheromone;

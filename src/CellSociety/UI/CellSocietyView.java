@@ -40,6 +40,7 @@ import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.*;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
@@ -145,6 +146,15 @@ public class CellSocietyView<T extends Abstract_CellView> {
         }
     }
 
+    private String generateXML() {
+        final String[] xmlOutput = {"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"};
+        xmlOutput[0] += String.format("<Simulation type=\"%s\" width=\"%d\" height=\"%d\" fps=\"%f\" shape=\"%s\" neighbors_mode=\"%s\" bounds=\"%s\" outlines=\"%s\">\n",
+                myInputData.getSimulationType(), mySimulationGrid.getColumns(), mySimulationGrid.getRows(), myInputData.getFramesPerSecond(), myInputData.getCellShape(), myInputData.getNeighborMode(), myInputData.getGridBoundType(), myInputData.getGridOutline());
+        mySimulationGrid.forEach(e -> xmlOutput[0] += e.toString());
+        xmlOutput[0] += "</Simulation>";
+        return xmlOutput[0];
+    }
+
 //    private void createChart() {
 //
 //        final NumberAxis xAxis = new NumberAxis();
@@ -205,13 +215,16 @@ public class CellSocietyView<T extends Abstract_CellView> {
             MenuItem open = new MenuItem(myResources.getString("Open..."));
             open.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.SHORTCUT_DOWN));
             open.setOnAction(e -> ((BorderPane) myScene.getRoot()).setBottom(openNewFile()));
-            MenuItem save = new MenuItem(myResources.getString("Save"));
-            save.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN));
-            save.setOnAction(s -> save());
+            MenuItem saveAs = new MenuItem(myResources.getString("Save_As"));
+            saveAs.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN));
+            saveAs.setOnAction(s -> saveAs());
+            MenuItem exportPNG = new MenuItem(myResources.getString("Export_As"));
+            exportPNG.setAccelerator(new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN, KeyCombination.SHIFT_DOWN));
+            exportPNG.setOnAction(s -> exportPNG());
             MenuItem exit = new MenuItem(myResources.getString("Exit"));
             exit.setAccelerator(new KeyCodeCombination(KeyCode.ESCAPE, KeyCombination.SHORTCUT_DOWN));
             exit.setOnAction(s -> exit());
-            return new Menu(myResources.getString("File"), null, open, save, exit);
+            return new Menu(myResources.getString("File"), null, open, saveAs, exportPNG, exit);
         }
 
         private Menu initSimulationMenu() {
@@ -372,9 +385,22 @@ public class CellSocietyView<T extends Abstract_CellView> {
             mySimulationGrid.forEach(Abstract_Cell::reverse);
         }
 
-        private void save() {
+        private void saveAs() {
             FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle(myResources.getString("Save_File"));
+            fileChooser.setTitle(myResources.getString("Export_File"));
+            fileChooser.setInitialFileName("CellSociety_" + myInputData.getSimulationType() + "_State1.xml");
+            fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Extensible Markup Language File", "*.xml"));
+            File output = fileChooser.showSaveDialog(null);
+            try (FileWriter writer = new FileWriter(output)) {
+                writer.write(generateXML());
+            } catch (Exception e) {
+                new Alert(Alert.AlertType.ERROR, myResources.getString("ErrorSave")).show();
+            }
+        }
+
+        private void exportPNG() {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle(myResources.getString("Export_File"));
             fileChooser.setInitialFileName("CellSocietyScreenshot1.png");
             fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Portable Network Graphics", "*.png"));
             File output = fileChooser.showSaveDialog(null);
@@ -418,6 +444,11 @@ public class CellSocietyView<T extends Abstract_CellView> {
         @Override
         public SimulationGrid<? extends Abstract_Cell, ? extends Abstract_CellState> getSimulationGrid() {
             return simulationGrid;
+        }
+
+        @Override
+        public String getSimulationType() {
+            return simulationType;
         }
 
         @Override
