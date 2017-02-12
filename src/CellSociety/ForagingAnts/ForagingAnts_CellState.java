@@ -2,12 +2,17 @@ package CellSociety.ForagingAnts;
 
 import CellSociety.AbstractDiscrete_CellState;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 
 public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<ForagingAnts_CellState, ForagingAnts_CellState.ForagingAntsState> {
+    public static final ForagingAnts_CellState HOME = new ForagingAnts_CellState(ForagingAntsState.HOME);
+    public static final ForagingAnts_CellState SOURCE = new ForagingAnts_CellState(ForagingAntsState.SOURCE);
+    public static final ForagingAnts_CellState EMPTY = new ForagingAnts_CellState(ForagingAntsState.EMPTY);
+    public static final ForagingAnts_CellState OBSTACLE = new ForagingAnts_CellState(ForagingAntsState.OBSTACLE);
 
     private int ants;
     private int foodPheromone;
@@ -18,7 +23,7 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
     private int maxHomePheromone = 100;
     private int pheromoneConstant = 10;
 
-    protected ForagingAnts_CellState(ForagingAntsState state) {
+    private ForagingAnts_CellState(ForagingAntsState state) {
         super(state);
         myAnts = new ArrayList<Ant>();
         ants = 0;
@@ -27,7 +32,7 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
     }
 
     @Override
-    public Color getFill() {
+    public Paint getFill() {
         return getState().equals(ForagingAntsState.EMPTY) ? Color.BLUE : getState().equals(ForagingAntsState.SOURCE) ?
                 Color.DARKGRAY : getState().equals(ForagingAntsState.OBSTACLE) ? Color.WHITESMOKE : Color.DARKOLIVEGREEN;
     }

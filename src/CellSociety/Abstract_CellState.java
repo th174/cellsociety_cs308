@@ -1,6 +1,6 @@
 package CellSociety;
 
-import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 /**
  * Created by th174 on 1/29/2017.
@@ -40,7 +40,7 @@ public abstract class Abstract_CellState<E extends Abstract_CellState<E, T>, T> 
     /**
      * @return Graphical representation of this CellState
      */
-    public abstract Color getFill();
+    public abstract Paint getFill();
 
     public abstract E getSuccessorState();
 

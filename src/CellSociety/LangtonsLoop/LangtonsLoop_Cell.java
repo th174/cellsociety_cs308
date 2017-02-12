@@ -20,7 +20,8 @@ public class LangtonsLoop_Cell extends Abstract_Cell<LangtonsLoop_Cell, Langtons
 
     @Override
     public void interact() {
-    	if(shouldMove()){}
+        if (shouldMove()) {
+        }
         SimulationGrid<LangtonsLoop_Cell, LangtonsLoop_CellState> neighborsGrid = getNeighbors();
         List<LangtonsLoop_Cell> adjNeighbors = getNeighbors().stream().collect(Collectors.toList());
         LangtonsLoop_Cell nextCell = neighborsGrid.get(xDirection, yDirection);
@@ -33,10 +34,12 @@ public class LangtonsLoop_Cell extends Abstract_Cell<LangtonsLoop_Cell, Langtons
             if (!nextCell.getNextState().equals(LangtonsLoopState.SHEATH)) nextCell.setNextState(getCurrentState());
         }
     }
-    private boolean shouldMove(){
-    	//should move if between two sheaths 
-    	return false;
+
+    private boolean shouldMove() {
+        //should move if between two sheaths
+        return false;
     }
+
     public boolean isAtEnd(LangtonsLoop_Cell nextCell) {
         return nextCell.getCurrentState().equals(LangtonsLoopState.SHEATH);
     }

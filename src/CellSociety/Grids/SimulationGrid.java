@@ -4,6 +4,7 @@ import CellSociety.Abstract_Cell;
 import CellSociety.Abstract_CellState;
 
 import java.util.Iterator;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -40,6 +41,8 @@ public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstrac
     int size();
 
     Iterator<E> iterator();
+
+    Set<T> getDistinctCellStates();
 
     SimulationGrid<E, T> setBoundsType(BoundsHandler<SimulationGrid<E, T>> mode);
 

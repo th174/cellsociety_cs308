@@ -1,18 +1,17 @@
 package CellSociety.ForagingAnts;
 
 import CellSociety.Abstract_Cell;
-import CellSociety.ForagingAnts.ForagingAnts_CellState.ForagingAntsState;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 
+
 public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, ForagingAnts_CellState> {
 
     protected ForagingAnts_Cell(int x, int y, ForagingAnts_CellState state) {
         super(x, y, state);
-        // TODO Auto-generated constructor stub
     }
 
     public void generateAnts() {
@@ -21,7 +20,7 @@ public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, Foraging
 
     @Override
     public void interact() {
-        if (!getCurrentState().equals(ForagingAntsState.OBSTACLE)) {
+        if (!getCurrentState().equals(ForagingAnts_CellState.OBSTACLE)) {
             Collection<ForagingAnts_Cell> neighbors = getNeighbors().stream().collect(Collectors.toSet());
             for (Ant a : getCurrentState().getAnts()) {
                 if (a.hasFood()) returnToNest(neighbors, a);
@@ -42,7 +41,7 @@ public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, Foraging
             //TODO: set orientation
             possibleNeighbors.get(0).getNextState().addAnt(a);
             getNextState().removeAnt(a);
-            if (possibleNeighbors.get(0).getCurrentState().equals(ForagingAntsState.SOURCE)) {
+            if (possibleNeighbors.get(0).getCurrentState().equals(ForagingAnts_CellState.SOURCE)) {
                 a.dropFood();
             }
         }
@@ -61,14 +60,14 @@ public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, Foraging
             //TODO: set oriention
             possibleNeighbors.get(0).getNextState().addAnt(a);
             getNextState().removeAnt(a);
-            if (possibleNeighbors.get(0).getCurrentState().equals(ForagingAntsState.SOURCE)) {
+            if (possibleNeighbors.get(0).getCurrentState().equals(ForagingAnts_CellState.SOURCE)) {
                 a.pickUpFood();
             }
         }
     }
 
     private void dropHomePheromones(Collection<ForagingAnts_Cell> neighbors) {
-        if (getCurrentState().equals(ForagingAntsState.SOURCE)) getCurrentState().setHomePheromoneToMax();
+        if (getCurrentState().equals(ForagingAnts_CellState.SOURCE)) getCurrentState().setHomePheromoneToMax();
 
         else if (getCurrentState().canDropHomePheromone()) {
             int max = neighbors.stream().mapToInt(e -> e.getCurrentState().getHomePheromone()).sum();
@@ -79,7 +78,7 @@ public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, Foraging
     }
 
     private void dropFoodPheromones(Collection<ForagingAnts_Cell> neighbors) {
-        if (getCurrentState().equals(ForagingAntsState.HOME)) getCurrentState().setFoodPheromoneToMax();
+        if (getCurrentState().equals(ForagingAnts_CellState.SOURCE)) getCurrentState().setFoodPheromoneToMax();
         else if (getCurrentState().canDropFoodPheromone()) {
 
         }
