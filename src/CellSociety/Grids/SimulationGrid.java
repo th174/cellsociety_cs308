@@ -49,8 +49,8 @@ public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstrac
     SimulationGrid<E, T> setShapeType(NeighborsGetter<SimulationGrid<E, T>> shape);
 
     class CellInstantiationException extends Exception {
-        public CellInstantiationException(int x, int y, Class<? extends Abstract_Cell> cellType, Object initializer) {
-            super("Instantiation of " + cellType.getName() + "at location (x,y) = (" + x + "," + y + ") failed, using initializer:\t" + initializer);
+        public CellInstantiationException(int x, int y, Class<? extends Abstract_Cell> cellType, String initializer) {
+            super("\nInstantiation of " + cellType.getSimpleName() + " at location (x,y) = (" + x + "," + y + ") failed:\nInitializer:\t" + initializer);
         }
     }
 }

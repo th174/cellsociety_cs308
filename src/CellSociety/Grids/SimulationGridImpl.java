@@ -22,8 +22,6 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
     public static final int CENTER = 1;
     private final Map<Pair<Integer, Integer>, E> cells;
     private Class<E> cellType;
-    private int leftBound;
-    private int upperBound;
     private int columns;
     private int rows;
     private BoundsHandler<SimulationGrid<E, T>> boundsMode;
@@ -193,7 +191,6 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         return cellConcentrations;
     }
 
-
     @Override
     public Iterator<E> iterator() {
         return stream().iterator();
@@ -208,11 +205,12 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         return parallelStream().findAny().get();
     }
 
-    private void instantiateCell(int x, int y, Object cellStateInitializer) throws CellInstantiationException {
+    private void instantiateCell(int x, int y, String... cellStateInitializer) throws CellInstantiationException {
         try {
             set(x, y, cellType.getConstructor(int.class, int.class, cellStateInitializer.getClass()).newInstance(x, y, cellStateInitializer));
         } catch (Exception e) {
-            throw new CellInstantiationException(x, y, cellType, cellStateInitializer);
+            e.printStackTrace();
+            throw new CellInstantiationException(x, y, cellType, Arrays.toString(cellStateInitializer));
         }
     }
 
@@ -227,43 +225,6 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         @Override
         public Pair<Integer, Integer> handleBounds(int x, int y, SimulationGrid<E, T> grid) {
             return new Pair<>(actualMod(x, grid.getColumns()), actualMod(y, grid.getRows()));
-        }
-    }
-
-    public final class InfiniteBounds implements BoundsHandler<SimulationGrid<E, T>> {
-        @Override
-        public Pair<Integer, Integer> handleBounds(int x, int y, SimulationGrid<E, T> grid) {
-            try {
-                if (x < leftBound) {
-                    leftBound--;
-                    addNewColumn(x, stream().findAny().get().getCurrentState());
-                } else if (x > leftBound + columns) {
-                    addNewColumn(x, stream().findAny().get().getInactiveState());
-                } else if (y < upperBound) {
-                    upperBound--;
-                    addNewRow(y, stream().findAny().get().getInactiveState());
-                } else if (y > upperBound + rows) {
-                    addNewRow(y, stream().findAny().get().getInactiveState());
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new Error("On line 205, you got fucked.");
-            }
-            return new Pair<>(x, y);
-        }
-
-        private void addNewColumn(int x, T state) throws Exception {
-            for (int y = upperBound; y < upperBound + rows; y++) {
-                instantiateCell(x, y, state);
-            }
-            columns++;
-        }
-
-        private void addNewRow(int y, T state) throws Exception {
-            for (int x = leftBound; x < leftBound + columns; x++) {
-                instantiateCell(x, y, state);
-            }
-            rows++;
         }
     }
 
