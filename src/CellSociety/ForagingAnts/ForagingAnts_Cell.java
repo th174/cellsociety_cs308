@@ -62,8 +62,8 @@ public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, Foraging
         if (!possibleNeighbors.isEmpty()) {
             dropFoodPheromones(neighbors);
             //TODO: set orientation
-            possibleNeighbors.get(0).getNextState().addAnt(a);
-            getNextState().removeAnt(a);
+            possibleNeighbors.get(0).getCurrentState().addAnt(a);
+            getCurrentState().removeAnt(a);
             if (possibleNeighbors.get(0).getCurrentState().equals(ForagingAnts_CellState.SOURCE)) {
                 a.dropFood();
             }
@@ -80,12 +80,13 @@ public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, Foraging
         //now look at all neighbors sorted by being able to go to them and by their # of pheromones
         List<ForagingAnts_Cell> possibleNeighbors = neighbors.stream().filter(e -> e.getCurrentState().canMoveToCell())
                 .sorted((c, d) -> c.getCurrentState().compareFoodTo(d.getCurrentState()))
-                .collect(Collectors.toList());//might want to refactor out
+                .collect(Collectors.toList());
+        
         if (!possibleNeighbors.isEmpty()) {
             dropHomePheromones(neighbors);
-            //TODO: set oriention
-            possibleNeighbors.get(0).getNextState().addAnt(a);
-            getNextState().removeAnt(a);
+            possibleNeighbors.get(0).getCurrentState().addAnt(a);
+            System.out.println("adding ant at "+possibleNeighbors.get(0) + " after starting at "+this);
+            getCurrentState().removeAnt(a);
             if (possibleNeighbors.get(0).getCurrentState().equals(ForagingAnts_CellState.SOURCE)) {
                 a.pickUpFood();
             }
@@ -98,7 +99,8 @@ public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, Foraging
         } else if (getCurrentState().canDropHomePheromone()) {
             int d;
             if ((d = neighbors.stream().mapToInt(e -> e.getCurrentState().getHomePheromone()).sum() - getCurrentState().getPheromoneConstant() - getCurrentState().getHomePheromone()) > 0) {
-                getNextState().addHomePheromone(d);
+                System.out.println("adding home "+d);
+            	getNextState().addHomePheromone(d);
             }
         }
     }
@@ -107,6 +109,7 @@ public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, Foraging
         if (getCurrentState().equals(ForagingAnts_CellState.SOURCE)) {
             getCurrentState().setFoodPheromoneToMax();
         } else if (getCurrentState().canDropFoodPheromone()) {
+        	System.out.println("adding food");
         }
     }
 }

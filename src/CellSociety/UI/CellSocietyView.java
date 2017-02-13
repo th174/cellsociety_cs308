@@ -74,14 +74,33 @@ public class CellSocietyView<T extends Abstract_CellView> {
     private LineChart myChart;
     private Collection<Series<Integer, Double>> mySeries;
 
+    /**
+     * Constructs CellSocietyView according to default size.
+     */
     public CellSocietyView() {
         this(DEFAULT_SIZE, DEFAULT_SIZE);
     }
 
+    /**
+     * Constructs CellSocietyView with the given width and height.
+     * InputData is set to null
+     *
+     * @param width
+     * @param height
+     */
     public CellSocietyView(double width, double height) {
         this(width, height, null);
     }
 
+    /**
+     * Constructs CellSocietyView according to the given parameters
+     * Zoom is set to 1 by default.
+     * Initializes and plays the Timeline.
+     *
+     * @param width     of the window
+     * @param height    of the window
+     * @param inputData
+     */
     public CellSocietyView(double width, double height, InputDataGetter inputData) {
         myInputData = inputData;
         windowWidth = width;
@@ -97,10 +116,16 @@ public class CellSocietyView<T extends Abstract_CellView> {
         myAnimation.play();
     }
 
+    /**
+     * @return scene of the animation
+     */
     public Scene getScene() {
         return myScene;
     }
 
+    /**
+     * @return Title of myResources
+     */
     public String getTitle() {
         return myResources.getString("Title");
     }
@@ -208,40 +233,72 @@ public class CellSocietyView<T extends Abstract_CellView> {
         private String gridOutlineStyle;
         private SimulationGrid<? extends Abstract_Cell, ? extends AbstractDiscrete_CellState> simulationGrid;
 
+        /**
+         * Reals XML file
+         *
+         * @param xmlFile
+         * @throws Exception if necessary
+         */
         public xmlInput(File xmlFile) throws Exception {
             readXML(xmlFile);
         }
 
+        /**
+         * @return simulationGrid of the animation
+         * @see CellSociety.UI.InputDataGetter#getSimulationGrid()
+         */
         @Override
         public SimulationGrid<? extends Abstract_Cell, ? extends AbstractDiscrete_CellState> getSimulationGrid() {
             return simulationGrid;
         }
 
+        /**
+         * @return simulation type
+         * @see CellSociety.UI.InputDataGetter#getSimulationType()
+         */
         @Override
         public String getSimulationType() {
             return simulationType;
         }
 
+        /**
+         * @return frames per second of the animation
+         * @see CellSociety.UI.InputDataGetter#getFramesPerSecond()
+         */
         @Override
         public double getFramesPerSecond() {
             return framesPerSecond;
         }
 
+        /**
+         * @return shape of the cells
+         * @see CellSociety.UI.InputDataGetter#getCellShape()
+         */
         @Override
         public String getCellShape() {
             return cellShape;
         }
 
+        /* (non-Javadoc)
+         * @see CellSociety.UI.InputDataGetter#getGridBoundType()
+         */
         @Override
         public String getGridBoundType() {
             return boundsType;
         }
 
+        /* (non-Javadoc)
+         * @see CellSociety.UI.InputDataGetter#getNeighborMode()
+         */
         @Override
         public String getNeighborMode() {
             return neighborMode;
         }
 
+        /**
+         * @return gridOutline as a String
+         * @see CellSociety.UI.InputDataGetter#getGridOutline()
+         */
         @Override
         public String getGridOutline() {
             return gridOutlineStyle;
@@ -336,6 +393,9 @@ public class CellSocietyView<T extends Abstract_CellView> {
     private class CellSocietyMenu {
         private MenuBar myMenu;
 
+        /**
+         * Constructs a new Menu used for the UI
+         */
         public CellSocietyMenu() {
             Menu file = initFileMenu();
             Menu simulation = initSimulationMenu();
@@ -345,6 +405,9 @@ public class CellSocietyView<T extends Abstract_CellView> {
             myMenu.setUseSystemMenuBar(SYSTEM_MENU_BAR);
         }
 
+        /**
+         * @return the menu bar
+         */
         public MenuBar getMenuBar() {
             return myMenu;
         }

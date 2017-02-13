@@ -12,6 +12,11 @@ public final class Triangle<E extends Abstract_Cell> extends AbstractRegularPoly
     private static final double SIDE_LENGTH_OVER_RADIUS = Math.sqrt(3);
     private static final double WIDTH_OVER_RADIUS = 1.5;
 
+    /**
+     * Constructs a Triangle of a certain cell and outline color
+     * @param cell
+     * @param outlineColor
+     */
     public Triangle(E cell, String outlineColor) {
         super(cell, outlineColor);
     }

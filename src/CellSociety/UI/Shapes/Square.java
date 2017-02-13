@@ -11,6 +11,11 @@ public final class Square<E extends Abstract_Cell> extends AbstractRegularPolygo
     private static final double SIDE_LENGTH_OVER_RADIUS = 2 / Math.sqrt(2);
     private static final double QUARTER_SPIN = Math.toRadians(45);
 
+    /**
+     * Constructs a square of a certain cell and with this outlineColor.
+     * @param cell
+     * @param outlineColor
+     */
     public Square(E cell, String outlineColor) {
         super(cell, outlineColor);
     }

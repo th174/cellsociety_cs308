@@ -25,6 +25,12 @@ public abstract class Abstract_CellView<E extends Abstract_Cell> {
         myView = new BorderPane();
     }
 
+    /**
+     * @param visibleColumns
+     * @param visibleRows
+     * @param windowWidth
+     * @param windowHeight
+     */
     public void updateView(double visibleColumns, double visibleRows, double windowWidth, double windowHeight) {
         myShape.setFill(myCell.getCurrentState().getFill().deriveColor(hueShift, saturationShift, lightnessShift, 1));
     }
@@ -33,14 +39,26 @@ public abstract class Abstract_CellView<E extends Abstract_Cell> {
         myShape = view;
     }
 
+    /**
+     * Sets the hueShift to the specifies amount.Can be used to adjust color.
+     * @param amount
+     */
     public void setHueShift(double amount) {
         hueShift = amount;
     }
 
+    /**
+     * Sets saturationShift to the specified amount. Can be used to adjust color.
+     * @param amount
+     */
     public void setSaturationShift(double amount) {
         saturationShift = amount;
     }
 
+    /**
+     * Sets LightessShift to the specified amount. Can be used to adjust color.
+     * @param amount
+     */
     public void setLightnessShift(double amount) {
         lightnessShift = amount;
     }

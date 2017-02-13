@@ -6,26 +6,29 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 
 public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<ForagingAnts_CellState, ForagingAnts_CellState.ForagingAntsState> {
     public static final ForagingAnts_CellState HOME = new ForagingAnts_CellState(ForagingAntsState.HOME);
     public static final ForagingAnts_CellState SOURCE = new ForagingAnts_CellState(ForagingAntsState.SOURCE);
     public static final ForagingAnts_CellState EMPTY = new ForagingAnts_CellState(ForagingAntsState.EMPTY);
     public static final ForagingAnts_CellState OBSTACLE = new ForagingAnts_CellState(ForagingAntsState.OBSTACLE);
-
+    
     private int foodPheromone;
     private int homePheromone;
     private Collection<Ant> myAnts;
+    private Collection<Ant> nextAnts;
     private int maxCapacity = 10;
     private int maxFoodPheromone = 100;
     private int maxHomePheromone = 100;
     private int pheromoneConstant = 10;
-
+    
     private ForagingAnts_CellState(ForagingAntsState state) {
         super(state);
         myAnts = new ArrayList<Ant>();
         foodPheromone = 0;
         homePheromone = 0;
+        nextAnts = new ArrayList<Ant>();
     }
 
     /**
@@ -38,17 +41,44 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
         maxFoodPheromone = params.length > 2 ? Integer.parseInt(params[2]) : 100;
         maxHomePheromone = params.length > 3 ? Integer.parseInt(params[3]) : 100;
         pheromoneConstant = params.length > 4 ? Integer.parseInt(params[4]) : 10;
+        myAnts= new ArrayList<Ant>();
+        int numberAnts = params.length > 5 ? Integer.parseInt(params[5]) : 0;
+        for(int i=0;i<numberAnts;i++){
+        	myAnts.add(new Ant(10));
+        }
+        nextAnts = new ArrayList<Ant>();
+        foodPheromone=40;
+        homePheromone=40;
+        
+    }
+    public ForagingAnts_CellState(ForagingAnts_CellState.ForagingAntsState state, int maxCapac,int maxFood, int maxHome, int pherConstant,
+    		Collection<Ant> ants, int food, int home) {
+    	super(state);
+    	maxCapacity = maxCapac;
+        maxFoodPheromone = maxFood;
+        maxHomePheromone = maxHome;
+        pheromoneConstant = pherConstant;
+        myAnts= ants;
+        nextAnts = new ArrayList<Ant>();
+        foodPheromone=food;
+        homePheromone=home;
     }
 
-    /* (non-Javadoc)
+    /** 
+     * Cells colored according to their states. Blue if empty, gray if source of food
+     * white if obstacle and dark green if home.
      * @see CellSociety.Abstract_CellState#getFill()
      */
     @Override
     public Color getFill() {
-        return getState().equals(ForagingAntsState.EMPTY) ? Color.BLUE :
+        return getState().equals(ForagingAntsState.HOME) ? Color.BLUE :
                 getState().equals(ForagingAntsState.SOURCE) ? Color.DARKGRAY :
-                        getState().equals(ForagingAntsState.OBSTACLE) ? Color.WHITESMOKE :
-                                Color.DARKOLIVEGREEN;
+                        getState().equals(ForagingAntsState.OBSTACLE) ? Color.BLACK :
+                                foodPheromone > 0.6* maxFoodPheromone? Color.DARKOLIVEGREEN: 
+                                	homePheromone > 0.6* maxHomePheromone? Color.DARKBLUE: 
+	                                	foodPheromone > 0.1* maxFoodPheromone? Color.DARKSEAGREEN:
+	                                		homePheromone > 0.1* maxHomePheromone? Color.LIGHTBLUE: 
+	                                			Color.WHITE;
     }
 
     /**
@@ -66,11 +96,18 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
     }
 
     /**
-     * Adds ant to this cell's collection of ants
+     * Adds ant to this cell's collection of ants of next State
      * @param a Ant to be added
      */
     public void addAnt(Ant a) {
-        myAnts.add(a);
+        nextAnts.add(a);
+    }
+    /**
+     * Remove ant to this cell's collection of ants of next State
+     * @param a Ant to be added
+     */
+    public void removeAnt(Ant a) {
+        nextAnts.remove(a);
     }
 
     /**
@@ -85,8 +122,7 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
      */
     @Override
     public ForagingAnts_CellState getSuccessorState() {
-        // TODO Auto-generated method stub
-        return null;
+        return new ForagingAnts_CellState(this.getState(),maxCapacity,maxFoodPheromone,maxHomePheromone,pheromoneConstant,myAnts,foodPheromone,homePheromone);
     }
 
     /**
@@ -121,13 +157,6 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
         return state.getHomePheromone() - homePheromone;
     }
 
-    /**
-     * Removes the given ant from this cell
-     * @param a
-     */
-    public void removeAnt(Ant a) {
-        myAnts.remove(a);
-    }
 
     /**
      * @return True if can drop foodPheromone

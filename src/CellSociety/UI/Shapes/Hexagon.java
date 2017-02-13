@@ -12,6 +12,11 @@ public final class Hexagon<E extends Abstract_Cell> extends AbstractRegularPolyg
     private static final double THIRTY_DEGREES = Math.toRadians(30);
     private static final double HEIGHT_OVER_RADIUS = 1.5;
 
+    /**
+     * Constructs a regular Hexagon of a certain cell and outline color
+     * @param cell
+     * @param outlineColor 
+     */
     public Hexagon(E cell, String outlineColor) {
         super(cell, outlineColor);
     }
