@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Simulation type="ForagingAnts" width="10" height="10" fps="1" shape="Square" outlines="black">
     <Cell>
-        <State>HOME</State>
-        
+        <State>EMPTY</State>
     </Cell>
     <Cell xPos="5" yPos="2">
         <State>SOURCE</State>
+    </Cell>
+    <Cell xPos="1" yPos="9">
+        <State>HOME</State>
     </Cell>
     <Cell xPos="8" yPos="8">
         <State>EMPTY</State>
