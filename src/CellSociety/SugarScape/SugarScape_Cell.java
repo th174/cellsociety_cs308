@@ -23,7 +23,7 @@ public class SugarScape_Cell extends Abstract_Cell<SugarScape_Cell, SugarScape_C
             if (getCurrentState().getAgentSugar() <= 0) {
                 starve();
             } else {
-                List<SugarScape_Cell> neighbors = getNeighbors().stream().filter(e -> !e.getCurrentState().hasAgent()).collect(Collectors.toList());
+                List<SugarScape_Cell> neighbors = getNeighbors().stream().filter(e -> !e.getNextState().hasAgent()).collect(Collectors.toList());
                 if (neighbors.size() > 0) {
                     Collections.shuffle(neighbors);
                     Collections.sort(neighbors);
