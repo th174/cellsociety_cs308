@@ -29,13 +29,12 @@ public class SugarScape_Cell extends Abstract_Cell<SugarScape_Cell, SugarScape_C
      */
     @Override
     public void interact() {
-        if (getCurrentState().hasAgent()) {
+        if (getCurrentState().equals(SugarScape_CellState.OCCUPIED)) {
             if (getCurrentState().getAgentSugar() <= 0) {
                 starve();
             } else {
-                List<SugarScape_Cell> neighbors = getNeighbors().stream().filter(e -> !e.getNextState().hasAgent()).collect(Collectors.toList());
+                List<SugarScape_Cell> neighbors = getNeighbors().stream().filter(e -> !e.getNextState().equals(SugarScape_CellState.OCCUPIED)).collect(Collectors.toList());
                 if (neighbors.size() > 0) {
-                    Collections.shuffle(neighbors);
                     Collections.sort(neighbors);
                     SugarScape_Cell mostSugar = neighbors.get(0);
                     if (getCurrentState().canReproduce()) {
@@ -66,14 +65,14 @@ public class SugarScape_Cell extends Abstract_Cell<SugarScape_Cell, SugarScape_C
     private void move(SugarScape_Cell target) {
         if (Objects.nonNull(target)) {
             setNextState(new SugarScape_CellState(getCurrentState(), false, 0));
-            target.setNextState(new SugarScape_CellState(getCurrentState(), true, target.getCurrentState().getSugar() + getCurrentState().getAgentSugar()));
+            target.setNextState(new SugarScape_CellState(getCurrentState(), true, target.getCurrentState().getCurrentSugar() + getCurrentState().getAgentSugar()));
         }
     }
 
     private void reproduce(SugarScape_Cell target) {
         if (Objects.nonNull(target)) {
             setNextState(new SugarScape_CellState(getCurrentState(), true));
-            target.setNextState(new SugarScape_CellState(getCurrentState(), true, target.getCurrentState().getSugar() + getCurrentState().getAgentSugar()));
+            target.setNextState(new SugarScape_CellState(getCurrentState(), true, target.getCurrentState().getCurrentSugar() + getCurrentState().getAgentSugar()));
         }
     }
 }

@@ -1,9 +1,8 @@
 package CellSociety.Grids;
 
+import CellSociety.AbstractDiscrete_CellState;
 import CellSociety.Abstract_Cell;
-import CellSociety.Abstract_CellState;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -12,7 +11,7 @@ import java.util.stream.Stream;
 /**
  * Created by th174 on 2/12/2017.
  */
-public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstract_CellState<T, ?>> {
+public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends AbstractDiscrete_CellState<T, ? extends Enum<?>>> {
     /**
      * updates the grid and displays the new cell configurations
      */
@@ -20,6 +19,7 @@ public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstrac
 
     /**
      * Gets the nearby cells of the given cell, returned as an array
+     *
      * @param x
      * @param y
      * @param distanceX
@@ -30,6 +30,7 @@ public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstrac
 
     /**
      * Gets the neighbors of the given cell coordinates
+     *
      * @param x
      * @param y
      * @return grid of the neighbors
@@ -38,7 +39,8 @@ public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstrac
 
     /**
      * counts Total number of cells of the given state
-     * @param state 
+     *
+     * @param state
      * @return number of cells
      */
     int countTotalOfState(T state);
@@ -54,7 +56,6 @@ public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstrac
     int getMaxIndex();
 
     /**
-     * 
      * @param x position of the cell
      * @param y position of the cell
      * @return cell at the given coordinates
@@ -63,6 +64,7 @@ public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstrac
 
     /**
      * Sets the cell at the given position to the given cell
+     *
      * @param x
      * @param y
      * @param cell
@@ -81,7 +83,7 @@ public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstrac
 
     /**
      * Apply a method to each cell in the grid
-     * 
+     *
      * @param method
      */
     void forEach(Consumer<? super E> method);
@@ -104,7 +106,7 @@ public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstrac
      * @return size of the grid
      */
     int size();
-    
+
     /**
      * @return an iterator of the cells in the grid
      */
@@ -113,17 +115,19 @@ public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstrac
     /**
      * @return set containing the distinct cellstates
      */
-    Set getDistinctCellStates();
+    Set<? extends Enum> getDistinctCellStates();
 
     /**
      * Sets the bounds Type of the simulation grid
-     * @param mode 
+     *
+     * @param mode
      * @return simulationGrid with the bounds type
      */
     SimulationGrid<E, T> setBoundsType(BoundsHandler<SimulationGrid<E, T>> mode);
 
     /**
      * Sets shape of the simuluation grid to the given shape
+     *
      * @param shape
      * @return simulation grid of the given shape
      */

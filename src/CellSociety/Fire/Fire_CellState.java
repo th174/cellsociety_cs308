@@ -3,6 +3,8 @@ package CellSociety.Fire;
 import CellSociety.AbstractDiscrete_CellState;
 import javafx.scene.paint.Color;
 
+import java.util.Set;
+
 /**
  * Created by th174 on 1/29/2017.
  */
@@ -12,7 +14,6 @@ public final class Fire_CellState extends AbstractDiscrete_CellState<Fire_CellSt
     public static final Fire_CellState EMPTY = new Fire_CellState(FireState.EMPTY, DEFAULT_FLAMMABILITY);
     public static final Fire_CellState TREE = new Fire_CellState(FireState.TREE, DEFAULT_FLAMMABILITY);
     private double flammability;
-
 
     private Fire_CellState(FireState state, double probCatch) {
         super(state);
@@ -52,7 +53,7 @@ public final class Fire_CellState extends AbstractDiscrete_CellState<Fire_CellSt
         return getState().equals(FireState.EMPTY) ? Color.YELLOW : getState().equals(FireState.TREE) ? Color.GREEN : Color.RED;
     }
 
-    /* (non-Javadoc)
+    /**
      * @see CellSociety.Abstract_CellState#getSuccessorState()
      */
     @Override
@@ -60,7 +61,7 @@ public final class Fire_CellState extends AbstractDiscrete_CellState<Fire_CellSt
         return new Fire_CellState(this, flammability);
     }
 
-    /* (non-Javadoc)
+    /**
      * @see CellSociety.Abstract_CellState#toString()
      */
     @Override

@@ -1,7 +1,7 @@
 package CellSociety.Grids;
 
+import CellSociety.AbstractDiscrete_CellState;
 import CellSociety.Abstract_Cell;
-import CellSociety.Abstract_CellState;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.util.Pair;
@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 /**
  * Created by th174 on 2/7/2017.
  */
-public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstract_CellState<T, ?>> implements SimulationGrid<E, T>, Iterable<E> {
+public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends AbstractDiscrete_CellState<T, ? extends Enum<?>>> implements SimulationGrid<E, T>, Iterable<E> {
     public static final int LEFT = 0;
     public static final int RIGHT = 2;
     public static final int TOP = 0;
@@ -267,7 +267,7 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
      * @return set containing the distinct cellstates
      */
     @Override
-    public Set getDistinctCellStates() {
+    public Set<? extends Enum> getDistinctCellStates() {
         return getSingleCell().getCurrentState().getDistinctCellStates();
     }
 

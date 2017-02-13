@@ -1,21 +1,28 @@
 package CellSociety.SugarScape;
 
-import CellSociety.Abstract_CellState;
+import CellSociety.AbstractDiscrete_CellState;
 import javafx.scene.paint.Color;
 
 import java.util.HashSet;
 import java.util.Set;
 
 
-public final class SugarScape_CellState extends Abstract_CellState<SugarScape_CellState, Double> {
+public final class SugarScape_CellState extends AbstractDiscrete_CellState<SugarScape_CellState, SugarScape_CellState.SugarScapeState> {
+    public static final SugarScape_CellState EMPTY = new SugarScape_CellState(SugarScapeState.EMPTY);
+    public static final SugarScape_CellState OCCUPIED = new SugarScape_CellState(SugarScapeState.OCCUPIED);
+
+    private double currentSugar;
     private double sugarGrowBackRate;
     private double maxCapacity;
     private double agentMetabolism;
     private double agentCurrentSugar;
     private double agentSugarCapacity;
-    private boolean hasAgent;
     private int maxReproduceTimer;
     private int reproduceTimer;
+
+    private SugarScape_CellState(SugarScapeState state) {
+        super(state);
+    }
 
     /**
      * Constructor from xml
@@ -23,7 +30,8 @@ public final class SugarScape_CellState extends Abstract_CellState<SugarScape_Ce
      * @param params xml parameters
      */
     public SugarScape_CellState(String... params) {
-        super(Double.parseDouble(params[0]));
+        super(params.length > 3 ? SugarScapeState.OCCUPIED : SugarScapeState.EMPTY);
+        currentSugar = Double.parseDouble(params[0]);
         maxCapacity = params.length > 1 ? Double.parseDouble(params[1]) : 100;
         sugarGrowBackRate = params.length > 2 ? Double.parseDouble(params[2]) : 20;
         agentMetabolism = params.length > 3 ? Double.parseDouble(params[3]) : 30;
@@ -31,12 +39,11 @@ public final class SugarScape_CellState extends Abstract_CellState<SugarScape_Ce
         agentCurrentSugar = agentSugarCapacity;
         maxReproduceTimer = params.length > 5 ? Integer.parseInt(params[5]) : Integer.MAX_VALUE;
         reproduceTimer = maxReproduceTimer;
-        hasAgent = params.length > 3;
     }
 
     private SugarScape_CellState(double sugar, double maxSugar, double sugarGrowRate, boolean agent, double metabolism, double agentSugar, double agentMaxSugar, int reproductionTime, int maxReproductionTime) {
-        super(sugar);
-        hasAgent = agent;
+        super(agent ? SugarScapeState.OCCUPIED : SugarScapeState.EMPTY);
+        currentSugar = sugar;
         maxCapacity = maxSugar;
         agentMetabolism = metabolism;
         agentCurrentSugar = agentSugar;
@@ -47,7 +54,7 @@ public final class SugarScape_CellState extends Abstract_CellState<SugarScape_Ce
     }
 
     private SugarScape_CellState(SugarScape_CellState parent) {
-        this(Math.min(parent.getState() + parent.sugarGrowBackRate, parent.maxCapacity), parent.maxCapacity, parent.sugarGrowBackRate, parent.hasAgent, parent.agentMetabolism, parent.agentCurrentSugar - parent.agentMetabolism, parent.agentSugarCapacity, parent.reproduceTimer - 1, parent.maxReproduceTimer);
+        this(Math.min(parent.currentSugar + parent.sugarGrowBackRate, parent.maxCapacity), parent.maxCapacity, parent.sugarGrowBackRate, parent.equals(OCCUPIED), parent.agentMetabolism, parent.agentCurrentSugar - parent.agentMetabolism, parent.agentSugarCapacity, parent.reproduceTimer - 1, parent.maxReproduceTimer);
     }
 
     /**
@@ -58,7 +65,7 @@ public final class SugarScape_CellState extends Abstract_CellState<SugarScape_Ce
      * @param agentSugar agent sugar amount
      */
     public SugarScape_CellState(SugarScape_CellState parent, boolean agent, double agentSugar) {
-        this(agent ? 0 : parent.getState(), parent.maxCapacity, parent.sugarGrowBackRate, agent, agent ? parent.agentMetabolism : 0, Math.min(agentSugar, parent.agentSugarCapacity) - parent.agentMetabolism, parent.agentSugarCapacity, parent.reproduceTimer - 1, parent.maxReproduceTimer);
+        this(agent ? 0 : parent.currentSugar, parent.maxCapacity, parent.sugarGrowBackRate, agent, agent ? parent.agentMetabolism : 0, Math.min(agentSugar, parent.agentSugarCapacity) - parent.agentMetabolism, parent.agentSugarCapacity, parent.reproduceTimer - 1, parent.maxReproduceTimer);
     }
 
     /**
@@ -68,14 +75,14 @@ public final class SugarScape_CellState extends Abstract_CellState<SugarScape_Ce
      * @param agent  new agent exists
      */
     public SugarScape_CellState(SugarScape_CellState parent, boolean agent) {
-        this(agent ? 0 : parent.getState(), parent.maxCapacity, parent.sugarGrowBackRate, agent, agent ? parent.agentMetabolism : 0, parent.agentSugarCapacity, parent.agentSugarCapacity, parent.maxReproduceTimer, parent.maxReproduceTimer);
+        this(agent ? 0 : parent.currentSugar, parent.maxCapacity, parent.sugarGrowBackRate, agent, agent ? parent.agentMetabolism : 0, parent.agentSugarCapacity, parent.agentSugarCapacity, parent.maxReproduceTimer, parent.maxReproduceTimer);
     }
 
     /**
      * @return current agent's current amount of sugar, or -1 if there is no agent
      */
     public double getAgentSugar() {
-        return hasAgent ? agentCurrentSugar : -1;
+        return equals(OCCUPIED) ? agentCurrentSugar : -1;
     }
 
     /**
@@ -87,18 +94,12 @@ public final class SugarScape_CellState extends Abstract_CellState<SugarScape_Ce
      */
     @Override
     public int compareTo(SugarScape_CellState otherCellState) {
-        return getState().compareTo(otherCellState.getState());
+        return (int) ((getCurrentSugar() - otherCellState.getCurrentSugar()) * 100);
     }
 
-    /**
-     * Tests whether two CellStates both have agents or not.
-     *
-     * @param o object to be compared with
-     * @return
-     */
     @Override
     public boolean equals(Object o) {
-        return o instanceof SugarScape_CellState && this.hasAgent() == ((SugarScape_CellState) o).hasAgent();
+        return o instanceof SugarScape_CellState && this.getState().equals(((SugarScape_CellState) o).getState());
     }
 
     /**
@@ -106,15 +107,14 @@ public final class SugarScape_CellState extends Abstract_CellState<SugarScape_Ce
      */
     @Override
     public Color getFill() {
-        return hasAgent() ? Color.RED : Color.ORANGE.deriveColor(0, 1, 1, getState() / maxCapacity);
+        return equals(OCCUPIED) ? Color.RED : Color.ORANGE.deriveColor(0, 1, 1, getCurrentSugar() / maxCapacity);
     }
 
     /**
-     *
      * @return current amount of sugar in this spot
      */
-    public double getSugar() {
-        return getState();
+    public double getCurrentSugar() {
+        return currentSugar;
     }
 
     /**
@@ -123,13 +123,6 @@ public final class SugarScape_CellState extends Abstract_CellState<SugarScape_Ce
     @Override
     public SugarScape_CellState getSuccessorState() {
         return new SugarScape_CellState(this);
-    }
-
-    /**
-     * @return True if there is currently an agent occupying this cell statee, else false.
-     */
-    public boolean hasAgent() {
-        return hasAgent;
     }
 
     /**
@@ -148,5 +141,9 @@ public final class SugarScape_CellState extends Abstract_CellState<SugarScape_Ce
         agentOrNoAgent.add(true);
         agentOrNoAgent.add(false);
         return agentOrNoAgent;
+    }
+
+    enum SugarScapeState {
+        EMPTY, OCCUPIED
     }
 }

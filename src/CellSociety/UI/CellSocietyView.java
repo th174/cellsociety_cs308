@@ -1,7 +1,7 @@
 package CellSociety.UI;
 
+import CellSociety.AbstractDiscrete_CellState;
 import CellSociety.Abstract_Cell;
-import CellSociety.Abstract_CellState;
 import CellSociety.Grids.BoundsHandler;
 import CellSociety.Grids.NeighborsGetter;
 import CellSociety.Grids.SimulationGrid;
@@ -29,7 +29,6 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -66,7 +65,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
     private static final ResourceBundle myResources = ResourceBundle.getBundle(RESOURCES_LOCATION);
     private Timeline myAnimation;
     private Scene myScene;
-    private SimulationGrid<? extends Abstract_Cell, ? extends Abstract_CellState> mySimulationGrid;
+    private SimulationGrid<? extends Abstract_Cell, ? extends AbstractDiscrete_CellState> mySimulationGrid;
     private Collection<T> cellViews;
     private double windowWidth;
     private double windowHeight;
@@ -143,7 +142,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
         return simulationPane;
     }
 
-    private T instantiateCellView(Abstract_Cell<? extends Abstract_Cell, ? extends Abstract_CellState> cell) {
+    private T instantiateCellView(Abstract_Cell<? extends Abstract_Cell, ? extends AbstractDiscrete_CellState> cell) {
         try {
             return (T) Class.forName("CellSociety.UI.Shapes." + myInputData.getCellShape()).getConstructor(Abstract_Cell.class, String.class).newInstance(cell, myInputData.getGridOutline());
         } catch (Exception e1) {
@@ -207,14 +206,14 @@ public class CellSocietyView<T extends Abstract_CellView> {
         private String boundsType;
         private String neighborMode;
         private String gridOutlineStyle;
-        private SimulationGrid<? extends Abstract_Cell, ? extends Abstract_CellState> simulationGrid;
+        private SimulationGrid<? extends Abstract_Cell, ? extends AbstractDiscrete_CellState> simulationGrid;
 
         public xmlInput(File xmlFile) throws Exception {
             readXML(xmlFile);
         }
 
         @Override
-        public SimulationGrid<? extends Abstract_Cell, ? extends Abstract_CellState> getSimulationGrid() {
+        public SimulationGrid<? extends Abstract_Cell, ? extends AbstractDiscrete_CellState> getSimulationGrid() {
             return simulationGrid;
         }
 
@@ -486,7 +485,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
             dbox.setHeaderText(myResources.getString("View_Graph_Content"));
             dbox.getDialogPane().getButtonTypes().add(new ButtonType(myResources.getString("Okay"), ButtonBar.ButtonData.CANCEL_CLOSE));
             Pane graphPane = new Pane();
-            graphPane.setBackground(new Background(new BackgroundFill(Color.BLUE,null,null)));
+            graphPane.setBackground(new Background(new BackgroundFill(Color.BLUE, null, null)));
             dbox.getDialogPane().setContent(graphPane);
             dbox.showAndWait();
         }
