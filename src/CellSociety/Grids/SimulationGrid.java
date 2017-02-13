@@ -54,5 +54,4 @@ public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstrac
             super("\nInstantiation of " + cellType.getSimpleName() + " at location (x,y) = (" + x + "," + y + ") failed:\nInitializer:\t" + initializer);
         }
     }
-    Collection<E> getAngledNeighbors(SimulationGrid<E,T> grid, int rAngle, int lAngle);
 }

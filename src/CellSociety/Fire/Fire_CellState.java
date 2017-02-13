@@ -43,11 +43,6 @@ public final class Fire_CellState extends AbstractDiscrete_CellState<Fire_CellSt
     }
 
     @Override
-    public Fire_CellState getInactiveState() {
-        return new Fire_CellState(EMPTY, flammability);
-    }
-
-    @Override
     public String toString() {
         return super.toString() + String.format("\n\t\t<Flammability>%f</Flammability", flammability);
     }

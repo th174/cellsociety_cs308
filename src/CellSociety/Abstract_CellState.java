@@ -56,8 +56,6 @@ public abstract class Abstract_CellState<E extends Abstract_CellState<E, T>, T> 
         return myState;
     }
 
-    public abstract E getInactiveState();
-
     public String toString() {
         return String.format("\n\t\t<State>%s</State>", myState.toString());
     }

@@ -66,11 +66,6 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
         return null;
     }
 
-    @Override
-    public ForagingAnts_CellState getInactiveState() {
-        return new ForagingAnts_CellState(ForagingAntsState.EMPTY);
-    }
-
     public int getFoodPheromone() {
         return foodPheromone;
     }
