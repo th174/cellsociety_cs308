@@ -80,18 +80,23 @@ public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstrac
     Stream<E> parallelStream();
 
     /**
-     * Applies the method to each cell in the grid
+     * Apply a method to each cell in the grid
+     * 
      * @param method
      */
     void forEach(Consumer<? super E> method);
 
     /**
-     * @return number of columns of the grid
+     * Get width of grid (x-dimension)
+     *
+     * @return width
      */
     int getColumns();
 
     /**
-     * @return number of rows of the grid
+     * Get height of grid (y-dimension)
+     *
+     * @return height
      */
     int getRows();
 

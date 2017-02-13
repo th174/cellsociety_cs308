@@ -5,7 +5,7 @@ package CellSociety.Grids;
  */
 public interface NeighborsGetter<E extends SimulationGrid> {
     /**
-     * Determines which neighbors to get
+     * Determines which neighbors to get according to the grid and x,y coordinates
      * @param x
      * @param y
      * @param grid of the simulation
