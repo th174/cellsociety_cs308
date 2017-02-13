@@ -4,11 +4,12 @@ use warnings;
 
 
 #change this between simulations:
-my $simulationType = "GameOfLife";
+my $simulationType = "SlimeMold";
 #my @state = ("EMPTY","X","O");              #for Segregation
-my @state = ("DEAD", "ALIVE");              #for GameOfLife
+#my @state = ("DEAD", "ALIVE");              #for GameOfLife
 #my @state = ("EMPTY", "PREDATOR", "PREY");   #for PredatorPrey
 #my @state = ("EMPTY", "TREE", "BURNING");   #for Fire
+my @state = ("EMPTY","TURTLE");
 
 #my $additionalArgs = "\n\t\t<Threshold>.7</Threshold>";    #for Segregation
 #my $additionalArgs = "\n\t\t<ProbCatch>.55</ProbCatch>";   #for Fire
