@@ -37,7 +37,7 @@ public class LineGraph<E> {
 	private int xSeriesData = 0;
 
 	public <T> void Graph(SimulationGrid sim, Pane root) {
-		mySimulation= new SimulationGrid sim;
+		//mySimulation= new SimulationGrid sim;
 		myRoot = root;
 		mySeriesMap = new HashMap<Integer, XYChart.Series<Number, Number>>();
 		init();
@@ -48,7 +48,7 @@ public class LineGraph<E> {
 		//Need someway yo put in y axis the complete total of the grid
 		//get the name of the simulation
 		final NumberAxis xAxis = new NumberAxis();
-		final NumberAxis yAxis = new NumberAxis(0, mySimulation., mySimulation.getDistinctCellStates());
+		final NumberAxis yAxis = new NumberAxis();
 		xAxis.setLabel("Time");
 		yAxis.setLabel("Number of Cells");
 		final LineChart<Number, Number> graph = new LineChart<Number, Number>(xAxis, yAxis);
@@ -57,13 +57,14 @@ public class LineGraph<E> {
 		for (Object s : mySimulation.getDistinctCellStates()) {
 			XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
 			//series.setName(mySimulation.getDistinctCellStates());
-			mySeriesMap.put((Integer) s, series);
+			//mySeriesMap.put( s,series);
 			graph.getData().add(series);
 		}
 		//Set where we want to put it
 		graph.setLayoutX(100);
 		graph.setLayoutY(50);
 		myRoot.getChildren().add(graph);
+		
 	}
 
 	/**
@@ -75,10 +76,12 @@ public class LineGraph<E> {
 	public void updateGraph(GridPane grid, SimulationGrid Sim) {
 		ArrayList<Integer> stateCount = new ArrayList<Integer>();
 		//number of states
-		for (int i = 0; i < mySeriesMap.size(); i++) {
+		for (int i = 0; i < stateCount.size(); i++) {
 			stateCount.add(0);
-			Sim.countTotalOfState(mySeriesMap.get(i));
+			Sim.getDistinctCellStates().size();
+			mySeriesMap.get(i).getData().add(new XYChart.Data<Number, Number>(xSeriesData, stateCount.get(i)));
 		}
+		
 		//How do I get total number of cell per each
 		/*for (int i = 0; i < grid.getHeight(); i++) {
 			for (int j = 0; j < grid.getWidth(); j++) {
@@ -88,9 +91,9 @@ public class LineGraph<E> {
 			}
 		}
 		 */
-		for (int state = 0; state < stateCount.size(); state++) {
+		/*for (int state = 0; state < stateCount.size(); state++) {
 			mySeriesMap.get(state).getData().add(new XYChart.Data<Number, Number>(xSeriesData, stateCount.get(state)));
-		}
+		}*/
 		xSeriesData += 1;
 	}
 
