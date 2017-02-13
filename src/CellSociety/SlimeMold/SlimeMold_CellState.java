@@ -110,4 +110,3 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
     }
 
 }
->>>>>>>cf5f6f96ac6d6c49dd97255209016aaf42724806

@@ -26,7 +26,16 @@ public abstract class AbstractDiscrete_CellState<E extends AbstractDiscrete_Cell
         return Arrays.stream(getState().getClass().getEnumConstants()).map(e -> (T) e).collect(Collectors.toSet());
     }
 
-    /** 
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof AbstractDiscrete_CellState) {
+            return getState().equals(((AbstractDiscrete_CellState) o).getState());
+        } else {
+            return o instanceof Enum && getState().equals(o);
+        }
+    }
+
+    /**
      * @see CellSociety.Abstract_CellState#compareTo(CellSociety.Abstract_CellState)
      */
     @Override

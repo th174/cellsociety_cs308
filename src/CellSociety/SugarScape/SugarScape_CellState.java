@@ -97,11 +97,6 @@ public final class SugarScape_CellState extends AbstractDiscrete_CellState<Sugar
         return (int) ((getCurrentSugar() - otherCellState.getCurrentSugar()) * 100);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        return o instanceof SugarScape_CellState && this.getState().equals(((SugarScape_CellState) o).getState());
-    }
-
     /**
      * @return color representation of the current state. By default, occupied cells are red, and others are shades of orange based on the amount of sand inside.
      */
