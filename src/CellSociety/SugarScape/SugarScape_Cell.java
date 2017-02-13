@@ -10,6 +10,10 @@ import java.util.stream.Collectors;
 
 public class SugarScape_Cell extends Abstract_Cell<SugarScape_Cell, SugarScape_CellState> implements Comparable<SugarScape_Cell> {
 
+	public SugarScape_Cell(int x, int y, String... params){
+		this(x,y,new SugarScape_CellState(params));
+	}
+
     public SugarScape_Cell(int x, int y, SugarScape_CellState state) {
         super(x, y, state);
     }

@@ -189,4 +189,3 @@ public class LineGraph extends Application implements SimulationGridImpl {
 
 
 }	
-

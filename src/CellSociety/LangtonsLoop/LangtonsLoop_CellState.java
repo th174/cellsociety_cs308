@@ -24,10 +24,6 @@ public final class LangtonsLoop_CellState extends AbstractDiscrete_CellState<Lan
         return new LangtonsLoop_CellState(this);
     }
 
-    @Override
-    public LangtonsLoop_CellState getInactiveState() {
-        return new LangtonsLoop_CellState(LangtonsLoopState.EMPTY);
-    }
 
     enum LangtonsLoopState {
     	EMPTY, CORE, SHEATH, TURNSUPPORT, TURN, DISCONNECT, FINISH, GROWTH

@@ -167,7 +167,7 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         shapeMode = shape;
         return this;
     }
-
+    
     public int size() {
         return (int) parallelStream().count();
     }
@@ -228,47 +228,6 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         }
     }
 
-<<<<<<< HEAD
-    public final class InfiniteBounds implements BoundsHandler<SimulationGrid<E, T>> {
-        @Override
-        public Pair<Integer, Integer> handleBounds(int x, int y, SimulationGrid<E, T> grid) {
-            try {
-                if (x < leftBound) {
-                    leftBound--;
-                    addNewColumn(x, stream().findAny().get().getCurrentState());
-                } else if (x > leftBound + columns) {
-                    addNewColumn(x, stream().findAny().get().getInactiveState());
-                } else if (y < upperBound) {
-                    upperBound--;
-                    addNewRow(y, stream().findAny().get().getInactiveState());
-                } else if (y > upperBound + rows) {
-                    addNewRow(y, stream().findAny().get().getInactiveState());
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new Error("On line 205, you got fucked.");
-            }
-            return new Pair<>(x, y);
-        }
-
-        private void addNewColumn(int x, T state) throws Exception {
-            for (int y = upperBound; y < upperBound + rows; y++) {
-                instantiateCell(x, y, state);
-            }
-            columns++;
-        }
-
-        private void addNewRow(int y, T state) throws Exception {
-            for (int x = leftBound; x < leftBound + columns; x++) {
-                instantiateCell(x, y, state);
-            }
-            rows++;
-        }
-    }
-
-
-=======
->>>>>>> 1c2c8fc5477637a8acc023132ca161df9b7d3910
     public final class SquaresGrid implements NeighborsGetter<SimulationGrid<E, T>> {
         @Override
         public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {

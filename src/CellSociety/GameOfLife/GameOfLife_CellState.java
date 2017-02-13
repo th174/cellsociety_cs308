@@ -32,11 +32,6 @@ public final class GameOfLife_CellState extends AbstractDiscrete_CellState<GameO
         return new GameOfLife_CellState(this);
     }
 
-    @Override
-    public GameOfLife_CellState getInactiveState() {
-        return new GameOfLife_CellState(GameOfLifeState.DEAD);
-    }
-
     enum GameOfLifeState {
         ALIVE, DEAD
     }
