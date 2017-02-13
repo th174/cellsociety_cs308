@@ -10,14 +10,28 @@ public class GameOfLife_Cell extends Abstract_Cell<GameOfLife_Cell, GameOfLife_C
     private static final int TWO = 2;
     private static final int THREE = 3;
 
+    /**
+     * @param x
+     * @param y
+     * @param params
+     */
     public GameOfLife_Cell(int x, int y, String... params) {
         this(x, y, new GameOfLife_CellState(params[0]));
     }
 
+    /**
+     * Initializes game of cell life
+     * @param x
+     * @param y
+     * @param state
+     */
     public GameOfLife_Cell(int x, int y, GameOfLife_CellState state) {
         super(x, y, state);
     }
 
+    /**
+     * Determines how the cells interact according to their neighbors
+     */
     @Override
     public void interact() {
         int numAlive = (int) getNeighbors().parallelStream()

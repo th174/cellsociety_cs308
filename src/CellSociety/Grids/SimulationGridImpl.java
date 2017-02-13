@@ -214,28 +214,56 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         }
     }
 
+    /**
+     * @author Tim
+     *
+     */
     public final class FiniteBounds implements BoundsHandler<SimulationGrid<E, T>> {
+        /* (non-Javadoc)
+         * @see CellSociety.Grids.BoundsHandler#handleBounds(int, int, CellSociety.Grids.SimulationGrid)
+         */
         @Override
         public Pair<Integer, Integer> handleBounds(int x, int y, SimulationGrid<E, T> grid) {
             return new Pair<>(x, y);
         }
     }
 
+    /**
+     * @author Tim
+     *
+     */
     public final class WrappedBounds implements BoundsHandler<SimulationGrid<E, T>> {
+        /* (non-Javadoc)
+         * @see CellSociety.Grids.BoundsHandler#handleBounds(int, int, CellSociety.Grids.SimulationGrid)
+         */
         @Override
         public Pair<Integer, Integer> handleBounds(int x, int y, SimulationGrid<E, T> grid) {
             return new Pair<>(actualMod(x, grid.getColumns()), actualMod(y, grid.getRows()));
         }
     }
 
+    /**
+     * @author Tim
+     *
+     */
     public final class SquaresGrid implements NeighborsGetter<SimulationGrid<E, T>> {
+        /* (non-Javadoc)
+         * @see CellSociety.Grids.NeighborsGetter#getNeighbors(int, int, CellSociety.Grids.SimulationGrid)
+         */
         @Override
         public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             return new SimulationGridImpl<>(grid.getNearbyCellsAsArray(x, y, 1, 1));
         }
     }
 
+    /**
+     * @author Tim
+     *
+     */
     public final class AdjacentSquaresGrid implements NeighborsGetter<SimulationGrid<E, T>> {
+        /* (non-Javadoc)
+         * @see CellSociety.Grids.NeighborsGetter#getNeighbors(int, int, CellSociety.Grids.SimulationGrid)
+         */
         @Override
         public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             E[][] neighbors = grid.getNearbyCellsAsArray(x, y, 1, 1);
@@ -247,7 +275,14 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         }
     }
 
+    /**
+     * @author Tim
+     *
+     */
     public final class CornersSquaresGrid implements NeighborsGetter<SimulationGrid<E, T>> {
+        /* (non-Javadoc)
+         * @see CellSociety.Grids.NeighborsGetter#getNeighbors(int, int, CellSociety.Grids.SimulationGrid)
+         */
         @Override
         public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             E[][] neighbors = grid.getNearbyCellsAsArray(x, y, 1, 1);
@@ -259,7 +294,14 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         }
     }
 
+    /**
+     * @author Tim
+     *
+     */
     public final class HexagonsGrid implements NeighborsGetter<SimulationGrid<E, T>> {
+        /* (non-Javadoc)
+         * @see CellSociety.Grids.NeighborsGetter#getNeighbors(int, int, CellSociety.Grids.SimulationGrid)
+         */
         @Override
         public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             E[][] neighbors = grid.getNearbyCellsAsArray(x, y, 1, 1);
@@ -274,14 +316,28 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         }
     }
 
+    /**
+     * @author Tim
+     *
+     */
     public final class AdjacentHexagonsGrid implements NeighborsGetter<SimulationGrid<E, T>> {
+        /* (non-Javadoc)
+         * @see CellSociety.Grids.NeighborsGetter#getNeighbors(int, int, CellSociety.Grids.SimulationGrid)
+         */
         @Override
         public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             return new HexagonsGrid().getNeighbors(x, y, grid);
         }
     }
 
+    /**
+     * @author Tim
+     *
+     */
     public final class TrianglesGrid implements NeighborsGetter<SimulationGrid<E, T>> {
+        /* (non-Javadoc)
+         * @see CellSociety.Grids.NeighborsGetter#getNeighbors(int, int, CellSociety.Grids.SimulationGrid)
+         */
         @Override
         public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             E[][] neighbors = getNearbyCellsAsArray(x, y, 1, 2);
@@ -296,7 +352,14 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         }
     }
 
+    /**
+     * @author Tim
+     *
+     */
     public final class AdjacentTrianglesGrid implements NeighborsGetter<SimulationGrid<E, T>> {
+        /* (non-Javadoc)
+         * @see CellSociety.Grids.NeighborsGetter#getNeighbors(int, int, CellSociety.Grids.SimulationGrid)
+         */
         @Override
         public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             E[][] neighbors = getNearbyCellsAsArray(x, y, 1, 1);
@@ -313,7 +376,14 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         }
     }
 
+    /**
+     * @author Tim
+     *
+     */
     public final class CornersTrianglesGrid implements NeighborsGetter<SimulationGrid<E, T>> {
+        /* (non-Javadoc)
+         * @see CellSociety.Grids.NeighborsGetter#getNeighbors(int, int, CellSociety.Grids.SimulationGrid)
+         */
         @Override
         public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             E[][] neighbors = getNearbyCellsAsArray(x, y, 1, 2);
