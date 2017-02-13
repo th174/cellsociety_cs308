@@ -32,6 +32,9 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
         setNextState(getCurrentState().getSuccessorState());
     }
 
+    /**
+     * Determines how the cells interact
+     */
     public abstract void interact();
 
     /**
@@ -45,18 +48,31 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
         }
     }
 
+    /**
+     * Goes to the index in the timeline. Allows us to jump.
+     * @param index
+     */
     public void seek(int index) {
         myTimeline.seek(index);
     }
 
+    /**
+     * Reverses the animation.
+     */
     public void reverse() {
         myTimeline.reverse();
     }
 
+    /**
+     * @return current index of the Timeline
+     */
     public int getCurrentIndex() {
         return myTimeline.getCurrentIndex();
     }
 
+    /**
+     * @return max index of the Timeline
+     */
     public int getMaxIndex() {
         return myTimeline.getMaxIndex();
     }
@@ -85,6 +101,9 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
         return myTimeline.getIndex();
     }
 
+    /**
+     * @return nextState of cell
+     */
     public T getNextState() {
         return myTimeline.getNextState();
     }
@@ -98,18 +117,30 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
         myTimeline.setNextState(state);
     }
 
+    /**
+     * @return inactiveState of the cellstate
+     */
     public T getInactiveState() {
         return getCurrentState().getInactiveState();
     }
 
+    /**
+     * @return x position of the cell
+     */
     public int getX() {
         return xPos;
     }
 
+    /**
+     * @return y position of the cell
+     */
     public int getY() {
         return yPos;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         return String.format("\n\t<Cell xPos=\"%d\" yPos=\"%d\">%s\n\t</Cell>", getX(), getY(), getCurrentState());

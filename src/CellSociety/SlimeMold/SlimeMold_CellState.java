@@ -61,11 +61,7 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
         return new SlimeMold_CellState(nextState, nextTurtles, nextChemical, evaporationRate, diffusionRate,new ArrayList<Turtle>());
     }
 
-    @Override
-    public SlimeMold_CellState getInactiveState() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+
 
     public boolean hasTurtle() {
         return !myTurtles.isEmpty();
