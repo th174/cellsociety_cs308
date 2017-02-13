@@ -271,7 +271,11 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         return getSingleCell().getCurrentState().getDistinctCellStates();
     }
 
-    private E getSingleCell() {
+    /**
+     * @return Returns any single cell from the grid
+     */
+    @Override
+    public E getSingleCell() {
         return parallelStream().findAny().get();
     }
 

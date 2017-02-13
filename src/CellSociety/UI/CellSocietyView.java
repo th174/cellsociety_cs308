@@ -16,6 +16,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.*;
 import javafx.scene.control.Dialog;
@@ -547,9 +548,9 @@ public class CellSocietyView<T extends Abstract_CellView> {
             dbox.setTitle(myResources.getString("View_Graph"));
             dbox.setHeaderText(myResources.getString("View_Graph_Content"));
             dbox.getDialogPane().getButtonTypes().add(new ButtonType(myResources.getString("Okay"), ButtonBar.ButtonData.CANCEL_CLOSE));
-            Pane graphPane = new Pane();
-            graphPane.setBackground(new Background(new BackgroundFill(Color.BLUE, null, null)));
-            dbox.getDialogPane().setContent(graphPane);
+            int time = mySimulationGrid.getSingleCell().getMaxIndex();
+            LineChart cellSocietyChart = new LineChart<>(new NumberAxis("Time", 0, time, time / 10), new NumberAxis(0, mySimulationGrid.size(), mySimulationGrid.getColumns()));
+            dbox.getDialogPane().setContent(cellSocietyChart);
             dbox.showAndWait();
         }
 
