@@ -13,6 +13,13 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
     public static final ForagingAnts_CellState SOURCE = new ForagingAnts_CellState(ForagingAntsState.SOURCE);
     public static final ForagingAnts_CellState EMPTY = new ForagingAnts_CellState(ForagingAntsState.EMPTY);
     public static final ForagingAnts_CellState OBSTACLE = new ForagingAnts_CellState(ForagingAntsState.OBSTACLE);
+    public static final int DEFAULT_FOOD=40;
+    public static final int DEFAULT_HOME=40;
+    public static final int DEFAULT_MAXFOOD=100;
+    public static final int DEFAULT_MAXHOME=100;
+    public static final int DEFAULT_MAXCAP=100;
+    public static final int DEFAULT_CONSTANT=10;
+    
     
     private int foodPheromone;
     private int homePheromone;
@@ -24,11 +31,7 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
     private int pheromoneConstant = 10;
     
     private ForagingAnts_CellState(ForagingAntsState state) {
-        super(state);
-        myAnts = new ArrayList<Ant>();
-        foodPheromone = 0;
-        homePheromone = 0;
-        nextAnts = new ArrayList<Ant>();
+        this(state.toString());
     }
 
     /**
@@ -37,18 +40,18 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
      */
     public ForagingAnts_CellState(String... params) {
         super(params[0].toLowerCase().equals("rand") ? randomState(ForagingAntsState.class) : ForagingAntsState.valueOf(params[0].toUpperCase()));
-        maxCapacity = params.length > 1 ? Integer.parseInt(params[1]) : 10;
-        maxFoodPheromone = params.length > 2 ? Integer.parseInt(params[2]) : 100;
-        maxHomePheromone = params.length > 3 ? Integer.parseInt(params[3]) : 100;
-        pheromoneConstant = params.length > 4 ? Integer.parseInt(params[4]) : 10;
+        maxCapacity = params.length > 1 ? Integer.parseInt(params[1]) : DEFAULT_MAXCAP;
+        maxFoodPheromone = params.length > 2 ? Integer.parseInt(params[2]) : DEFAULT_MAXFOOD;
+        maxHomePheromone = params.length > 3 ? Integer.parseInt(params[3]) : DEFAULT_MAXHOME;
+        pheromoneConstant = params.length > 4 ? Integer.parseInt(params[4]) : DEFAULT_CONSTANT;
         myAnts= new ArrayList<Ant>();
         int numberAnts = params.length > 5 ? Integer.parseInt(params[5]) : 0;
         for(int i=0;i<numberAnts;i++){
         	myAnts.add(new Ant(10));
         }
         nextAnts = new ArrayList<Ant>();
-        foodPheromone=40;
-        homePheromone=40;
+        foodPheromone=DEFAULT_FOOD;
+        homePheromone=DEFAULT_HOME;
         
     }
     public ForagingAnts_CellState(ForagingAnts_CellState.ForagingAntsState state, int maxCapac,int maxFood, int maxHome, int pherConstant,
@@ -211,23 +214,5 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
         HOME, SOURCE, EMPTY, OBSTACLE
     }
 
-    public class foodPheromoneComparator implements Comparator<ForagingAnts_Cell> {
-
-        @Override
-        public int compare(ForagingAnts_Cell o1, ForagingAnts_Cell o2) {
-            // TODO Auto-generated method stub
-            return (o2.getCurrentState().getFoodPheromone() - o1.getCurrentState().getFoodPheromone());
-        }
-
-    }
-
-    public class homePheromoneComparator implements Comparator<ForagingAnts_Cell> {
-
-        @Override
-        public int compare(ForagingAnts_Cell o1, ForagingAnts_Cell o2) {
-            // TODO Auto-generated method stub
-            return (o2.getCurrentState().getHomePheromone() - o1.getCurrentState().getHomePheromone());
-        }
-
-    }
+    
 }

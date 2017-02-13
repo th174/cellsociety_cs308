@@ -51,17 +51,12 @@ public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, Foraging
     }
 
     private void returnToNest(Collection<ForagingAnts_Cell> neighbors, Ant a) {
-    	if(getCurrentState().equals(ForagingAntsState.SOURCE)){
-    		
-    	}
-        //TODO: look at top 3
 
         List<ForagingAnts_Cell> possibleNeighbors = neighbors.stream().filter(e -> e.getCurrentState().canMoveToCell())
                 .sorted((c, d) -> c.getCurrentState().compareHomeTo(d.getCurrentState()))
                 .collect(Collectors.toList());
         if (!possibleNeighbors.isEmpty()) {
             dropFoodPheromones(neighbors);
-            //TODO: set orientation
             possibleNeighbors.get(0).getCurrentState().addAnt(a);
             getCurrentState().removeAnt(a);
             if (possibleNeighbors.get(0).getCurrentState().equals(ForagingAnts_CellState.SOURCE)) {
@@ -72,12 +67,7 @@ public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, Foraging
     }
 
     private void findFoodSource(Collection<ForagingAnts_Cell> neighbors, Ant a) {
-    	if(getCurrentState().equals(ForagingAntsState.HOME)){
-    		
-    	}
-        // TODO: find top 3 if any are options
 
-        //now look at all neighbors sorted by being able to go to them and by their # of pheromones
         List<ForagingAnts_Cell> possibleNeighbors = neighbors.stream().filter(e -> e.getCurrentState().canMoveToCell())
                 .sorted((c, d) -> c.getCurrentState().compareFoodTo(d.getCurrentState()))
                 .collect(Collectors.toList());
@@ -85,7 +75,6 @@ public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, Foraging
         if (!possibleNeighbors.isEmpty()) {
             dropHomePheromones(neighbors);
             possibleNeighbors.get(0).getCurrentState().addAnt(a);
-            System.out.println("adding ant at "+possibleNeighbors.get(0) + " after starting at "+this);
             getCurrentState().removeAnt(a);
             if (possibleNeighbors.get(0).getCurrentState().equals(ForagingAnts_CellState.SOURCE)) {
                 a.pickUpFood();
