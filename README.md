@@ -41,7 +41,7 @@ Extra Features included:
 * 3 shapes can be chosen through the XML file (Square, Hexagon, Triangle)
 * 3 ways of getting neighbors can be chosen through the XML file (All neighbors, adjacent only, corners only)
 * 2 types of bounds can be chosen through the XML file (Finite, Toroidal)
-* 1 Additional Simulation in SugarScape
+* 5 different fully implemented simulations (GameOfLife, SugarScape, Fire, PredatorPrey, Segregation)
 * This file can be opened on Gitlab with F1, or through the menu
 * Menu items can be accessed through default hotkeys in both Mac and Windows.
 * Run Length Encoded Game Of Life File (RLE) to XML converter included as a Perl script
