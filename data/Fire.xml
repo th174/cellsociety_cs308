@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Simulation type="Fire" width="50" height="50" fps="5" shape="Triangle" outlines="black" neighbors="Adjacent">
+<Simulation type="Fire" width="50" height="50" fps="5" shape="Triangle" outlines="black">
 	<Cell>
 		<State>TREE</State>
 		<Flammability>.55</Flammability>

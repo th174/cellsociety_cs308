@@ -11,7 +11,6 @@ import javafx.scene.shape.Shape;
  */
 public abstract class Abstract_CellView<E extends Abstract_Cell> {
     private E myCell;
-    protected BorderPane myView;
     private Shape myShape;
     private double hueShift;
     private double saturationShift;
@@ -22,7 +21,6 @@ public abstract class Abstract_CellView<E extends Abstract_Cell> {
         hueShift = 0;
         saturationShift = 1;
         lightnessShift = 1;
-        myView = new BorderPane();
     }
 
     /**
@@ -66,8 +64,6 @@ public abstract class Abstract_CellView<E extends Abstract_Cell> {
     protected Shape getView() {
         return myShape;
     }
-
-    protected abstract Node getContent();
 
     protected E getCell() {
         return myCell;

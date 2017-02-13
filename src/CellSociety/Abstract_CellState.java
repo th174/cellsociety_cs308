@@ -25,13 +25,6 @@ public abstract class Abstract_CellState<E extends Abstract_CellState<E, T>, T> 
     public abstract int compareTo(E state);
 
     /**
-     * @return the number of agents in the cell
-     */
-    public int getNumOfAgents() {
-        return 0;
-    }
-
-    /**
      * Compares two CellState objects for equality. Throws and error if the two states cannot be compared.
      *
      * @param state to be compared to

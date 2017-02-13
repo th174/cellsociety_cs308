@@ -11,8 +11,8 @@ estimated 80 hours of work in the project.
 
 Project Roles:
 ===
-Timmy was in charge of the interface and front end of the project. Meanwhile,
-Salo and Tim where in charge of the simulations and refactoring.
+Timmy was in charge of the XML formatting and parsing, interface and front end and backend design of the project. Meanwhile,
+Salo and Tim where in charge of the Fire, SugarScape, SlimeMold, Foraging Ants, and Langton's Loop simulations.
 
 
 How to use the program:
@@ -29,10 +29,22 @@ examples of data files can be found in the data folder.
 
 Extra Features included:
 ==
-4 more simulations were included. These are Foraging Ants, LangtonsLoop,
-SlimeMold and SugarScape. In addition, one can change the shape and zoom in and 
-out in the simulation, reverse and seek which step one wants. and open to make 
-a new simulation to visualize various simulations at once. 
+* Colors can be changed through hue, saturation, and lightness
+* The simulation can be zoomed and panned.
+* The simulation cell frequencies are recorded and graphed over time
+* The simulation can be sped up, slowed down, reversed, paused, and seeked.
+* Color of the cell outlines can be set in the xml file, or left blank
+* Opening new XML files
+* Saving simulation to PNG
+* Saving simulation to XML
+* Opening multiple simulation simultaneously
+* 3 shapes can be chosen through the XML file (Square, Hexagon, Triangle)
+* 3 ways of getting neighbors can be chosen through the XML file (All neighbors, adjacent only, corners only)
+* 2 types of bounds can be chosen through the XML file (Finite, Toroidal)
+* 1 Additional Simulation in SugarScape
+* This file can be opened on Gitlab with F1, or through the menu
+* Menu items can be accessed through default hotkeys in both Mac and Windows.
+* Run Length Encoded Game Of Life File (RLE) to XML converter included as a Perl script
 
 Human resources used to develop the project
 ==

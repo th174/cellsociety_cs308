@@ -43,7 +43,7 @@ public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstrac
      * @param state
      * @return number of cells
      */
-    int countTotalOfState(T state);
+    int countTotalOfState(Object state);
 
     /**
      * @return current index

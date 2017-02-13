@@ -17,6 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.*;
 import javafx.scene.control.Dialog;
@@ -33,6 +34,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.util.Pair;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -46,10 +48,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static javafx.application.Platform.exit;
@@ -72,8 +71,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
     private double windowHeight;
     private InputDataGetter myInputData;
     private double zoom;
-    private LineChart myChart;
-    private Collection<Series<Integer, Double>> mySeries;
+    private Map<Enum, HashSet<Pair<Integer, Integer>>> cellFrequencyData;
 
     /**
      * Constructs CellSocietyView according to default size.
@@ -112,6 +110,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
         myBorderPane.setTop(new CellSocietyMenu().getMenuBar());
         myBorderPane.setBottom(openNewFile());
         KeyFrame frame = new KeyFrame(Duration.seconds(1 / myInputData.getFramesPerSecond()), e -> update());
+        cellFrequencyData = new HashMap<>();
         myAnimation = new Timeline(ANIMATION_FRAMERATE, frame);
         myAnimation.setCycleCount(Timeline.INDEFINITE);
         myAnimation.play();
@@ -134,7 +133,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
     private void update() {
         mySimulationGrid.update();
         cellViews.forEach(e -> e.updateView(mySimulationGrid.getColumns() * zoom, mySimulationGrid.getRows() * zoom, windowWidth, windowHeight));
-//        updateChart();
+        updateData();
     }
 
     private Node openNewFile() {
@@ -163,7 +162,6 @@ public class CellSocietyView<T extends Abstract_CellView> {
         cellViews = mySimulationGrid.parallelStream().map(this::instantiateCellView).filter(Objects::nonNull).collect(Collectors.toSet());
         Group simulationGroup = new Group();
         simulationGroup.getChildren().addAll(cellViews.stream().map(T::getView).collect(Collectors.toSet()));
-        simulationGroup.getChildren().addAll(cellViews.stream().map(T::getContent).collect(Collectors.toSet()));
         simulationPane.setContent(simulationGroup);
         return simulationPane;
     }
@@ -186,44 +184,32 @@ public class CellSocietyView<T extends Abstract_CellView> {
         return xmlOutput[0];
     }
 
-//    private void createChart() {
-//
-//        final NumberAxis xAxis = new NumberAxis();
-//        final NumberAxis yAxis = new NumberAxis();
-//        xAxis.setAutoRanging(true);
-//        xAxis.setLabel("Time");
-//        yAxis.setLabel("Concentration of Cells");
-//        ObservableMap<String, Double> cellConcentrations = mySimulationGrid.getCellConcentrations();
-//        LineChart<Integer, Double> cellData = new LineChart(xAxis, yAxis);
-//        cellData.setAnimated(true);
-//
-//        mySeries = new ArrayList<Series<Integer, Double>>();
-//        System.out.println(cellConcentrations.keySet());
-//        for (String state : cellConcentrations.keySet()) {
-//
-//            XYChart.Series<Integer, Double> series = new XYChart.Series<>();
-//            series.setName(state);
-//            cellData.getData().add(series);
-//            mySeries.add(series);
-//        }
-//
-//        myChart = cellData;
-//    }
+    private LineChart createChart() {
+        int maxTime = mySimulationGrid.getMaxIndex();
+        NumberAxis xAxis = new NumberAxis("Time", 0, maxTime, maxTime / 10);
+        NumberAxis yAxis = new NumberAxis(0, mySimulationGrid.size(), mySimulationGrid.getColumns());
+        xAxis.setLabel("Time");
+        yAxis.setLabel("Number of cells");
+        LineChart<Number, Number> cellSocietyChart = new LineChart<>(xAxis, yAxis);
+        cellSocietyChart.setTitle("CellState frequency over time");
+        for (Enum e : mySimulationGrid.getDistinctCellStates()) {
+            Series<Number, Number> cellSeries = new Series<>();
+            cellSeries.setName(e.name());
+            cellSeries.getData().addAll(cellFrequencyData.get(e).stream().map(xy -> new XYChart.Data<Number,Number>(xy.getKey(), xy.getValue())).collect(Collectors.toSet()));
+            cellSocietyChart.getData().add(cellSeries);
+        }
+        cellSocietyChart.setPrefHeight(600);
+        cellSocietyChart.setPrefWidth(900);
+        return cellSocietyChart;
+    }
 
-//    private void updateChart() {
-//        ObservableMap<String, Double> cellConcentrations = mySimulationGrid.getCellConcentrations();
-//        for (String state : cellConcentrations.keySet()) {
-//            for (Series series : mySeries) {
-//                if (state.equals(series.getName())) {//found a match
-//                    series.getData().add(new XYChart.Data<Integer, Double>(myAnimation.getKeyFrames().size(),
-//                            cellConcentrations.get(state)));
-//                    //System.out.println("new x val  for state "+ state + " " +myAnimation.getKeyFrames().size());
-//                    //System.out.println("new y val for state "+ state + " " + cellConcentrations.get(state));
-//                }
-//            }
-//
-//        }
-//    }
+    private void updateData() {
+        int currentTime = mySimulationGrid.getCurrentIndex();
+        for (Enum e : mySimulationGrid.getDistinctCellStates()) {
+            cellFrequencyData.putIfAbsent(e, new HashSet<>());
+            cellFrequencyData.get(e).add(new Pair<>(currentTime, mySimulationGrid.countTotalOfState(e)));
+        }
+    }
 
     private static class xmlInput implements InputDataGetter {
         private double framesPerSecond;
@@ -280,7 +266,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
             return cellShape;
         }
 
-        /* (non-Javadoc)
+        /**
          * @see CellSociety.UI.InputDataGetter#getGridBoundType()
          */
         @Override
@@ -288,7 +274,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
             return boundsType;
         }
 
-        /* (non-Javadoc)
+        /**
          * @see CellSociety.UI.InputDataGetter#getNeighborMode()
          */
         @Override
@@ -543,14 +529,10 @@ public class CellSocietyView<T extends Abstract_CellView> {
 
         private void viewGraph() {
             Dialog dbox = new Dialog();
-            dbox.setWidth(400);
-            dbox.setHeight(500);
             dbox.setTitle(myResources.getString("View_Graph"));
             dbox.setHeaderText(myResources.getString("View_Graph_Content"));
             dbox.getDialogPane().getButtonTypes().add(new ButtonType(myResources.getString("Okay"), ButtonBar.ButtonData.CANCEL_CLOSE));
-            int time = mySimulationGrid.getSingleCell().getMaxIndex();
-            LineChart cellSocietyChart = new LineChart<>(new NumberAxis("Time", 0, time, time / 10), new NumberAxis(0, mySimulationGrid.size(), mySimulationGrid.getColumns()));
-            dbox.getDialogPane().setContent(cellSocietyChart);
+            dbox.getDialogPane().setContent(createChart());
             dbox.showAndWait();
         }
 

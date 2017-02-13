@@ -117,7 +117,8 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
      * @param state
      * @return number of cells
      */
-    public int countTotalOfState(T state) {
+    @Override
+    public int countTotalOfState(Object state) {
         return (int) parallelStream().filter(e -> e.getCurrentState().equals(state)).count();
     }
 

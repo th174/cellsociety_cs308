@@ -127,17 +127,6 @@ public final class SugarScape_CellState extends AbstractDiscrete_CellState<Sugar
         return reproduceTimer <= 0;
     }
 
-    /**
-     * @return Set of all possible states the cell can be in. For SugarScape, the cell can be Occupied or Not Occupied
-     */
-    @Override
-    public Set getDistinctCellStates() {
-        Set<Boolean> agentOrNoAgent = new HashSet<>();
-        agentOrNoAgent.add(true);
-        agentOrNoAgent.add(false);
-        return agentOrNoAgent;
-    }
-
     enum SugarScapeState {
         EMPTY, OCCUPIED
     }
