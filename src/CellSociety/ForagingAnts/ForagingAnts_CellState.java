@@ -40,7 +40,9 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
         pheromoneConstant = params.length > 4 ? Integer.parseInt(params[4]) : 10;
     }
 
-    /* (non-Javadoc)
+    /** 
+     * Cells colored according to their states. Blue if empty, gray if source of food
+     * white if obstacle and dark green if home.
      * @see CellSociety.Abstract_CellState#getFill()
      */
     @Override
