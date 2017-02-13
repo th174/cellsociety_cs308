@@ -21,6 +21,7 @@ import java.util.ResourceBundle;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import CellSociety.Abstract_Cell;
 import CellSociety.Grids.SimulationGrid;
@@ -112,7 +113,8 @@ public class LineGraph extends Application implements SimulationGridImpl {
         // update 
         xAxis.setLowerBound(xSeriesData-MAX_DATA_POINTS);
         xAxis.setUpperBound(xSeriesData-1);
-  }*/  
+  }*/
+	//Where should I get the Simulation
 	private Simulation mySimulation;
 	private Pane myRoot;
 	private HashMap<Integer, XYChart.Series<Number, Number>> mySeriesMap;
@@ -127,9 +129,10 @@ public class LineGraph extends Application implements SimulationGridImpl {
 
 	private void init() {
 		//create axes and graph
+		//Need someway yo put in y axis the complete total of the grid
+		//get the name of the simulation
 		final NumberAxis xAxis = new NumberAxis();
-		double maxY = mySimulation.getGridHeight() * mySimulation.getGridWidth();
-		final NumberAxis yAxis = new NumberAxis(0, maxY, maxY / 10);
+		final NumberAxis yAxis = new NumberAxis(0, CellSociety.Grids.SimulationGrid.countTotalofState, maxY / 100);
 		xAxis.setLabel("Time");
 		yAxis.setLabel("Number of Cells");
 		final LineChart<Number, Number> graph = new LineChart<Number, Number>(xAxis, yAxis);
@@ -137,12 +140,13 @@ public class LineGraph extends Application implements SimulationGridImpl {
 		//create objects to hold data
 		for (int stateInt : mySimulation.getStateMap().keySet()) {
 			XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
-			series.setName(mySimulation.getStateMap().get(stateInt));
+			series.setName(mySimulation.get(stateInt));
 			mySeriesMap.put(stateInt, series);
 			graph.getData().add(series);
 		}
-		graph.setLayoutX(750);
-		graph.setLayoutY(130);
+		//Set where we want to put it
+		graph.setLayoutX(100);
+		graph.setLayoutY(50);
 		myRoot.getChildren().add(graph);
 	}
 
@@ -152,18 +156,22 @@ public class LineGraph extends Application implements SimulationGridImpl {
 	 *
 	 * @param grid - the simulation's grid
 	 */
-	public void updateGraph(Grid grid) {
+	public void updateGraph(GridPane grid) {
 		ArrayList<Integer> stateCount = new ArrayList<Integer>();
+		//number of states
 		for (int i = 0; i < mySeriesMap.size(); i++) {
 			stateCount.add(0);
 		}
-		for (int i = 0; i < grid.getHeight(); i++) {
+		//How do I get total number of cell per each
+		
+		/*for (int i = 0; i < grid.getHeight(); i++) {
 			for (int j = 0; j < grid.getWidth(); j++) {
 				Cell cell = grid.getCell(i, j);
 				int oldCount = stateCount.get(cell.getCurrState());
 				stateCount.set(cell.getCurrState(), oldCount + 1);
 			}
 		}
+		*/
 		for (int state = 0; state < stateCount.size(); state++) {
 			mySeriesMap.get(state).getData().add(new XYChart.Data<Number, Number>(xSeriesData, stateCount.get(state)));
 		}
@@ -174,8 +182,9 @@ public class LineGraph extends Application implements SimulationGridImpl {
 	 * removes the Graph object from the scene
 	 * this is called by Animation.java when the simulation type changes
 	 */
+	//How do we remove each?
 	public void clearGraph() {
-		myRoot.getChildren().remove(myRoot.lookup("#" + myResources.getString("GraphID")));
+		myRoot.getChildren().remove(mySimulation);
 	}
 
 
