@@ -25,16 +25,16 @@ public class Turtle {
 	public boolean followGradient(SlimeMold_CellState state){
 		return state.getChemical()>=sniffThreshold;
 	}
-	public boolean moveToCell(SimulationGrid<SlimeMold_Cell, SlimeMold_CellState> neighborsGrid){
+	public void moveToCell(SimulationGrid<SlimeMold_Cell, SlimeMold_CellState> neighborsGrid){
 		int leftMostAngle = currentDirection +sniffAngle - wiggleBias;
 		int rightMostAngle = currentDirection-sniffAngle-wiggleBias;
-		//can only move to wherever there isn't already a turtle
+		
+		//TODO: find cells between these two parameters with the most chemicals
 		
 		
-		
-		return true;
+
 	}
-public boolean moveSameDirection(SimulationGrid<SlimeMold_Cell, SlimeMold_CellState> neighborsGrid){
+public void moveSameDirection(SimulationGrid<SlimeMold_Cell, SlimeMold_CellState> neighborsGrid){
 		
 		//wiggles randomly
 		double leftOrRight = Math.random()*2 -1; //random number between -1 and 1
@@ -45,9 +45,8 @@ public boolean moveSameDirection(SimulationGrid<SlimeMold_Cell, SlimeMold_CellSt
 		
 		
 		SlimeMold_Cell moveTo=null;
-		moveTo.getCurrentState().setNextTurtle(this);
+		moveTo.getCurrentState().addNextTurtle(this);
 		
-		return true;
 	}
 	
 

@@ -1,6 +1,7 @@
 package CellSociety.ForagingAnts;
 
 import CellSociety.Abstract_Cell;
+import CellSociety.ForagingAnts.ForagingAnts_CellState.ForagingAntsState;
 
 import java.util.Collection;
 import java.util.List;
@@ -38,11 +39,14 @@ public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, Foraging
     }
 
     private void returnToNest(Collection<ForagingAnts_Cell> neighbors, Ant a) {
+    	if(getCurrentState().equals(ForagingAntsState.SOURCE)){
+    		
+    	}
         //TODO: look at top 3
 
         List<ForagingAnts_Cell> possibleNeighbors = neighbors.stream().filter(e -> e.getCurrentState().canMoveToCell())
                 .sorted((c, d) -> c.getCurrentState().compareHomeTo(d.getCurrentState()))
-                .collect(Collectors.toList());//might want to refactor out
+                .collect(Collectors.toList());
         if (!possibleNeighbors.isEmpty()) {
             dropFoodPheromones(neighbors);
             //TODO: set orientation
@@ -56,6 +60,9 @@ public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, Foraging
     }
 
     private void findFoodSource(Collection<ForagingAnts_Cell> neighbors, Ant a) {
+    	if(getCurrentState().equals(ForagingAntsState.HOME)){
+    		
+    	}
         // TODO: find top 3 if any are options
 
         //now look at all neighbors sorted by being able to go to them and by their # of pheromones

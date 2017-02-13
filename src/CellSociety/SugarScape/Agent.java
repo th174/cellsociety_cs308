@@ -52,10 +52,17 @@ public class Agent {
     public int getSugar() {
         return sugar;
     }
+    public void divideSugar(){
+    	sugar/=2;
+    }
 
     public Agent reproduceWith(Agent a) {
-        return new Agent(sugarMetabolism, (getSugar() + a.getSugar()) / 2, vision);
+        Agent baby =new Agent(sugarMetabolism, (getSugar() + a.getSugar()) / 2, vision);
+        divideSugar();
+        a.divideSugar();
+        return baby;
     }
+
 
 
 }
