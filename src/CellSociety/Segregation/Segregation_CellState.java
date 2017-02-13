@@ -41,7 +41,7 @@ public class Segregation_CellState extends AbstractDiscrete_CellState<Segregatio
     public Segregation_CellState getInactiveState() {
         return new Segregation_CellState(SegregationState.EMPTY, satisfactionThreshold);
     }
-
+    
     @Override
     public String toString() {
         return super.toString() + String.format("\n\t\t<Threshold>%f</Threshold>", satisfactionThreshold);

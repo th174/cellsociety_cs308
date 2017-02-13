@@ -1,14 +1,19 @@
 package CellSociety.UI;
 
 import CellSociety.Abstract_Cell;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 /**
  * Created by th174 on 2/8/2017.
  */
 public abstract class AbstractRegularPolygon_CellView<E extends Abstract_Cell> extends Abstract_CellView<E> {
     public static final double FULL_CIRCLE = Math.PI * 2;
+    Text content;
+
 
     public AbstractRegularPolygon_CellView(E cell, String outlineColor) {
         super(cell);
@@ -16,6 +21,9 @@ public abstract class AbstractRegularPolygon_CellView<E extends Abstract_Cell> e
         if (outlineColor.length() > 0) {
             getView().setStroke(Color.valueOf(outlineColor.toLowerCase()));
         }
+        content = new Text("");
+        content.setFill(Color.BLACK);
+        content.setFont(new Font(30));
     }
 
     @Override
@@ -23,6 +31,18 @@ public abstract class AbstractRegularPolygon_CellView<E extends Abstract_Cell> e
         super.updateView(visibleColumns, visibleRows, windowWidth, windowHeight);
         getView().getPoints().setAll(getRegularPolygonCoordinates(getRadius(visibleColumns, visibleRows, windowWidth, windowHeight)));
         getView().relocate(calculateX(visibleColumns, visibleRows, windowWidth, windowHeight), calculateY(visibleColumns, visibleRows, windowWidth, windowHeight));
+        content.setX((getView().getBoundsInParent().getMinX() + getView().getBoundsInParent().getMaxX()) / 2 - 10);
+        content.setY((getView().getBoundsInParent().getMinY() + getView().getBoundsInParent().getMaxY()) / 2 - 10);
+        int agents = getCell().getCurrentState().getNumOfAgents();
+        String text = "";
+        for (int i = 1; i <= agents; i++) {
+            text += ".";
+        }
+        content.setText(text);
+    }
+
+    public Node getContent() {
+        return content;
     }
 
     protected abstract int getNumSides();

@@ -22,8 +22,6 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
     public static final int CENTER = 1;
     private final Map<Pair<Integer, Integer>, E> cells;
     private Class<E> cellType;
-    private int leftBound;
-    private int upperBound;
     private int columns;
     private int rows;
     private BoundsHandler<SimulationGrid<E, T>> boundsMode;
@@ -193,7 +191,6 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         return cellConcentrations;
     }
 
-
     @Override
     public Iterator<E> iterator() {
         return stream().iterator();
@@ -208,11 +205,12 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         return parallelStream().findAny().get();
     }
 
-    private void instantiateCell(int x, int y, Object cellStateInitializer) throws CellInstantiationException {
+    private void instantiateCell(int x, int y, String... cellStateInitializer) throws CellInstantiationException {
         try {
             set(x, y, cellType.getConstructor(int.class, int.class, cellStateInitializer.getClass()).newInstance(x, y, cellStateInitializer));
         } catch (Exception e) {
-            throw new CellInstantiationException(x, y, cellType, cellStateInitializer);
+            e.printStackTrace();
+            throw new CellInstantiationException(x, y, cellType, Arrays.toString(cellStateInitializer));
         }
     }
 
@@ -230,6 +228,7 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         }
     }
 
+<<<<<<< HEAD
     public final class InfiniteBounds implements BoundsHandler<SimulationGrid<E, T>> {
         @Override
         public Pair<Integer, Integer> handleBounds(int x, int y, SimulationGrid<E, T> grid) {
@@ -266,38 +265,10 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
             rows++;
         }
     }
-    //return a collection of cells between the two angles..
-    public Collection<E> getAngledNeighbors(SimulationGrid<E,T> grid, int rAngle, int lAngle){
-    	Collection<E> cellsInRange = new ArrayList<E>();
-    	//find the right one, go around left until you get to the left one
-    	//look at all 8, so 8 ranges for x
-    	int rXCoord;
-    	if(rAngle<68 || rAngle>292) rXCoord =2;
-    	else if(rAngle>112 && rAngle<247) rXCoord=0;
-    	else rXCoord=1;
-    	int rYCoord;
-    	if(rAngle>202 && rAngle<338) rYCoord =2;
-    	else if(rAngle>22 && rAngle<158) rYCoord=0;
-    	else rYCoord=1;
-    	
-    	int lXCoord;
-    	if(lAngle<68 || lAngle>292) lXCoord =2;
-    	else if(lAngle>112 && lAngle<247) lXCoord=0;
-    	else lXCoord=1;
-    	int lYCoord;
-    	if(lAngle>202 && lAngle<338) lYCoord =2;
-    	else if(lAngle>22 && lAngle<158) lYCoord=0;
-    	else lYCoord=1;
-    	
-    	E startingCell = grid.get(rXCoord, rYCoord);
-    	cellsInRange.add(startingCell);
-    	//move around, adding
-    	while(rXCoord!=lXCoord && rYCoord!=lYCoord){
-    		
-    	}
-    	return cellsInRange;
-    }
 
+
+=======
+>>>>>>> 1c2c8fc5477637a8acc023132ca161df9b7d3910
     public final class SquaresGrid implements NeighborsGetter<SimulationGrid<E, T>> {
         @Override
         public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {

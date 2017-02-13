@@ -1,6 +1,8 @@
 package CellSociety.UI;
 
 import CellSociety.Abstract_Cell;
+import javafx.scene.Node;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Shape;
 
 
@@ -9,7 +11,8 @@ import javafx.scene.shape.Shape;
  */
 public abstract class Abstract_CellView<E extends Abstract_Cell> {
     private E myCell;
-    private Shape myView;
+    protected BorderPane myView;
+    private Shape myShape;
     private double hueShift;
     private double saturationShift;
     private double lightnessShift;
@@ -19,14 +22,15 @@ public abstract class Abstract_CellView<E extends Abstract_Cell> {
         hueShift = 0;
         saturationShift = 1;
         lightnessShift = 1;
+        myView = new BorderPane();
     }
 
     public void updateView(double visibleColumns, double visibleRows, double windowWidth, double windowHeight) {
-        myView.setFill(myCell.getCurrentState().getFill().deriveColor(hueShift, saturationShift, lightnessShift, 1));
+        myShape.setFill(myCell.getCurrentState().getFill().deriveColor(hueShift, saturationShift, lightnessShift, 1));
     }
 
     protected void setShape(Shape view) {
-        myView = view;
+        myShape = view;
     }
 
     public void setHueShift(double amount) {
@@ -41,9 +45,11 @@ public abstract class Abstract_CellView<E extends Abstract_Cell> {
         lightnessShift = amount;
     }
 
-    public Shape getView() {
-        return myView;
+    protected Shape getView() {
+        return myShape;
     }
+
+    protected abstract Node getContent();
 
     protected E getCell() {
         return myCell;

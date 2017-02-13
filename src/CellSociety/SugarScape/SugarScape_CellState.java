@@ -1,6 +1,6 @@
 package CellSociety.SugarScape;
 
-import CellSociety.Abstract_CellState;
+import CellSociety.AbstractDiscrete_CellState;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 
-public final class SugarScape_CellState extends Abstract_CellState<SugarScape_CellState, SugarScape_CellState.SugarScapeState> {
+public final class SugarScape_CellState extends AbstractDiscrete_CellState<SugarScape_CellState, SugarScape_CellState.SugarScapeState> {
     private int growBackTicks = 1;
     private int sugarGrowBackUnits = 1;
     private int maxCapacity;

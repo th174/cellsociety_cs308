@@ -10,7 +10,11 @@ import java.util.stream.Collectors;
 
 public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, ForagingAnts_CellState> {
 
-    protected ForagingAnts_Cell(int x, int y, ForagingAnts_CellState state) {
+    public ForagingAnts_Cell(int x, int y, String... params) {
+        this(x, y, new ForagingAnts_CellState(params));
+    }
+
+    private ForagingAnts_Cell(int x, int y, ForagingAnts_CellState state) {
         super(x, y, state);
     }
 

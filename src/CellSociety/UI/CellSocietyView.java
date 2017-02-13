@@ -137,6 +137,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
         cellViews = mySimulationGrid.parallelStream().map(this::instantiateCellView).filter(Objects::nonNull).collect(Collectors.toSet());
         Group simulationGroup = new Group();
         simulationGroup.getChildren().addAll(cellViews.stream().map(T::getView).collect(Collectors.toSet()));
+        simulationGroup.getChildren().addAll(cellViews.stream().map(T::getContent).collect(Collectors.toSet()));
         simulationPane.setContent(simulationGroup);
 //        createChart();
         //simulationGroup.getChildren().add(myChart);
@@ -288,6 +289,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
                                     grid[Integer.parseInt(currentElement.getAttribute("xPos"))][Integer.parseInt(currentElement.getAttribute("yPos"))] = getConstructorParamsFromXMLElement(currentElement);
                                 }
                             } catch (IndexOutOfBoundsException e) {
+                                e.printStackTrace();
                                 throw new Exception(myResources.getString("IndexOutOfBoundsException") + "(x,y)=(" + currentElement.getAttribute("xPos") + "," + currentElement.getAttribute("yPos") + ")");
                             } catch (NumberFormatException e) {
                                 throw new Exception(myResources.getString("CoordinateFormatException"));

@@ -29,7 +29,7 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
      */
     public void updateState() {
         myTimeline.advance();
-        setNextState((T) getCurrentState().getSuccessorState());
+        setNextState(getCurrentState().getSuccessorState());
     }
 
     public abstract void interact();
