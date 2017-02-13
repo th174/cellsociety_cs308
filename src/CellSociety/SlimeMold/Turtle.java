@@ -1,5 +1,9 @@
 package CellSociety.SlimeMold;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 import CellSociety.Grids.SimulationGrid;
 
 public class Turtle {
@@ -29,9 +33,12 @@ public class Turtle {
 		int leftMostAngle = currentDirection +sniffAngle - wiggleBias;
 		int rightMostAngle = currentDirection-sniffAngle-wiggleBias;
 		
-		//TODO: find cells between these two parameters with the most chemicals
-		
-		
+		//find cells between these two parameters with the most chemicals
+		List<SlimeMold_Cell> possibleCells = (List<SlimeMold_Cell>) neighborsGrid.getAngledNeighbors(neighborsGrid, 
+				rightMostAngle, leftMostAngle);
+		Collections.sort(possibleCells);
+		SlimeMold_Cell nextCell = possibleCells.get(0);
+		nextCell.getCurrentState().addNextTurtle(this);
 
 	}
 public void moveSameDirection(SimulationGrid<SlimeMold_Cell, SlimeMold_CellState> neighborsGrid){
@@ -40,12 +47,11 @@ public void moveSameDirection(SimulationGrid<SlimeMold_Cell, SlimeMold_CellState
 		double leftOrRight = Math.random()*2 -1; //random number between -1 and 1
 		int randomAngle = currentDirection + (int) (leftOrRight * (wiggleAngle -wiggleBias));
 		
-		//TODO: find cell according to this angle
-		
-		
-		
-		SlimeMold_Cell moveTo=null;
-		moveTo.getCurrentState().addNextTurtle(this);
+		//find cell according to this angle
+		Collection<SlimeMold_Cell> possibleCells = neighborsGrid.getAngledNeighbors(neighborsGrid, 
+				randomAngle,randomAngle);
+		SlimeMold_Cell nextCell = possibleCells.iterator().next();
+		nextCell.getCurrentState().addNextTurtle(this);
 		
 	}
 	

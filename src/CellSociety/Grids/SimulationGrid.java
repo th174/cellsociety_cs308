@@ -3,6 +3,7 @@ package CellSociety.Grids;
 import CellSociety.Abstract_Cell;
 import CellSociety.Abstract_CellState;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -39,7 +40,7 @@ public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstrac
     int getRows();
 
     int size();
-
+    
     Iterator<E> iterator();
 
     Set getDistinctCellStates();
@@ -53,4 +54,5 @@ public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends Abstrac
             super("Instantiation of " + cellType.getName() + "at location (x,y) = (" + x + "," + y + ") failed, using initializer:\t" + initializer);
         }
     }
+    Collection<E> getAngledNeighbors(SimulationGrid<E,T> grid, int rAngle, int lAngle);
 }

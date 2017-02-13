@@ -266,6 +266,37 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
             rows++;
         }
     }
+    //return a collection of cells between the two angles..
+    public Collection<E> getAngledNeighbors(SimulationGrid<E,T> grid, int rAngle, int lAngle){
+    	Collection<E> cellsInRange = new ArrayList<E>();
+    	//find the right one, go around left until you get to the left one
+    	//look at all 8, so 8 ranges for x
+    	int rXCoord;
+    	if(rAngle<68 || rAngle>292) rXCoord =2;
+    	else if(rAngle>112 && rAngle<247) rXCoord=0;
+    	else rXCoord=1;
+    	int rYCoord;
+    	if(rAngle>202 && rAngle<338) rYCoord =2;
+    	else if(rAngle>22 && rAngle<158) rYCoord=0;
+    	else rYCoord=1;
+    	
+    	int lXCoord;
+    	if(lAngle<68 || lAngle>292) lXCoord =2;
+    	else if(lAngle>112 && lAngle<247) lXCoord=0;
+    	else lXCoord=1;
+    	int lYCoord;
+    	if(lAngle>202 && lAngle<338) lYCoord =2;
+    	else if(lAngle>22 && lAngle<158) lYCoord=0;
+    	else lYCoord=1;
+    	
+    	E startingCell = grid.get(rXCoord, rYCoord);
+    	cellsInRange.add(startingCell);
+    	//move around, adding
+    	while(rXCoord!=lXCoord && rYCoord!=lYCoord){
+    		
+    	}
+    	return cellsInRange;
+    }
 
     public final class SquaresGrid implements NeighborsGetter<SimulationGrid<E, T>> {
         @Override

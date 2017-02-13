@@ -4,7 +4,7 @@ import CellSociety.Abstract_Cell;
 import CellSociety.Grids.SimulationGrid;
 
 
-public class SlimeMold_Cell extends Abstract_Cell<SlimeMold_Cell, SlimeMold_CellState> {
+public class SlimeMold_Cell extends Abstract_Cell<SlimeMold_Cell, SlimeMold_CellState> implements Comparable<SlimeMold_Cell>{
 
     public SlimeMold_Cell(int x, int y, SlimeMold_CellState state) {
         super(x, y, state);
@@ -41,6 +41,11 @@ public class SlimeMold_Cell extends Abstract_Cell<SlimeMold_Cell, SlimeMold_Cell
         }
 
     }
+
+	@Override
+	public int compareTo(SlimeMold_Cell o) {
+		return (int) (getCurrentState().getChemical()-o.getCurrentState().getChemical());
+	}
 
 
 }
