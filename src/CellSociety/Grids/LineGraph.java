@@ -29,99 +29,15 @@ import CellSociety.CellStateTimeline;
 import CellSocietyMain;
 
 
-public class LineGraph extends Application implements SimulationGridImpl {
-	/* private static final int MAX_DATA_POINTS = 6000;
+public class LineGraph<E> {
 
-    private Series series;
-    private int xSeriesData = 0;
-    private ConcurrentLinkedQueue<Number> dataQ = new ConcurrentLinkedQueue<Number>();
-    private ExecutorService executor;
-    private AddToQueue addToQueue;
-    private Timeline timeline2;
-    private NumberAxis xAxis;
-
-    private void init(Stage primaryStage) {
-        xAxis = new NumberAxis(0,MAX_DATA_POINTS,MAX_DATA_POINTS/10);
-        xAxis.setForceZeroInRange(false);
-        xAxis.setAutoRanging(false);
-
-        NumberAxis yAxis = new NumberAxis();
-        yAxis.setAutoRanging(true);
-
-        //-- Chart
-        final LineChart<Number, Number> sc = new LineChart<Number, Number>(xAxis, yAxis) {
-            // Override to remove symbols on each data point
-            @Override protected void dataItemAdded(Series<Number, Number> series, int itemIndex, Data<Number, Number> item) {}
-        };
-        sc.setAnimated(false);
-        sc.setId("liveLineChart");
-        sc.setTitle("Animated Area Chart");
-
-        //-- Chart Series
-        series = new LineChart.Series<Number, Number>();
-        series.setName("Area Chart Series");
-        sc.getData().add(series);
-
-        primaryStage.setScene(new Scene(sc));
-    }
-
-  public void start(Stage primaryStage) throws Exception {
-        init(primaryStage);
-        primaryStage.show();
-
-        //-- Prepare Executor Services
-        executor = Executors.newCachedThreadPool();
-        addToQueue = new AddToQueue();
-        executor.execute(addToQueue);
-        //-- Prepare Timeline
-        prepareTimeline();
-    }
-
-
-    private class AddToQueue implements Runnable {
-        public void run() {
-            try {
-                // add a item of random data to queue
-                dataQ.add(Math.random());
-                Thread.sleep(10);
-                executor.execute(this);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(LineChart.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-
-    //-- Timeline gets called in the JavaFX Main thread
-    private void prepareTimeline() {
-        // Every frame to take any data from queue and add to chart
-        new AnimationTimer() {
-            @Override public void handle(long now) {
-                addDataToSeries();
-            }
-        }.start();
-    }
-
-    private void addDataToSeries() {
-        for (int i = 0; i <size() ; i++) { //-- add 20 numbers to the plot+
-            if (dataQ.isEmpty()) break;
-            series.getData().add(new LineChart.Data(xSeriesData++, dataQ.remove()));
-        }
-        // remove points to keep us at no more than MAX_DATA_POINTS
-        if (series.getData().size() > MAX_DATA_POINTS) {
-            series.getData().remove(0, series.getData().size() - MAX_DATA_POINTS);
-        }
-        // update 
-        xAxis.setLowerBound(xSeriesData-MAX_DATA_POINTS);
-        xAxis.setUpperBound(xSeriesData-1);
-  }*/
-	//Where should I get the Simulation
-	private Simulation mySimulation;
+	private SimulationGrid mySimulation;
 	private Pane myRoot;
 	private HashMap<Integer, XYChart.Series<Number, Number>> mySeriesMap;
 	private int xSeriesData = 0;
 
-	public Graph(Simulation sim, Pane root) {
-		mySimulation = sim;
+	public <T> void Graph(SimulationGrid sim, Pane root) {
+		mySimulation= new SimulationGrid sim;
 		myRoot = root;
 		mySeriesMap = new HashMap<Integer, XYChart.Series<Number, Number>>();
 		init();
@@ -132,15 +48,15 @@ public class LineGraph extends Application implements SimulationGridImpl {
 		//Need someway yo put in y axis the complete total of the grid
 		//get the name of the simulation
 		final NumberAxis xAxis = new NumberAxis();
-		final NumberAxis yAxis = new NumberAxis(0, CellSociety.Grids.SimulationGrid.countTotalofState, maxY / 100);
+		final NumberAxis yAxis = new NumberAxis(0, mySimulation.countTotalOfState(state), mySimulation.countTotalOfState(state) / 100);
 		xAxis.setLabel("Time");
 		yAxis.setLabel("Number of Cells");
 		final LineChart<Number, Number> graph = new LineChart<Number, Number>(xAxis, yAxis);
 		graph.setTitle("Cell State Populations");
 		//create objects to hold data
-		for (int stateInt : mySimulation.getStateMap().keySet()) {
+		for (int stateInt : mySimulation.countTotalOfState(state)) {
 			XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
-			series.setName(mySimulation.get(stateInt));
+			series.setName(mySimulation.(stateInt));
 			mySeriesMap.put(stateInt, series);
 			graph.getData().add(series);
 		}
