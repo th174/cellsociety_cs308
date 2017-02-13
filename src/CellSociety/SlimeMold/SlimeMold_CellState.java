@@ -11,7 +11,7 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
     private double evaporationRate;
     private double diffusionRate;
     private Collection<Turtle> myTurtles;
-    private double threshold;//min required, so green
+    private double threshold=0.5;//min required, so green
 
     private double nextChemical;
     private Collection<Turtle> nextTurtles;
@@ -44,8 +44,13 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
     public SlimeMold_CellState( String... params) {
         super(params[0].toLowerCase().equals("rand") ? randomState(SlimeMoldState.class) :
                 SlimeMoldState.valueOf(params[0].toUpperCase()));
-        if (params.length > 1) {
-            int numTurtles=Integer.parseInt(params[1]);
+    	if (params.length>1){
+    		chemical = Integer.parseInt(params[1]);
+    	}else{
+    		chemical = 1.0;
+    	}
+        if (params.length > 2) {
+            int numTurtles=Integer.parseInt(params[2]);
             Collection<Turtle> turts = new ArrayList<Turtle>();
             for(int i=0;i<numTurtles;i++){
             	turts.add(new Turtle());
@@ -54,7 +59,7 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
         }else{
         	myTurtles=new ArrayList<Turtle>();
         }
-        chemical = 1.0;
+        
         evaporationRate = 0.9;
         diffusionRate = 0.1;
         nextTurtles = new ArrayList<Turtle>();
