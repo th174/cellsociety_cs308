@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Simulation type="SugarScape" width="50" height="50" fps="1" shape="Hexagon" outlines="black" bounds="Finite" >
+    <Cell>
+        <State>50</State>
+        <MaxCapacity>200</MaxCapacity>
+        <GrowRate>5</GrowRate>
+    </Cell>
+    <Cell xPos="2" yPos="2">
+        <State>0</State>
+        <MaxCapacity>200</MaxCapacity>
+        <GrowRate>5</GrowRate>
+        <Metabolism>60</Metabolism>
+        <AgentSugar>100</AgentSugar>
+        <ReproduceTimer>8</ReproduceTimer>
+    </Cell>
+</Simulation>
