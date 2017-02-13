@@ -18,7 +18,7 @@ public abstract class AbstractDiscrete_CellState<E extends AbstractDiscrete_Cell
         return enumState.getEnumConstants()[(int) (Math.random() * enumState.getEnumConstants().length)];
     }
 
-    /** 
+    /**
      * @see CellSociety.Abstract_CellState#getDistinctCellStates()
      */
     @Override

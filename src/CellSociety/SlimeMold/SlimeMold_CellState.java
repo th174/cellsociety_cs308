@@ -61,6 +61,15 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
         nextChemical = chemical;
     }	
 
+    public SlimeMold_CellState(SlimeMoldState state, String... params) {
+        super(params[0].toLowerCase().equals("rand") ? randomState(SlimeMoldState.class) :
+                SlimeMoldState.valueOf(params[0].toUpperCase()));
+        if (params.length > 0) {
+            myTurtles = new ArrayList<Turtle>();
+        }
+    }
+
+
     @Override
     public Color getFill() {
         return chemical > 3 * threshold ? Color.WHITE : chemical > 2 * threshold ? Color.GREENYELLOW :

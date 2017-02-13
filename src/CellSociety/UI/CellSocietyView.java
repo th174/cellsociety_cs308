@@ -1,7 +1,7 @@
 package CellSociety.UI;
 
+import CellSociety.AbstractDiscrete_CellState;
 import CellSociety.Abstract_Cell;
-import CellSociety.Abstract_CellState;
 import CellSociety.Grids.BoundsHandler;
 import CellSociety.Grids.NeighborsGetter;
 import CellSociety.Grids.SimulationGrid;
@@ -16,6 +16,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.*;
 import javafx.scene.control.Dialog;
@@ -65,7 +66,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
     private static final ResourceBundle myResources = ResourceBundle.getBundle(RESOURCES_LOCATION);
     private Timeline myAnimation;
     private Scene myScene;
-    private SimulationGrid<? extends Abstract_Cell, ? extends Abstract_CellState> mySimulationGrid;
+    private SimulationGrid<? extends Abstract_Cell, ? extends AbstractDiscrete_CellState> mySimulationGrid;
     private Collection<T> cellViews;
     private double windowWidth;
     private double windowHeight;
@@ -84,6 +85,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
     /**
      * Constructs CellSocietyView with the given width and height.
      * InputData is set to null
+     *
      * @param width
      * @param height
      */
@@ -95,8 +97,9 @@ public class CellSocietyView<T extends Abstract_CellView> {
      * Constructs CellSocietyView according to the given parameters
      * Zoom is set to 1 by default.
      * Initializes and plays the Timeline.
-     * @param width of the window
-     * @param height of the window
+     *
+     * @param width     of the window
+     * @param height    of the window
      * @param inputData
      */
     public CellSocietyView(double width, double height, InputDataGetter inputData) {
@@ -162,12 +165,10 @@ public class CellSocietyView<T extends Abstract_CellView> {
         simulationGroup.getChildren().addAll(cellViews.stream().map(T::getView).collect(Collectors.toSet()));
         simulationGroup.getChildren().addAll(cellViews.stream().map(T::getContent).collect(Collectors.toSet()));
         simulationPane.setContent(simulationGroup);
-//        createChart();
-        //simulationGroup.getChildren().add(myChart);
         return simulationPane;
     }
 
-    private T instantiateCellView(Abstract_Cell<? extends Abstract_Cell, ? extends Abstract_CellState> cell) {
+    private T instantiateCellView(Abstract_Cell<? extends Abstract_Cell, ? extends AbstractDiscrete_CellState> cell) {
         try {
             return (T) Class.forName("CellSociety.UI.Shapes." + myInputData.getCellShape()).getConstructor(Abstract_Cell.class, String.class).newInstance(cell, myInputData.getGridOutline());
         } catch (Exception e1) {
@@ -231,10 +232,11 @@ public class CellSocietyView<T extends Abstract_CellView> {
         private String boundsType;
         private String neighborMode;
         private String gridOutlineStyle;
-        private SimulationGrid<? extends Abstract_Cell, ? extends Abstract_CellState> simulationGrid;
-        
+        private SimulationGrid<? extends Abstract_Cell, ? extends AbstractDiscrete_CellState> simulationGrid;
+
         /**
          * Reals XML file
+         *
          * @param xmlFile
          * @throws Exception if necessary
          */
@@ -242,16 +244,16 @@ public class CellSocietyView<T extends Abstract_CellView> {
             readXML(xmlFile);
         }
 
-        /** 
+        /**
          * @return simulationGrid of the animation
          * @see CellSociety.UI.InputDataGetter#getSimulationGrid()
          */
         @Override
-        public SimulationGrid<? extends Abstract_Cell, ? extends Abstract_CellState> getSimulationGrid() {
+        public SimulationGrid<? extends Abstract_Cell, ? extends AbstractDiscrete_CellState> getSimulationGrid() {
             return simulationGrid;
         }
 
-        /** 
+        /**
          * @return simulation type
          * @see CellSociety.UI.InputDataGetter#getSimulationType()
          */
@@ -260,7 +262,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
             return simulationType;
         }
 
-        /** 
+        /**
          * @return frames per second of the animation
          * @see CellSociety.UI.InputDataGetter#getFramesPerSecond()
          */
@@ -269,7 +271,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
             return framesPerSecond;
         }
 
-        /** 
+        /**
          * @return shape of the cells
          * @see CellSociety.UI.InputDataGetter#getCellShape()
          */
@@ -294,7 +296,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
             return neighborMode;
         }
 
-        /** 
+        /**
          * @return gridOutline as a String
          * @see CellSociety.UI.InputDataGetter#getGridOutline()
          */
@@ -455,7 +457,10 @@ public class CellSocietyView<T extends Abstract_CellView> {
             MenuItem stepBackward = new MenuItem(myResources.getString("Step_Backward"));
             stepBackward.setAccelerator(new KeyCodeCombination(KeyCode.MINUS, KeyCombination.SHORTCUT_DOWN));
             stepBackward.setOnAction(e -> stepBackward());
-            return new Menu(myResources.getString("Simulation"), null, pause, speedUp, slowDown, reverse, seek, stepForward, stepBackward, restart);
+            MenuItem viewGraph = new MenuItem(myResources.getString("View_Graph"));
+            viewGraph.setAccelerator(new KeyCodeCombination(KeyCode.F12));
+            viewGraph.setOnAction(e -> viewGraph());
+            return new Menu(myResources.getString("Simulation"), null, viewGraph, pause, speedUp, slowDown, reverse, seek, stepForward, stepBackward, restart);
         }
 
         private Menu initHelpMenu() {
@@ -479,7 +484,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
             zoomOut.setAccelerator(new KeyCodeCombination(KeyCode.MINUS, KeyCombination.SHORTCUT_DOWN, KeyCombination.SHIFT_DOWN));
             zoomOut.setOnAction(e -> zoomOut());
             MenuItem colorShift = new MenuItem(myResources.getString("Set_Color"));
-            colorShift.setOnAction(e -> setHueShift());
+            colorShift.setOnAction(e -> colorShift());
             return new Menu(myResources.getString("View"), null, zoomAuto, zoomIn, zoomOut, colorShift);
         }
 
@@ -510,7 +515,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
             zoom = 1;
         }
 
-        private void setHueShift() {
+        private void colorShift() {
             Dialog dbox = new Dialog();
             dbox.setTitle(myResources.getString("Set_Color"));
             dbox.setHeaderText(myResources.getString("Set_Color_Content"));
@@ -533,6 +538,19 @@ public class CellSocietyView<T extends Abstract_CellView> {
             content.add(new Label(myResources.getString("Lightness")), 0, 2);
             content.add(lSlider, 1, 2);
             dbox.getDialogPane().setContent(content);
+            dbox.showAndWait();
+        }
+
+        private void viewGraph() {
+            Dialog dbox = new Dialog();
+            dbox.setWidth(400);
+            dbox.setHeight(500);
+            dbox.setTitle(myResources.getString("View_Graph"));
+            dbox.setHeaderText(myResources.getString("View_Graph_Content"));
+            dbox.getDialogPane().getButtonTypes().add(new ButtonType(myResources.getString("Okay"), ButtonBar.ButtonData.CANCEL_CLOSE));
+            int time = mySimulationGrid.getSingleCell().getMaxIndex();
+            LineChart cellSocietyChart = new LineChart<>(new NumberAxis("Time", 0, time, time / 10), new NumberAxis(0, mySimulationGrid.size(), mySimulationGrid.getColumns()));
+            dbox.getDialogPane().setContent(cellSocietyChart);
             dbox.showAndWait();
         }
 

@@ -59,13 +59,13 @@ public abstract class Abstract_CellState<E extends Abstract_CellState<E, T>, T> 
     /**
      * @return a sel of distinct cellstates
      */
-    public abstract Set<T> getDistinctCellStates();
+    public abstract Set getDistinctCellStates();
 
     protected T getState() {
         return myState;
     }
 
-    /* (non-Javadoc)
+    /**
      * @see java.lang.Object#toString()
      */
     public String toString() {

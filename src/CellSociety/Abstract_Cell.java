@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Created by th174 on 1/29/2017.
  */
-public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abstract_CellState<T, ?>> {
+public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends AbstractDiscrete_CellState<T, ? extends Enum<?>>> {
     private final int xPos;
     private final int yPos;
     private SimulationGrid<E, T> parentGrid;
@@ -50,6 +50,7 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
 
     /**
      * Goes to the index in the timeline. Allows us to jump.
+     *
      * @param index
      */
     public void seek(int index) {
@@ -116,6 +117,7 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
     public void setNextState(T state) {
         myTimeline.setNextState(state);
     }
+
 
     public int getX() {
         return xPos;

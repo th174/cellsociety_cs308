@@ -7,37 +7,37 @@ import CellSociety.Grids.SimulationGrid;
 public interface InputDataGetter {
 
     /**
-     * @return simulationGrid of the animation
+     * @return SimulationGrid to run the simulation
      */
     SimulationGrid<? extends Abstract_Cell, ? extends Abstract_CellState> getSimulationGrid();
 
     /**
-     * @return simulationType of the animation
+     * @return Current Type of Simulation
      */
     String getSimulationType();
 
     /**
-     * @return framesPerSecond, i.e. speed of animation
+     * @return Number of times to update simulation per second
      */
     double getFramesPerSecond();
 
     /**
-     * @return shape of cells in the animatino
+     * @return Shape of cells. Currently supports Hexagon, Triangle, and Square
      */
     String getCellShape();
 
     /**
-     * @return bound type of the grid
+     * @return Type of grid bounds. Currently supports Finite and Wrapped
      */
     String getGridBoundType();
 
     /**
-     * @return neighbormode, i.e. which neighbors are being considered
+     * @return Type of neighbors. Currently supports All, Corners (only), and Adjacent (only)
      */
     String getNeighborMode();
 
     /**
-     * @return outline of the grid
+     * @return Color of grid outline
      */
     String getGridOutline();
 }
