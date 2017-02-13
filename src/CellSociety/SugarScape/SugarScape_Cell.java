@@ -9,14 +9,24 @@ import java.util.stream.Collectors;
 
 public class SugarScape_Cell extends Abstract_Cell<SugarScape_Cell, SugarScape_CellState> implements Comparable<SugarScape_Cell> {
 
+    private SugarScape_Cell(int x, int y, SugarScape_CellState state) {
+        super(x, y, state);
+    }
+
+    /**
+     * Constructor from xml
+     *
+     * @param x      xPos
+     * @param y      yPos
+     * @param params xml properties
+     */
     public SugarScape_Cell(int x, int y, String... params) {
         this(x, y, new SugarScape_CellState(params));
     }
 
-    public SugarScape_Cell(int x, int y, SugarScape_CellState state) {
-        super(x, y, state);
-    }
-
+    /**
+     * SugarScape
+     */
     @Override
     public void interact() {
         if (getCurrentState().hasAgent()) {
@@ -38,6 +48,17 @@ public class SugarScape_Cell extends Abstract_Cell<SugarScape_Cell, SugarScape_C
         }
     }
 
+    /**
+     * Compares SugarScape cells by their currentCellState
+     *
+     * @param cell to be compared with
+     * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object.
+     */
+    @Override
+    public int compareTo(SugarScape_Cell cell) {
+        return cell.getCurrentState().compareTo(getCurrentState());
+    }
+
     private void starve() {
         setNextState(new SugarScape_CellState(getCurrentState(), false, 0));
     }
@@ -55,10 +76,4 @@ public class SugarScape_Cell extends Abstract_Cell<SugarScape_Cell, SugarScape_C
             target.setNextState(new SugarScape_CellState(getCurrentState(), true, target.getCurrentState().getSugar() + getCurrentState().getAgentSugar()));
         }
     }
-
-    @Override
-    public int compareTo(SugarScape_Cell o) {
-        return o.getCurrentState().compareTo(getCurrentState());
-    }
-
 }

@@ -29,6 +29,7 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -139,8 +140,6 @@ public class CellSocietyView<T extends Abstract_CellView> {
         simulationGroup.getChildren().addAll(cellViews.stream().map(T::getView).collect(Collectors.toSet()));
         simulationGroup.getChildren().addAll(cellViews.stream().map(T::getContent).collect(Collectors.toSet()));
         simulationPane.setContent(simulationGroup);
-//        createChart();
-        //simulationGroup.getChildren().add(myChart);
         return simulationPane;
     }
 
@@ -395,7 +394,10 @@ public class CellSocietyView<T extends Abstract_CellView> {
             MenuItem stepBackward = new MenuItem(myResources.getString("Step_Backward"));
             stepBackward.setAccelerator(new KeyCodeCombination(KeyCode.MINUS, KeyCombination.SHORTCUT_DOWN));
             stepBackward.setOnAction(e -> stepBackward());
-            return new Menu(myResources.getString("Simulation"), null, pause, speedUp, slowDown, reverse, seek, stepForward, stepBackward, restart);
+            MenuItem viewGraph = new MenuItem(myResources.getString("View_Graph"));
+            viewGraph.setAccelerator(new KeyCodeCombination(KeyCode.F12));
+            viewGraph.setOnAction(e -> viewGraph());
+            return new Menu(myResources.getString("Simulation"), null, viewGraph, pause, speedUp, slowDown, reverse, seek, stepForward, stepBackward, restart);
         }
 
         private Menu initHelpMenu() {
@@ -419,7 +421,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
             zoomOut.setAccelerator(new KeyCodeCombination(KeyCode.MINUS, KeyCombination.SHORTCUT_DOWN, KeyCombination.SHIFT_DOWN));
             zoomOut.setOnAction(e -> zoomOut());
             MenuItem colorShift = new MenuItem(myResources.getString("Set_Color"));
-            colorShift.setOnAction(e -> setHueShift());
+            colorShift.setOnAction(e -> colorShift());
             return new Menu(myResources.getString("View"), null, zoomAuto, zoomIn, zoomOut, colorShift);
         }
 
@@ -450,7 +452,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
             zoom = 1;
         }
 
-        private void setHueShift() {
+        private void colorShift() {
             Dialog dbox = new Dialog();
             dbox.setTitle(myResources.getString("Set_Color"));
             dbox.setHeaderText(myResources.getString("Set_Color_Content"));
@@ -473,6 +475,19 @@ public class CellSocietyView<T extends Abstract_CellView> {
             content.add(new Label(myResources.getString("Lightness")), 0, 2);
             content.add(lSlider, 1, 2);
             dbox.getDialogPane().setContent(content);
+            dbox.showAndWait();
+        }
+
+        private void viewGraph() {
+            Dialog dbox = new Dialog();
+            dbox.setWidth(400);
+            dbox.setHeight(500);
+            dbox.setTitle(myResources.getString("View_Graph"));
+            dbox.setHeaderText(myResources.getString("View_Graph_Content"));
+            dbox.getDialogPane().getButtonTypes().add(new ButtonType(myResources.getString("Okay"), ButtonBar.ButtonData.CANCEL_CLOSE));
+            Pane graphPane = new Pane();
+            graphPane.setBackground(new Background(new BackgroundFill(Color.BLUE,null,null)));
+            dbox.getDialogPane().setContent(graphPane);
             dbox.showAndWait();
         }
 
