@@ -56,6 +56,7 @@ public final class PredatorPrey_CellState extends AbstractDiscrete_CellState<Pre
         return new PredatorPrey_CellState(this, reproductionTimer - 1, starvationTimer - 1);
     }
 
+
     /**
      * @return true if the reproduction timer is less than 0
      */
