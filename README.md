@@ -1,7 +1,7 @@
 TODO: WRITE A README SOMEONE PLS
 =======
-Abraham, Salo
-Huang, Timmy
+Abraham, Salo;
+Huang, Timmy;
 Overeem, Tim
 
 Dates:
