@@ -72,11 +72,23 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         return dividend % divisor + (dividend % divisor < 0 ? divisor : 0);
     }
 
+    /**
+     * updates the grid and displays the new cell configurations
+     */
     public void update() {
         forEach(Abstract_Cell::updateState);
         forEach(Abstract_Cell::interact);
     }
 
+    /**
+     * Gets the nearby cells of the given cell, returned as an array
+     *
+     * @param x
+     * @param y
+     * @param distanceX
+     * @param distanceY
+     * @return array of the nearby cells
+     */
     public E[][] getNearbyCellsAsArray(int x, int y, int distanceX, int distanceY) {
         E[][] neighbors = (E[][]) Array.newInstance(cellType, distanceX * 2 + 1, distanceY * 2 + 1);
         for (int i = 0; i < neighbors.length; i++) {
@@ -88,18 +100,37 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         return neighbors;
     }
 
+    /**
+     * Gets the neighbors of the given cell coordinates
+     *
+     * @param x
+     * @param y
+     * @return grid of the neighbors
+     */
     public SimulationGrid<E, T> getNeighbors(int x, int y) {
         return shapeMode.getNeighbors(x, y, this);
     }
 
+    /**
+     * counts Total number of cells of the given state
+     *
+     * @param state
+     * @return number of cells
+     */
     public int countTotalOfState(T state) {
         return (int) parallelStream().filter(e -> e.getCurrentState().equals(state)).count();
     }
 
+    /**
+     * @return current index
+     */
     public int getCurrentIndex() {
         return stream().findAny().get().getCurrentIndex();
     }
 
+    /**
+     * @return max index
+     */
     public int getMaxIndex() {
         return stream().findAny().get().getMaxIndex();
     }
@@ -115,6 +146,13 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         return cells.get(boundsMode.handleBounds(x, y, this));
     }
 
+    /**
+     * Sets the cell at the given position to the given cell
+     *
+     * @param x
+     * @param y
+     * @param cell
+     */
     public void set(int x, int y, E cell) {
         cells.put(new Pair<>(x, y), cell);
         if (Objects.nonNull(cell)) {
@@ -122,10 +160,16 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         }
     }
 
+    /**
+     * @return stream of the cells
+     */
     public Stream<E> stream() {
         return parallelStream().sequential();
     }
 
+    /**
+     * @return parallel stream of the cells
+     */
     public Stream<E> parallelStream() {
         return cells.values().parallelStream().unordered().filter(Objects::nonNull);
     }
@@ -158,20 +202,40 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         return rows;
     }
 
+    /**
+     * Sets the bounds Type of the simulation grid
+     *
+     * @param mode
+     * @return simulationGrid with the bounds type
+     */
     public SimulationGrid<E, T> setBoundsType(BoundsHandler<SimulationGrid<E, T>> mode) {
         boundsMode = mode;
         return this;
     }
 
+    /**
+     * Sets shape of the simuluation grid to the given shape
+     *
+     * @param shape
+     * @return simulation grid of the given shape
+     */
     public SimulationGrid<E, T> setShapeType(NeighborsGetter<SimulationGrid<E, T>> shape) {
         shapeMode = shape;
         return this;
     }
 
+    /**
+     * @return size of the grid
+     */
     public int size() {
         return (int) parallelStream().count();
     }
 
+    /**
+     * Gets all cell concentrations
+     *
+     * @return map of cell type to its concentration
+     */
     public ObservableMap<String, Double> getCellConcentrations() {
         Map<String, Double> cellMap = new HashMap<String, Double>();
         ObservableMap<String, Double> cellConcentrations = FXCollections.observableMap(cellMap);
@@ -191,11 +255,17 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         return cellConcentrations;
     }
 
+    /**
+     * @return an iterator of the cells in the grid
+     */
     @Override
     public Iterator<E> iterator() {
         return stream().iterator();
     }
 
+    /**
+     * @return set containing the distinct cellstates
+     */
     @Override
     public Set getDistinctCellStates() {
         return getSingleCell().getCurrentState().getDistinctCellStates();
@@ -214,28 +284,62 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         }
     }
 
+    /**
+     * FiniteBounds, bounded by the initial size. Cells on the edges have fewer neighbors
+     */
     public final class FiniteBounds implements BoundsHandler<SimulationGrid<E, T>> {
+        /* (non-Javadoc)
+         * @see CellSociety.Grids.BoundsHandler#handleBounds(int, int, CellSociety.Grids.SimulationGrid)
+         */
         @Override
         public Pair<Integer, Integer> handleBounds(int x, int y, SimulationGrid<E, T> grid) {
             return new Pair<>(x, y);
         }
     }
 
+    /**
+     * Wrapped Bounds where cells on one edge of the grid interact with cells on the other side
+     */
     public final class WrappedBounds implements BoundsHandler<SimulationGrid<E, T>> {
+        /* (non-Javadoc)
+         * @see CellSociety.Grids.BoundsHandler#handleBounds(int, int, CellSociety.Grids.SimulationGrid)
+         */
         @Override
         public Pair<Integer, Integer> handleBounds(int x, int y, SimulationGrid<E, T> grid) {
             return new Pair<>(actualMod(x, grid.getColumns()), actualMod(y, grid.getRows()));
         }
     }
 
+    /**
+     * Grid of squares, the classic simple implementation
+     */
     public final class SquaresGrid implements NeighborsGetter<SimulationGrid<E, T>> {
+        /**
+         * Determines which neighbors to get according to the grid and x,y coordinates. Gets all 8 possible neighbors
+         *
+         * @param x
+         * @param y
+         * @param grid of the simulation
+         * @return
+         */
         @Override
         public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             return new SimulationGridImpl<>(grid.getNearbyCellsAsArray(x, y, 1, 1));
         }
     }
 
+    /**
+     * Grid similar to SquaresGrid but here only adjacent neighbors are considered
+     */
     public final class AdjacentSquaresGrid implements NeighborsGetter<SimulationGrid<E, T>> {
+        /**
+         * Determines which neighbors to get according to the grid and x,y coordinates. Gets only possible adjacent neighbors
+         *
+         * @param x
+         * @param y
+         * @param grid of the simulation
+         * @return
+         */
         @Override
         public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             E[][] neighbors = grid.getNearbyCellsAsArray(x, y, 1, 1);
@@ -247,7 +351,18 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         }
     }
 
+    /**
+     * Again a variation of SquaresGrid where now only the corner neighbors are considered
+     */
     public final class CornersSquaresGrid implements NeighborsGetter<SimulationGrid<E, T>> {
+        /**
+         * Determines which neighbors to get according to the grid and x,y coordinates. Gets only possible corner neighbors
+         *
+         * @param x
+         * @param y
+         * @param grid of the simulation
+         * @return
+         */
         @Override
         public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             E[][] neighbors = grid.getNearbyCellsAsArray(x, y, 1, 1);
@@ -259,7 +374,19 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         }
     }
 
+    /**
+     * A grid consisting of hexagons as opposed to squares. Note the number of neighbors are now different
+     */
     public final class HexagonsGrid implements NeighborsGetter<SimulationGrid<E, T>> {
+        /**
+         * Determines which neighbors to get according to the grid and x,y coordinates.
+         * Gets a maximum of 6 neighbors
+         *
+         * @param x
+         * @param y
+         * @param grid of the simulation
+         * @return
+         */
         @Override
         public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             E[][] neighbors = grid.getNearbyCellsAsArray(x, y, 1, 1);
@@ -274,14 +401,38 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         }
     }
 
+    /**
+     * Grid consisting of Hexagons where only adjacent neighbors are considered
+     */
     public final class AdjacentHexagonsGrid implements NeighborsGetter<SimulationGrid<E, T>> {
+        /**
+         * Determines which neighbors to get according to the grid and x,y coordinates.
+         * Gets only adjacent neighbors of the possible 6 total neighbors
+         *
+         * @param x
+         * @param y
+         * @param grid of the simulation
+         * @return
+         */
         @Override
         public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             return new HexagonsGrid().getNeighbors(x, y, grid);
         }
     }
 
+    /**
+     * Grid where the cells are represented as Triangles
+     */
     public final class TrianglesGrid implements NeighborsGetter<SimulationGrid<E, T>> {
+        /**
+         * Determines which neighbors to get according to the grid and x,y coordinates.
+         * Gets a total of 12 possible neighbors
+         *
+         * @param x
+         * @param y
+         * @param grid of the simulation
+         * @return
+         */
         @Override
         public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             E[][] neighbors = getNearbyCellsAsArray(x, y, 1, 2);
@@ -296,7 +447,19 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         }
     }
 
+    /**
+     * Grid where the cells are represented as Triangles but only adjacent neighbors are considered
+     */
     public final class AdjacentTrianglesGrid implements NeighborsGetter<SimulationGrid<E, T>> {
+        /**
+         * Determines which neighbors to get according to the grid and x,y coordinates.
+         * Gets only adjacent neighbors of the possible 12 total neighbors
+         *
+         * @param x
+         * @param y
+         * @param grid of the simulation
+         * @return
+         */
         @Override
         public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             E[][] neighbors = getNearbyCellsAsArray(x, y, 1, 1);
@@ -313,7 +476,19 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         }
     }
 
+    /**
+     * Grid where the cells are represented as Triangles. Only corner neighbors are considered
+     */
     public final class CornersTrianglesGrid implements NeighborsGetter<SimulationGrid<E, T>> {
+        /**
+         * Determines which neighbors to get according to the grid and x,y coordinates.
+         * Gets only corner neighbors of the possible 12 total neighbors
+         *
+         * @param x
+         * @param y
+         * @param grid of the simulation
+         * @return
+         */
         @Override
         public SimulationGrid<E, T> getNeighbors(int x, int y, SimulationGrid<E, T> grid) {
             E[][] neighbors = getNearbyCellsAsArray(x, y, 1, 2);

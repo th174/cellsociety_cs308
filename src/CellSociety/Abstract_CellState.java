@@ -24,6 +24,9 @@ public abstract class Abstract_CellState<E extends Abstract_CellState<E, T>, T> 
     @Override
     public abstract int compareTo(E state);
 
+    /**
+     * @return the number of agents in the cell
+     */
     public int getNumOfAgents() {
         return 0;
     }
@@ -48,14 +51,23 @@ public abstract class Abstract_CellState<E extends Abstract_CellState<E, T>, T> 
      */
     public abstract Color getFill();
 
+    /**
+     * @return the successor state of the cell
+     */
     public abstract E getSuccessorState();
 
+    /**
+     * @return a sel of distinct cellstates
+     */
     public abstract Set<T> getDistinctCellStates();
 
     protected T getState() {
         return myState;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     public String toString() {
         return String.format("\n\t\t<State>%s</State>", myState.toString());
     }
