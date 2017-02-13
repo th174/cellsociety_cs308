@@ -14,27 +14,36 @@ public final class GameOfLife_CellState extends AbstractDiscrete_CellState<GameO
         super(state);
     }
 
+    /**
+     * Initializes the cellstate
+     * @param state 
+     */
     public GameOfLife_CellState(GameOfLife_CellState state) {
         this(state.getState());
     }
 
+    /**
+     * Initializes cellstate with unknown number of parameters
+     * @param params
+     */
     public GameOfLife_CellState(String... params) {
         super(params[0].toLowerCase().equals("rand") ? randomState(GameOfLifeState.class) : GameOfLifeState.valueOf(params[0].toUpperCase()));
     }
 
+    /**
+     * @return Graphical representation of this CellState according to being alive
+     */
     @Override
     public Color getFill() {
         return getState().equals(GameOfLifeState.ALIVE) ? Color.GREEN : Color.WHITE;
     }
 
+    /**
+     * @return the successor state of the cell
+     */
     @Override
     public GameOfLife_CellState getSuccessorState() {
         return new GameOfLife_CellState(this);
-    }
-
-    @Override
-    public GameOfLife_CellState getInactiveState() {
-        return new GameOfLife_CellState(GameOfLifeState.DEAD);
     }
 
     enum GameOfLifeState {

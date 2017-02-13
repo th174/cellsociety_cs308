@@ -15,6 +15,11 @@ public abstract class AbstractRegularPolygon_CellView<E extends Abstract_Cell> e
     Text content;
 
 
+    /**
+     * Constructs abstract cell view of a regular polygon (e.g. triangle)
+     * @param cell
+     * @param outlineColor
+     */
     public AbstractRegularPolygon_CellView(E cell, String outlineColor) {
         super(cell);
         setShape(new Polygon());
@@ -26,6 +31,14 @@ public abstract class AbstractRegularPolygon_CellView<E extends Abstract_Cell> e
         content.setFont(new Font(30));
     }
 
+    /** 
+     * Updates view of the abstract cell according to given params
+     * @param visibleColumns
+     * @param visibleRows
+     * @param windowWidth
+     * @param windowHeight
+     * @see CellSociety.UI.Abstract_CellView#updateView(double, double, double, double)
+     */
     @Override
     public void updateView(double visibleColumns, double visibleRows, double windowWidth, double windowHeight) {
         super.updateView(visibleColumns, visibleRows, windowWidth, windowHeight);
@@ -41,6 +54,10 @@ public abstract class AbstractRegularPolygon_CellView<E extends Abstract_Cell> e
         content.setText(text);
     }
 
+    /** 
+     * gets the content of this cellview object.
+     * @see CellSociety.UI.Abstract_CellView#getContent()
+     */
     public Node getContent() {
         return content;
     }
@@ -65,6 +82,9 @@ public abstract class AbstractRegularPolygon_CellView<E extends Abstract_Cell> e
         return points;
     }
 
+    /* (non-Javadoc)
+     * @see CellSociety.UI.Abstract_CellView#getView()
+     */
     @Override
     public Polygon getView() {
         return (Polygon) super.getView();

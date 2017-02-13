@@ -18,11 +18,17 @@ public abstract class AbstractDiscrete_CellState<E extends AbstractDiscrete_Cell
         return enumState.getEnumConstants()[(int) (Math.random() * enumState.getEnumConstants().length)];
     }
 
+    /** 
+     * @see CellSociety.Abstract_CellState#getDistinctCellStates()
+     */
     @Override
     public Set<T> getDistinctCellStates() {
         return Arrays.stream(getState().getClass().getEnumConstants()).map(e -> (T) e).collect(Collectors.toSet());
     }
 
+    /** 
+     * @see CellSociety.Abstract_CellState#compareTo(CellSociety.Abstract_CellState)
+     */
     @Override
     public int compareTo(E cellState) {
         return getState().compareTo(cellState.getState());

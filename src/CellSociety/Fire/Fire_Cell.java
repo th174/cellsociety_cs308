@@ -7,14 +7,28 @@ import CellSociety.Abstract_Cell;
  */
 public class Fire_Cell extends Abstract_Cell<Fire_Cell, Fire_CellState> {
 
+    /**
+     * initializes new FireCell
+     * @param x coordinate
+     * @param y coordinate
+     * @param params possible list of parameters
+     */
     public Fire_Cell(int x, int y, String... params) {
         this(x, y, new Fire_CellState(params));
     }
 
+    /**
+     * @param x coordinate
+     * @param y coordinate
+     * @param state of this cell
+     */
     public Fire_Cell(int x, int y, Fire_CellState state) {
         super(x, y, state);
     }
 
+    /**
+     * Determines how the cells interact according to its neighboring cells
+     */
     @Override
     public void interact() {
         if (getNeighbors().parallelStream().anyMatch(e -> e.getCurrentState().equals(Fire_CellState.BURNING)) && Math.random() < getCurrentState().getFlammability()) {

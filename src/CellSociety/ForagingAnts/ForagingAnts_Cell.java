@@ -10,6 +10,12 @@ import java.util.stream.Collectors;
 
 public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, ForagingAnts_CellState> {
 
+    /**
+     * Initializes new cell
+     * @param x
+     * @param y
+     * @param params
+     */
     public ForagingAnts_Cell(int x, int y, String... params) {
         this(x, y, new ForagingAnts_CellState(params));
     }
@@ -18,10 +24,16 @@ public class ForagingAnts_Cell extends Abstract_Cell<ForagingAnts_Cell, Foraging
         super(x, y, state);
     }
 
+    /**
+     * generates Ants in this cell
+     */
     public void generateAnts() {
 
     }
 
+    /**
+     * Determines how the cells interact. Ants move according to the simulation rules.
+     */
     @Override
     public void interact() {
         if (!getCurrentState().equals(ForagingAnts_CellState.OBSTACLE)) {

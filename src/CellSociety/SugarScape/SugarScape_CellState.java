@@ -1,101 +1,92 @@
 package CellSociety.SugarScape;
 
-import CellSociety.AbstractDiscrete_CellState;
+import CellSociety.Abstract_CellState;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 
-public final class SugarScape_CellState extends AbstractDiscrete_CellState<SugarScape_CellState, SugarScape_CellState.SugarScapeState> {
-    private int growBackTicks = 1;
-    private int sugarGrowBackUnits = 1;
-    private int maxCapacity;
-    private int ticks;
-    private int sugar;
-    private double sugarFillCutoff = maxCapacity / 5.0;
-    private Agent myAgent;
-    private Agent nextAgent;
+public final class SugarScape_CellState extends Abstract_CellState<SugarScape_CellState, Double> {
+    private double sugarGrowBackRate;
+    private double maxCapacity;
+    private double agentMetabolism;
+    private double agentCurrentSugar;
+    private double agentSugarCapacity;
+    private boolean hasAgent;
+    private int maxReproduceTimer;
+    private int reproduceTimer;
 
-    public SugarScape_CellState(SugarScapeState state) {
-        this(state, 0, 0, null);
+
+    public SugarScape_CellState(String... params) {
+        super(Double.parseDouble(params[0]));
+        maxCapacity = params.length > 1 ? Double.parseDouble(params[1]) : 100;
+        sugarGrowBackRate = params.length > 2 ? Double.parseDouble(params[2]) : 20;
+        agentMetabolism = params.length > 3 ? Double.parseDouble(params[3]) : 30;
+        agentSugarCapacity = params.length > 4 ? Double.parseDouble(params[4]) : 0;
+        agentCurrentSugar = agentSugarCapacity;
+        maxReproduceTimer = params.length > 5 ? Integer.parseInt(params[5]) : Integer.MAX_VALUE;
+        reproduceTimer = maxReproduceTimer;
+        hasAgent = params.length > 3;
     }
 
-    public SugarScape_CellState(SugarScapeState state, int startingSugar, int life, Agent nextA) {
-        super(state);
-        sugar = startingSugar;
-        ticks = life;
-        maxCapacity = 20;
-        myAgent = nextA;
-        nextAgent=null;
+    public SugarScape_CellState(double sugar, double maxSugar, double sugarGrowRate, boolean agent, double metabolism, double agentSugar, double agentMaxSugar, int reproductionTime, int maxReproductionTime) {
+        super(sugar);
+        hasAgent = agent;
+        maxCapacity = maxSugar;
+        agentMetabolism = metabolism;
+        agentCurrentSugar = agentSugar;
+        agentSugarCapacity = agentMaxSugar;
+        sugarGrowBackRate = sugarGrowRate;
+        maxReproduceTimer = maxReproductionTime;
+        reproduceTimer = reproductionTime;
+    }
+
+    public SugarScape_CellState(SugarScape_CellState parent) {
+        this(Math.min(parent.getState() + parent.sugarGrowBackRate, parent.maxCapacity), parent.maxCapacity, parent.sugarGrowBackRate, parent.hasAgent, parent.agentMetabolism, parent.agentCurrentSugar - parent.agentMetabolism, parent.agentSugarCapacity, parent.reproduceTimer - 1, parent.maxReproduceTimer);
+    }
+
+    public SugarScape_CellState(SugarScape_CellState parent, boolean agent, double agentSugar) {
+        this(agent ? 0 : parent.getState(), parent.maxCapacity, parent.sugarGrowBackRate, agent, agent ? parent.agentMetabolism : 0, Math.min(agentSugar, parent.agentSugarCapacity) - parent.agentMetabolism, parent.agentSugarCapacity, parent.reproduceTimer - 1, parent.maxReproduceTimer);
+    }
+
+    public SugarScape_CellState(SugarScape_CellState parent, boolean agent) {
+        this(agent ? 0 : parent.getState(), parent.maxCapacity, parent.sugarGrowBackRate, agent, agent ? parent.agentMetabolism : 0, parent.agentSugarCapacity, parent.agentSugarCapacity, parent.maxReproduceTimer, parent.maxReproduceTimer);
+    }
+
+    public double getAgentSugar() {
+        return agentCurrentSugar;
     }
 
     @Override
-    public int compareTo(SugarScape_CellState state) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int compareTo(SugarScape_CellState otherCellState) {
+        return getState().compareTo(otherCellState.getState());
     }
 
     @Override
     public Color getFill() {
-        if (sugar < sugarFillCutoff) return Color.WHITE;
-        if (sugar < 2 * sugarFillCutoff) return Color.LIGHTPINK;
-        if (sugar < 3 * sugarFillCutoff) return Color.ORANGE;
-        if (sugar < 4 * sugarFillCutoff) return Color.ORANGERED;
-        return Color.CRIMSON;
+        return hasAgent() ? Color.RED : Color.ORANGE.deriveColor(0, 1, 1, getState() / maxCapacity);
+    }
+
+    public double getSugar() {
+        return getState();
     }
 
     @Override
     public SugarScape_CellState getSuccessorState() {
-        return new SugarScape_CellState(getState(), sugar, ticks, nextAgent);
+        return new SugarScape_CellState(this);
+    }
+
+    public boolean hasAgent() {
+        return hasAgent;
+    }
+
+    public boolean canReproduce() {
+        return reproduceTimer <= 0;
     }
 
     @Override
-    public SugarScape_CellState getInactiveState() {
+    public Set getDistinctCellStates() {
+        // TODO Auto-generated method stub
         return null;
     }
-
-    public void growSugar() {
-        ticks++;
-        if (ticks == growBackTicks) {
-            ticks = 0;
-            sugar = Math.min(sugar + sugarGrowBackUnits, maxCapacity);
-        }
-    }
-
-    public void removeAgent(Agent a) {
-        myAgent=null;
-    }
-
-    public Agent getAgent() {
-        return myAgent;
-    }
-
-    public int getSugar() {
-        return sugar;
-    }
-
-    public void removeSugar() {
-        sugar = 0;
-    }
-
-    public enum SugarScapeState {
-        DEAD, ALIVE
-    }
-    public boolean isEmpty(){
-    	return myAgent==null;
-    }
-    public boolean canReproduceHere(){
-    	return isEmpty() && nextAgent==null;
-    }
-    public void setNextAgent(Agent a){
-    	nextAgent=a;
-    }
-
-	@Override
-	public Set<SugarScapeState> getDistinctCellStates() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

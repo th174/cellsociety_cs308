@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Simulation type="ForagingAnts" width="10" height="10" fps="1" shape="Square" outlines="black">
+    <Cell>
+        <State>0</State>
+    </Cell>
+    <Cell xPos="5">
+        <State>.5</State>
+    </Cell>
+    <Cell xPos="8" >
+        <State>.2</State>
+    </Cell>
+    <Cell xPos="4" yPos="4">
+        <State>OBSTACLE</State>
+    </Cell>
+</Simulation>
