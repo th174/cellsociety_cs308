@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Simulation type="ForagingAnts" width="10" height="10" fps="1" shape="Square" outlines="black">
     <Cell>
-        <State>0</State>
+        <State>HOME</State>
+        
     </Cell>
-    <Cell xPos="5">
-        <State>.5</State>
+    <Cell xPos="5" yPos="2">
+        <State>SOURCE</State>
     </Cell>
-    <Cell xPos="8" >
-        <State>.2</State>
+    <Cell xPos="8" yPos="8">
+        <State>EMPTY</State>
+        <maxCapacity>9</maxCapacity>
+		<maxHomePheromone>60</maxHomePheromone>
+		<maxFoodPheromone>60</maxFoodPheromone>
+		<pheromoneConstant>6</pheromoneConstant>
+		<numberAnts>8</numberAnts>
     </Cell>
     <Cell xPos="4" yPos="4">
         <State>OBSTACLE</State>

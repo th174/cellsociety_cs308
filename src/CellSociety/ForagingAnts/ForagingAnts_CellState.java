@@ -12,7 +12,7 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
     public static final ForagingAnts_CellState SOURCE = new ForagingAnts_CellState(ForagingAntsState.SOURCE);
     public static final ForagingAnts_CellState EMPTY = new ForagingAnts_CellState(ForagingAntsState.EMPTY);
     public static final ForagingAnts_CellState OBSTACLE = new ForagingAnts_CellState(ForagingAntsState.OBSTACLE);
-
+    
     private int foodPheromone;
     private int homePheromone;
     private Collection<Ant> myAnts;
@@ -20,7 +20,7 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
     private int maxFoodPheromone = 100;
     private int maxHomePheromone = 100;
     private int pheromoneConstant = 10;
-
+    
     private ForagingAnts_CellState(ForagingAntsState state) {
         super(state);
         myAnts = new ArrayList<Ant>();
@@ -38,6 +38,12 @@ public final class ForagingAnts_CellState extends AbstractDiscrete_CellState<For
         maxFoodPheromone = params.length > 2 ? Integer.parseInt(params[2]) : 100;
         maxHomePheromone = params.length > 3 ? Integer.parseInt(params[3]) : 100;
         pheromoneConstant = params.length > 4 ? Integer.parseInt(params[4]) : 10;
+        myAnts= new ArrayList<Ant>();
+        int numberAnts = params.length > 5 ? Integer.parseInt(params[5]) : 0;
+        for(int i=0;i<numberAnts;i++){
+        	myAnts.add(new Ant(10));
+        }
+        
     }
 
     /** 
