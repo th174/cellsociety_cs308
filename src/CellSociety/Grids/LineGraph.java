@@ -89,7 +89,7 @@
 //
 //    private void addDataToSeries() {
 //        for (int i = 0; i <size() ; i++) { //-- add 20 numbers to the plot+
-//            if (dataQ.isEmpty()) break;
+//            if (dataQ.hasAgent()) break;
 //            series.getData().add(new LineChart.Data(xSeriesData++, dataQ.remove()));
 //        }
 //        // remove points to keep us at no more than MAX_DATA_POINTS

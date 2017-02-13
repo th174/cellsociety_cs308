@@ -40,11 +40,6 @@ public final class PredatorPrey_CellState extends AbstractDiscrete_CellState<Pre
         return new PredatorPrey_CellState(this, reproductionTimer - 1, starvationTimer - 1);
     }
 
-    @Override
-    public PredatorPrey_CellState getInactiveState() {
-        return new PredatorPrey_CellState(PredatorPreyState.EMPTY, maxReproductionTimer, maxStarvationTimer);
-    }
-
     boolean canReproduce() {
         return reproductionTimer <= 0;
     }

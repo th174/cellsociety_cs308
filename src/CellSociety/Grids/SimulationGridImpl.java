@@ -167,7 +167,7 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         shapeMode = shape;
         return this;
     }
-    
+
     public int size() {
         return (int) parallelStream().count();
     }

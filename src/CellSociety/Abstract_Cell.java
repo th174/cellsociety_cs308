@@ -98,10 +98,6 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
         myTimeline.setNextState(state);
     }
 
-    public T getInactiveState() {
-        return getCurrentState().getInactiveState();
-    }
-
     public int getX() {
         return xPos;
     }
