@@ -4,12 +4,13 @@ import java.util.stream.Collectors;
 
 import CellSociety.Abstract_Cell;
 import CellSociety.Grids.SimulationGrid;
+import CellSociety.SlimeMold.SlimeMold_CellState.SlimeMoldState;
 
 
 public class SlimeMold_Cell extends Abstract_Cell<SlimeMold_Cell, SlimeMold_CellState> implements Comparable<SlimeMold_Cell>{
 
-    public SlimeMold_Cell(int x, int y, SlimeMold_CellState state) {
-        super(x, y, state);
+    public SlimeMold_Cell(int x, int y, SlimeMoldState state) {
+        super(x, y, new SlimeMold_CellState(state));
     }
     public SlimeMold_Cell(int x, int y, String...params) {
         super(x, y, new SlimeMold_CellState(params));

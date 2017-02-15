@@ -12,12 +12,23 @@ public class LangtonsLoop_Cell extends Abstract_Cell<LangtonsLoop_Cell, Langtons
     private int xDirection;
     private int yDirection;
 
+    /**
+     * Constructs new cell
+     * @param x
+     * @param y
+     * @param state
+     */
     public LangtonsLoop_Cell(int x, int y, LangtonsLoop_CellState state) {
         super(x, y, state);
         xDirection = 0;
         yDirection = 1;
     }
 
+    /** 
+     * beginning implementation of how the cells interact. Cells propogate forward but 
+     * according to the rules of each cell, they may or may not change the layout of the entire loop
+     * @see CellSociety.Abstract_Cell#interact()
+     */
     @Override
     public void interact() {
         if (shouldMove()) {
@@ -36,14 +47,21 @@ public class LangtonsLoop_Cell extends Abstract_Cell<LangtonsLoop_Cell, Langtons
     }
 
     private boolean shouldMove() {
-        //should move if between two sheaths
         return false;
     }
 
+    /**
+     * @param nextCell
+     * @return true if the next cell is a sheath cell, i.e. the end of the loop
+     */
     public boolean isAtEnd(LangtonsLoop_Cell nextCell) {
         return nextCell.getCurrentState().equals(LangtonsLoopState.SHEATH);
     }
 
+    /**
+     * cells act according to their properties
+     * @param nextCell
+     */
     public void doAction(LangtonsLoop_Cell nextCell) {
         if (getCurrentState().equals(LangtonsLoopState.GROWTH)) {
             nextCell.setNextState(new LangtonsLoop_CellState(LangtonsLoopState.CORE));
@@ -57,6 +75,10 @@ public class LangtonsLoop_Cell extends Abstract_Cell<LangtonsLoop_Cell, Langtons
         return adjNeighbors.stream().filter(e -> e.getCurrentState().equals(LangtonsLoopState.EMPTY)).count() >= 3;
     }
 
+    /**
+     * expands sheath to account of the rules
+     * @param adjNeighbors
+     */
     public void expandSheath(List<LangtonsLoop_Cell> adjNeighbors) {
         //need to change the empty cells to sheath
         for (LangtonsLoop_Cell cell : adjNeighbors) {

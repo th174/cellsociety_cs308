@@ -37,16 +37,18 @@ Extra Features included:
 * Opening new XML files
 * Saving simulation to PNG
 * Saving simulation to XML
-* Opening multiple simulation simultaneously
+* Opening multiple simulations simultaneously (beware of lag, however)
 * 3 shapes can be chosen through the XML file (Square, Hexagon, Triangle)
 * 3 ways of getting neighbors can be chosen through the XML file (All neighbors, adjacent neighbors only, corners only)
 * 2 types of bounds can be chosen through the XML file (Finite, Toroidal)
 * Supports specifying initial conditions by individual cell, row, column, or entire grid
 * Supports specifying random initial state 
-* 1 Additional Simulation in SugarScape
+* 5 different fully implemented simulations (GameOfLife, SugarScape, Fire, PredatorPrey, Segregation)
+* 3 partially implemented simulations (LangtonsLoop, SlimeMold, ForagingAnts)
 * This file can be opened on Gitlab with F1, or through the menu
 * Menu items can be accessed through default hotkeys in both Mac and Windows.
 * Run Length Encoded Game Of Life File (RLE) to XML converter included as a Perl script
+* XML Input validation and error checking
 
 Human resources used to develop the project
 ==
