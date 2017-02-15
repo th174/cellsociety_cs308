@@ -2,10 +2,7 @@ package CellSociety.UI;
 
 import CellSociety.AbstractDiscrete_CellState;
 import CellSociety.Abstract_Cell;
-import CellSociety.Grids.BoundsHandler;
-import CellSociety.Grids.NeighborsGetter;
 import CellSociety.Grids.SimulationGrid;
-import CellSociety.Grids.SimulationGridImpl;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -35,25 +32,23 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import javax.imageio.ImageIO;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static javafx.application.Platform.exit;
 
-
+/**
+ * This class handles all graphical UI/UX for the CellSociety Simulation. It draws each of the cell views to the screen, updates the simulation state on a timeline, and allows for zooming and panning of the the simulation.
+ * Additionally, the CellSocietyView.CellSocietyMenu class handles all user program interaction through the Menu bar
+ *
+ * @param <T> The type of CellView to be drawn to be the simulation window
+ */
 public class CellSocietyView<T extends Abstract_CellView> {
     public static final boolean SYSTEM_MENU_BAR = true;
     public static final double ANIMATION_RATE_STEP = 5.0 / 4;
@@ -74,21 +69,10 @@ public class CellSocietyView<T extends Abstract_CellView> {
     private Map<Enum, HashSet<Pair<Integer, Integer>>> cellFrequencyData;
 
     /**
-     * Constructs CellSocietyView according to default size.
+     * Constructs a new CellSocietyView according to default size.
      */
     public CellSocietyView() {
         this(DEFAULT_SIZE, DEFAULT_SIZE);
-    }
-
-    /**
-     * Constructs CellSocietyView with the given width and height.
-     * InputData is set to null
-     *
-     * @param width
-     * @param height
-     */
-    public CellSocietyView(double width, double height) {
-        this(width, height, null);
     }
 
     /**
@@ -96,12 +80,10 @@ public class CellSocietyView<T extends Abstract_CellView> {
      * Zoom is set to 1 by default.
      * Initializes and plays the Timeline.
      *
-     * @param width     of the window
-     * @param height    of the window
-     * @param inputData
+     * @param width  of the window
+     * @param height of the window
      */
-    public CellSocietyView(double width, double height, InputDataGetter inputData) {
-        myInputData = inputData;
+    public CellSocietyView(double width, double height) {
         windowWidth = width;
         windowHeight = height;
         zoom = 1;
@@ -130,6 +112,9 @@ public class CellSocietyView<T extends Abstract_CellView> {
         return myResources.getString("Title");
     }
 
+    /**
+     * Updates simulation state
+     */
     private void update() {
         mySimulationGrid.update();
         cellViews.forEach(e -> e.updateView(mySimulationGrid.getColumns() * zoom, mySimulationGrid.getRows() * zoom, windowWidth, windowHeight));
@@ -147,7 +132,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
         do {
             try {
                 File xmlFile = fileChooser.showOpenDialog(null);
-                myInputData = new xmlInput(xmlFile);
+                myInputData = new InputDataGetterXML(xmlFile, myResources);
             } catch (Exception e) {
                 attemptsRemaining--;
                 e.printStackTrace();
@@ -175,17 +160,8 @@ public class CellSocietyView<T extends Abstract_CellView> {
         }
     }
 
-    private String generateXML() {
-        final String[] xmlOutput = {"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"};
-        xmlOutput[0] += String.format("<Simulation type=\"%s\" width=\"%d\" height=\"%d\" fps=\"%f\" shape=\"%s\" neighbors_mode=\"%s\" bounds=\"%s\" outlines=\"%s\">\n",
-                myInputData.getSimulationType(), mySimulationGrid.getColumns(), mySimulationGrid.getRows(), myInputData.getFramesPerSecond(), myInputData.getCellShape(), myInputData.getNeighborMode(), myInputData.getGridBoundType(), myInputData.getGridOutline());
-        mySimulationGrid.forEach(e -> xmlOutput[0] += e.toString());
-        xmlOutput[0] += "</Simulation>";
-        return xmlOutput[0];
-    }
-
     private LineChart createChart() {
-        int maxTime = mySimulationGrid.getMaxIndex();
+        int maxTime = mySimulationGrid.getMaxTimelineIndex();
         NumberAxis xAxis = new NumberAxis("Time", 0, maxTime, maxTime / 10);
         NumberAxis yAxis = new NumberAxis(0, mySimulationGrid.size(), mySimulationGrid.getColumns());
         xAxis.setLabel("Time");
@@ -195,7 +171,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
         for (Enum e : mySimulationGrid.getDistinctCellStates()) {
             Series<Number, Number> cellSeries = new Series<>();
             cellSeries.setName(e.name());
-            cellSeries.getData().addAll(cellFrequencyData.get(e).stream().map(xy -> new XYChart.Data<Number,Number>(xy.getKey(), xy.getValue())).collect(Collectors.toSet()));
+            cellSeries.getData().addAll(cellFrequencyData.get(e).stream().map(xy -> new XYChart.Data<Number, Number>(xy.getKey(), xy.getValue())).collect(Collectors.toSet()));
             cellSocietyChart.getData().add(cellSeries);
         }
         cellSocietyChart.setPrefHeight(600);
@@ -204,184 +180,46 @@ public class CellSocietyView<T extends Abstract_CellView> {
     }
 
     private void updateData() {
-        int currentTime = mySimulationGrid.getCurrentIndex();
+        int currentTime = mySimulationGrid.getCurrentTimelineIndex();
         for (Enum e : mySimulationGrid.getDistinctCellStates()) {
             cellFrequencyData.putIfAbsent(e, new HashSet<>());
             cellFrequencyData.get(e).add(new Pair<>(currentTime, mySimulationGrid.countTotalOfState(e)));
         }
     }
 
-    private static class xmlInput implements InputDataGetter {
-        private double framesPerSecond;
-        private String simulationType;
-        private String cellShape;
-        private String boundsType;
-        private String neighborMode;
-        private String gridOutlineStyle;
-        private SimulationGrid<? extends Abstract_Cell, ? extends AbstractDiscrete_CellState> simulationGrid;
-
-        /**
-         * Reals XML file
-         *
-         * @param xmlFile
-         * @throws Exception if necessary
-         */
-        public xmlInput(File xmlFile) throws Exception {
-            readXML(xmlFile);
-        }
-
-        /**
-         * @return simulationGrid of the animation
-         * @see CellSociety.UI.InputDataGetter#getSimulationGrid()
-         */
-        @Override
-        public SimulationGrid<? extends Abstract_Cell, ? extends AbstractDiscrete_CellState> getSimulationGrid() {
-            return simulationGrid;
-        }
-
-        /**
-         * @return simulation type
-         * @see CellSociety.UI.InputDataGetter#getSimulationType()
-         */
-        @Override
-        public String getSimulationType() {
-            return simulationType;
-        }
-
-        /**
-         * @return frames per second of the animation
-         * @see CellSociety.UI.InputDataGetter#getFramesPerSecond()
-         */
-        @Override
-        public double getFramesPerSecond() {
-            return framesPerSecond;
-        }
-
-        /**
-         * @return shape of the cells
-         * @see CellSociety.UI.InputDataGetter#getCellShape()
-         */
-        @Override
-        public String getCellShape() {
-            return cellShape;
-        }
-
-        /**
-         * @see CellSociety.UI.InputDataGetter#getGridBoundType()
-         */
-        @Override
-        public String getGridBoundType() {
-            return boundsType;
-        }
-
-        /**
-         * @see CellSociety.UI.InputDataGetter#getNeighborMode()
-         */
-        @Override
-        public String getNeighborMode() {
-            return neighborMode;
-        }
-
-        /**
-         * @return gridOutline as a String
-         * @see CellSociety.UI.InputDataGetter#getGridOutline()
-         */
-        @Override
-        public String getGridOutline() {
-            return gridOutlineStyle;
-        }
-
-        private void readXML(File xmlInputFile) throws Exception {
-            try {
-                Document file = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlInputFile);
-                Element root = file.getDocumentElement();
-                String[][][] grid;
-                Class<? extends Abstract_Cell> cellType;
-                try {
-                    int width = root.hasAttribute("width") ? Integer.parseInt(root.getAttribute("width")) : 50;
-                    int height = root.hasAttribute("height") ? Integer.parseInt(root.getAttribute("height")) : 50;
-                    grid = new String[width][height][0];
-                    framesPerSecond = root.hasAttribute("fps") ? Double.parseDouble(root.getAttribute("fps")) : 3;
-                    simulationType = root.hasAttribute("type") ? root.getAttribute("type") : "GameOfLife";
-                    cellShape = root.hasAttribute("shape") ? root.getAttribute("shape") : "Square";
-                    boundsType = root.hasAttribute("bounds") ? root.getAttribute("bounds") : "Finite";
-                    neighborMode = root.hasAttribute("neighbors") ? root.getAttribute("neighbors") : "";
-                    gridOutlineStyle = root.hasAttribute("outlines") ? root.getAttribute("outlines") : "";
-                    try {
-                        cellType = (Class<? extends Abstract_Cell>) Class.forName("CellSociety." + simulationType + "." + simulationType + "_Cell");
-                        NodeList cells = file.getElementsByTagName("Cell");
-                        for (int i = 0; i < cells.getLength(); i++) {
-                            Element currentElement = (Element) cells.item(i);
-                            try {
-                                if (!currentElement.hasAttribute("xPos") && !currentElement.hasAttribute("yPos")) {
-                                    for (int j = 0; j < grid.length; j++) {
-                                        for (int k = 0; k < grid[j].length; k++) {
-                                            grid[j][k] = getConstructorParamsFromXMLElement(currentElement);
-                                        }
-                                    }
-                                } else if (!currentElement.hasAttribute("xPos")) {
-                                    for (int j = 0; j < grid.length; j++) {
-                                        grid[j][Integer.parseInt(currentElement.getAttribute("yPos"))] = getConstructorParamsFromXMLElement(currentElement);
-                                    }
-                                } else if (!currentElement.hasAttribute("yPos")) {
-                                    for (int j = 0; j < grid[0].length; j++) {
-                                        grid[Integer.parseInt(currentElement.getAttribute("xPos"))][j] = getConstructorParamsFromXMLElement(currentElement);
-                                    }
-                                } else {
-                                    grid[Integer.parseInt(currentElement.getAttribute("xPos"))][Integer.parseInt(currentElement.getAttribute("yPos"))] = getConstructorParamsFromXMLElement(currentElement);
-                                }
-                            } catch (IndexOutOfBoundsException e) {
-                                e.printStackTrace();
-                                throw new Exception(myResources.getString("IndexOutOfBoundsException") + "(x,y)=(" + currentElement.getAttribute("xPos") + "," + currentElement.getAttribute("yPos") + ")");
-                            } catch (NumberFormatException e) {
-                                throw new Exception(myResources.getString("CoordinateFormatException"));
-                            }
-                        }
-                        try {
-                            simulationGrid = new SimulationGridImpl<>(grid, cellType);
-                            NeighborsGetter gridShape;
-                            try {
-                                gridShape = (NeighborsGetter) Class.forName("CellSociety.Grids.SimulationGridImpl$" + neighborMode + cellShape + "sGrid").getConstructor(SimulationGridImpl.class).newInstance(simulationGrid);
-                                try {
-                                    BoundsHandler gridBounds = (BoundsHandler) Class.forName("CellSociety.Grids.SimulationGridImpl$" + boundsType + "Bounds").getConstructor(SimulationGridImpl.class).newInstance(simulationGrid);
-                                    simulationGrid.setShapeType(gridShape).setBoundsType(gridBounds);
-                                } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
-                                    throw new Exception(myResources.getString("BoundsTypeException") + boundsType);
-                                }
-                            } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
-                                e.printStackTrace();
-                                throw new Exception(myResources.getString("ShapeException") + neighborMode + cellShape);
-                            }
-                        } catch (SimulationGrid.CellInstantiationException e) {
-                            throw new Exception(myResources.getString("CellInstantiationException") + e.getMessage());
-                        }
-                    } catch (ClassNotFoundException e) {
-                        throw new Exception(myResources.getString("ClassNotFoundException") + simulationType);
-                    }
-                } catch (NumberFormatException e) {
-                    throw new Exception(myResources.getString("ConfigException"));
-                }
-            } catch (SAXException e) {
-                throw new Exception(myResources.getString("XMLException"));
-            } catch (IOException e) {
-                throw new Exception(myResources.getString("IOException") + xmlInputFile.getName());
-            }
-        }
-
-        private String[] getConstructorParamsFromXMLElement(Element currentElement) {
-            java.util.List<String> constructorParams = new ArrayList<>();
-            for (int j = 0; j < currentElement.getElementsByTagName("*").getLength(); j++) {
-                constructorParams.add(currentElement.getElementsByTagName("*").item(j).getTextContent().toUpperCase());
-            }
-            return constructorParams.toArray(new String[constructorParams.size()]);
-        }
-    }
-
+    /**
+     * Class representing the Menubar at the top of the window which contains all user interaction with the simulation.
+     * This class handles all supported menu functions:
+     * File
+     * -New
+     * -Open
+     * -Save as XML
+     * -Save as PNG
+     * -Exit
+     * View
+     * -Zoom In
+     * -Zoom Out
+     * -Zoom Auto
+     * -Adjust Color
+     * Simulation
+     * -Pause
+     * -Speed Up
+     * -Slow Down
+     * -Reverse
+     * -Step Forward
+     * -Step Backward
+     * -Seek
+     * Help
+     * -View Readme
+     * -About
+     *
+     * @see javafx.scene.control.MenuBar
+     */
     private class CellSocietyMenu {
         private MenuBar myMenu;
 
         /**
-         * Constructs a new Menu used for the UI
+         * Constructs MenuBar used for the UI
          */
         public CellSocietyMenu() {
             Menu file = initFileMenu();
@@ -393,7 +231,8 @@ public class CellSocietyView<T extends Abstract_CellView> {
         }
 
         /**
-         * @return the menu bar
+         * @return MenuBar
+         * @see javafx.scene.control.MenuBar
          */
         public MenuBar getMenuBar() {
             return myMenu;
@@ -450,13 +289,16 @@ public class CellSocietyView<T extends Abstract_CellView> {
         }
 
         private Menu initHelpMenu() {
-            MenuItem viewHelp = new MenuItem(myResources.getString("View_Help"));
-            viewHelp.setAccelerator(new KeyCodeCombination(KeyCode.F1));
-            viewHelp.setOnAction(e -> openHelp());
+            MenuItem viewHelp = new MenuItem(myResources.getString("View_Readme"));
+            viewHelp.setAccelerator(new KeyCodeCombination(KeyCode.H, KeyCombination.SHORTCUT_DOWN, KeyCombination.SHIFT_DOWN));
+            viewHelp.setOnAction(e -> openReadme());
+            MenuItem viewJavadoc = new MenuItem(myResources.getString("View_Documentation"));
+            viewJavadoc.setAccelerator(new KeyCodeCombination(KeyCode.J, KeyCombination.SHORTCUT_DOWN, KeyCombination.SHIFT_DOWN));
+            viewJavadoc.setOnAction(e -> openJavadoc());
             MenuItem about = new MenuItem(myResources.getString("About"));
-            about.setAccelerator(new KeyCodeCombination(KeyCode.F1, KeyCombination.SHORTCUT_DOWN));
+            about.setAccelerator(new KeyCodeCombination(KeyCode.A, KeyCombination.SHORTCUT_DOWN, KeyCombination.SHIFT_DOWN));
             about.setOnAction(e -> about());
-            return new Menu(myResources.getString("Help"), null, viewHelp, about);
+            return new Menu(myResources.getString("Help"), null, viewHelp, viewJavadoc, about);
         }
 
         private Menu initViewMenu() {
@@ -469,7 +311,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
             MenuItem zoomOut = new MenuItem(myResources.getString("Zoom_Out"));
             zoomOut.setAccelerator(new KeyCodeCombination(KeyCode.MINUS, KeyCombination.SHORTCUT_DOWN, KeyCombination.SHIFT_DOWN));
             zoomOut.setOnAction(e -> zoomOut());
-            MenuItem colorShift = new MenuItem(myResources.getString("Set_Color"));
+            MenuItem colorShift = new MenuItem(myResources.getString("Adjust_Color"));
             colorShift.setOnAction(e -> colorShift());
             return new Menu(myResources.getString("View"), null, zoomAuto, zoomIn, zoomOut, colorShift);
         }
@@ -503,8 +345,8 @@ public class CellSocietyView<T extends Abstract_CellView> {
 
         private void colorShift() {
             Dialog dbox = new Dialog();
-            dbox.setTitle(myResources.getString("Set_Color"));
-            dbox.setHeaderText(myResources.getString("Set_Color_Content"));
+            dbox.setTitle(myResources.getString("Adjust_Color"));
+            dbox.setHeaderText(myResources.getString("Adjust_Color_Content"));
             dbox.getDialogPane().getButtonTypes().add(new ButtonType(myResources.getString("Okay"), ButtonBar.ButtonData.CANCEL_CLOSE));
             GridPane content = new GridPane();
             content.getColumnConstraints().add(new ColumnConstraints(90));
@@ -580,7 +422,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
             dbox.setTitle(myResources.getString("Seek..."));
             dbox.setHeaderText(myResources.getString("Seek_Content"));
             dbox.getDialogPane().getButtonTypes().add(new ButtonType(myResources.getString("Okay"), ButtonBar.ButtonData.CANCEL_CLOSE));
-            Slider seekBar = new Slider(0, mySimulationGrid.getCurrentIndex(), mySimulationGrid.getMaxIndex());
+            Slider seekBar = new Slider(0, mySimulationGrid.getCurrentTimelineIndex(), mySimulationGrid.getMaxTimelineIndex());
             seekBar.setSnapToTicks(true);
             seekBar.setMajorTickUnit(1);
             seekBar.valueProperty().addListener(e -> {
@@ -611,6 +453,15 @@ public class CellSocietyView<T extends Abstract_CellView> {
             }
         }
 
+        private String generateXML() {
+            final String[] xmlOutput = {"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"};
+            xmlOutput[0] += String.format("<Simulation type=\"%s\" width=\"%d\" height=\"%d\" fps=\"%f\" shape=\"%s\" neighbors_mode=\"%s\" bounds=\"%s\" outlines=\"%s\">\n",
+                    myInputData.getSimulationType(), mySimulationGrid.getColumns(), mySimulationGrid.getRows(), myInputData.getFramesPerSecond(), myInputData.getCellShape(), myInputData.getNeighborMode(), myInputData.getGridBoundType(), myInputData.getGridOutline());
+            mySimulationGrid.forEach(e -> xmlOutput[0] += e.toString());
+            xmlOutput[0] += "</Simulation>";
+            return xmlOutput[0];
+        }
+
         private void exportPNG() {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle(myResources.getString("Export_File"));
@@ -624,11 +475,19 @@ public class CellSocietyView<T extends Abstract_CellView> {
             }
         }
 
-        private void openHelp() {
+        private void openReadme() {
             try {
                 Desktop.getDesktop().browse(new URI("http://coursework.cs.duke.edu/CompSci308_2017Spring/cellsociety_team21"));
             } catch (Exception e) {
-                new Alert(Alert.AlertType.ERROR, myResources.getString("ErrorHelp")).show();
+                new Alert(Alert.AlertType.ERROR, myResources.getString("ErrorReadme")).show();
+            }
+        }
+
+        private void openJavadoc() {
+            try {
+                Desktop.getDesktop().browse(new URI("http://coursework.cs.duke.edu/CompSci308_2017Spring/cellsociety_team21"));
+            } catch (Exception e) {
+                new Alert(Alert.AlertType.ERROR, myResources.getString("ErrorDocumentation")).show();
             }
         }
 

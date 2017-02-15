@@ -1,5 +1,6 @@
 package CellSociety.SugarScape;
 
+import CellSociety.AbstractDiscrete_CellState;
 import CellSociety.Abstract_Cell;
 
 import java.util.Collections;
@@ -7,25 +8,43 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * This class models a single cell in the SugarScape simulation.
+ *
+ * @see CellSociety.Abstract_Cell
+ * Created by th174 on 2/10/2017.
+ */
 public class SugarScape_Cell extends Abstract_Cell<SugarScape_Cell, SugarScape_CellState> implements Comparable<SugarScape_Cell> {
 
-    private SugarScape_Cell(int x, int y, SugarScape_CellState state) {
-        super(x, y, state);
-    }
 
     /**
-     * Constructor from xml
+     * Constructs new SugarScape_Cell from XML Properties
      *
-     * @param x      xPos
-     * @param y      yPos
-     * @param params xml properties
+     * @param x      x-position
+     * @param y      y-position
+     * @param params String paramters from xml input
+     * @see #SugarScape_Cell(int, int, SugarScape_CellState)
      */
     public SugarScape_Cell(int x, int y, String... params) {
         this(x, y, new SugarScape_CellState(params));
     }
 
     /**
-     * SugarScape
+     * Constructs new SugarScape_Cell with initial CellState
+     *
+     * @param x     x-position
+     * @param y     y-position
+     * @param state initial CellState of this Cell
+     * @see Abstract_Cell#Abstract_Cell(int, int, AbstractDiscrete_CellState)
+     */
+    public SugarScape_Cell(int x, int y, SugarScape_CellState state) {
+        super(x, y, state);
+    }
+
+    /**
+     * This SugarScape_Cell interacts with all other cells on its parentGrid in accordance with rules described in the SugarScape Simulation
+     *
+     * @see Abstract_Cell#interact()
      */
     @Override
     public void interact() {

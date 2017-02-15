@@ -15,7 +15,6 @@ public final class LangtonsLoop_CellState extends AbstractDiscrete_CellState<Lan
 
     @Override
     public Color getFill() {
-        // TODO Auto-generated method stub
         return null;
     }
 

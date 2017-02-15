@@ -5,17 +5,17 @@ import CellSociety.Grids.SimulationGrid;
 import java.util.Objects;
 
 /**
- * Created by th174 on 1/29/2017.
+ * Base class for modeling a single Cell with a CellState inside a SimulationGrid
+ *
+ * @param <E> The Abstract_Cell type subclass
+ * @param <T> The AbstractDiscrete_CellState type of this cell at any moment in time
+ *            Created by th174 on 1/29/2017.
  */
 public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends AbstractDiscrete_CellState<T, ? extends Enum<?>>> {
     private final int xPos;
     private final int yPos;
+    private final CellStateTimeline<T> myTimeline;
     private SimulationGrid<E, T> parentGrid;
-    private CellStateTimeline<T> myTimeline;
-
-    protected Abstract_Cell(String[] args, T state) {
-        this(Integer.parseInt(args[0]), Integer.parseInt(args[1]), state);
-    }
 
     protected Abstract_Cell(int x, int y, T state) {
         xPos = x;
@@ -27,7 +27,7 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
      * Advances currentState to nextState
      * This is the only way currentState can be modified
      */
-    public void updateState() {
+    public final void updateState() {
         myTimeline.advance();
         setNextState(getCurrentState().getSuccessorState());
     }
@@ -40,7 +40,7 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
     /**
      * @return Grid of neighboring cells. See SimulationGrid::getNeighbors
      */
-    protected SimulationGrid<E, T> getNeighbors() {
+    protected final SimulationGrid<E, T> getNeighbors() {
         if (Objects.nonNull(parentGrid)) {
             return parentGrid.getNeighbors(xPos, yPos);
         } else {
@@ -49,32 +49,37 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
     }
 
     /**
-     * Goes to the index in the timeline. Allows us to jump.
+     * Goes to the index in the timeline, can jump to any visited CellState.
      *
-     * @param index
+     * @param index index to jump to
+     * @see CellStateTimeline#seek(int)
      */
-    public void seek(int index) {
+    public final void seek(int index) {
         myTimeline.seek(index);
     }
 
     /**
      * Reverses the animation.
+     *
+     * @see CellStateTimeline#reverse()
      */
-    public void reverse() {
+    public final void reverse() {
         myTimeline.reverse();
     }
 
     /**
      * @return current index of the Timeline
+     * @see CellStateTimeline#getCurrentIndex()
      */
-    public int getCurrentIndex() {
+    public final int getCurrentIndex() {
         return myTimeline.getCurrentIndex();
     }
 
     /**
      * @return max index of the Timeline
+     * @see CellStateTimeline#getMaxIndex()
      */
-    public int getMaxIndex() {
+    public final int getMaxIndex() {
         return myTimeline.getMaxIndex();
     }
 
@@ -94,18 +99,14 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
     /**
      * @return currentState of cell
      */
-    public T getCurrentState() {
+    public final T getCurrentState() {
         return myTimeline.getCurrentState();
-    }
-
-    protected int getTimelineIndex() {
-        return myTimeline.getIndex();
     }
 
     /**
      * @return nextState of cell
      */
-    public T getNextState() {
+    public final T getNextState() {
         return myTimeline.getNextState();
     }
 
@@ -114,24 +115,26 @@ public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends Abs
      *
      * @param state CellState on next update
      */
-    public void setNextState(T state) {
+    public final void setNextState(T state) {
         myTimeline.setNextState(state);
     }
 
-
+    /**
+     * @return x position of this cell in parent SimulationGrid
+     */
     public int getX() {
         return xPos;
     }
 
     /**
-     * @return y position of the cell
+     * @return y position of the cell in parent SimulationGrid
      */
     public int getY() {
         return yPos;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
+    /**
+     * @return XML formatted representation of this Abstract_Cell
      */
     @Override
     public String toString() {

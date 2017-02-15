@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * This class stores all previously visited CellStates on a navigable timeline. It can be advanced, appended to, seeked, and reversed.
+ * @param <T> Type of CellStates on this Timeline
  * Created by th174 on 1/31/2017.
  */
 public class CellStateTimeline<T extends Abstract_CellState<T, ?>> {
@@ -12,8 +14,8 @@ public class CellStateTimeline<T extends Abstract_CellState<T, ?>> {
     private List<T> myStateTimeline;
 
     /**
-     * initializes timeline
-     * @param initialState
+     * initializes timeline from initial state
+     * @param initialState The initial state to be stored on the timeline.
      */
     public CellStateTimeline(T initialState) {
         this();
@@ -22,7 +24,7 @@ public class CellStateTimeline<T extends Abstract_CellState<T, ?>> {
     }
 
     /**
-     * Constructs timeline with default parameters
+     * Initializes timeline
      */
     public CellStateTimeline() {
         currentIndex = 0;
@@ -32,7 +34,7 @@ public class CellStateTimeline<T extends Abstract_CellState<T, ?>> {
 
     /**
      * Advances in the timeline to the specified index
-     * @param index
+     * @param index index of timeline to jump to
      */
     public void seek(int index) {
         if (index <= size() - 2) {
@@ -43,7 +45,7 @@ public class CellStateTimeline<T extends Abstract_CellState<T, ?>> {
     }
 
     /**
-     * Advances the timeline according to its order. Goes in reversed order if activated
+     * Advances the timeline according to its order. Goes in reversed order if isReversed
      */
     public void advance() {
         currentIndex += isReversed ? -1 : 1;
@@ -53,21 +55,14 @@ public class CellStateTimeline<T extends Abstract_CellState<T, ?>> {
     }
 
     /**
-     * Reverses the timeline
+     * Reverses the order the timeline advances
      */
     public void reverse() {
         isReversed = !isReversed;
     }
 
     /**
-     * @return current Index of the timeline
-     */
-    public int getIndex() {
-        return currentIndex;
-    }
-
-    /**
-     * @return the current state of the cell
+     * @return CellState corresponding to the current index
      */
     public T getCurrentState() {
         return myStateTimeline.get(currentIndex);
@@ -84,9 +79,9 @@ public class CellStateTimeline<T extends Abstract_CellState<T, ?>> {
     }
 
     /**
-     * Sets the next state of the cell.
-     * @param newState
-     * @return true if can set the next state
+     * Appends the next state of the cell to the index immediately after the currentIndex. Does nothing if the currentIndex is not at the end of the timeline
+     * @param newState The successor to the current CellState
+     * @return true if can set the next state was set successfully
      */
     public boolean setNextState(T newState) {
         if (size() == currentIndex + 1) {
@@ -100,7 +95,7 @@ public class CellStateTimeline<T extends Abstract_CellState<T, ?>> {
     }
 
     /**
-     * @return size of the timeline to this point
+     * @return Total number of CellStates recorded on the Timeline
      */
     public int size() {
         return myStateTimeline.size();

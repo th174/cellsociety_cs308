@@ -4,6 +4,10 @@ import CellSociety.AbstractDiscrete_CellState;
 import javafx.scene.paint.Color;
 
 /**
+ * This class models a single CellState of a single Cell in the Segregation simulation.
+ * Note: This class is immutable. All fields MUST be declared final.
+ *
+ * @see CellSociety.AbstractDiscrete_CellState
  * Created by th174 on 1/29/2017.
  */
 public class Segregation_CellState extends AbstractDiscrete_CellState<Segregation_CellState, Segregation_CellState.SegregationState> {
@@ -11,7 +15,7 @@ public class Segregation_CellState extends AbstractDiscrete_CellState<Segregatio
     public static final Segregation_CellState X = new Segregation_CellState(SegregationState.X, DEFAULT_SATISFACTORY_THRESHOLD);
     public static final Segregation_CellState O = new Segregation_CellState(SegregationState.O, DEFAULT_SATISFACTORY_THRESHOLD);
     public static final Segregation_CellState EMPTY = new Segregation_CellState(SegregationState.EMPTY, DEFAULT_SATISFACTORY_THRESHOLD);
-    private double satisfactionThreshold;
+    private final double satisfactionThreshold;
 
     private Segregation_CellState(SegregationState state, double satisfaction) {
         super(state);
@@ -19,27 +23,27 @@ public class Segregation_CellState extends AbstractDiscrete_CellState<Segregatio
     }
 
     /**
-     * Creates a new CellState according to the variables given in the params.
-     * Will create a random state if the first value in params is "rand"
-     * Default values for satisfactory threshold will be used if not in params
-     * @param params
+     * Constructs new Segregation_CellState with String properties read from XML file
+     *
+     * @param params String parameters read from XML file
+     * @see #Segregation_CellState(SegregationState, double)
      */
     public Segregation_CellState(String... params) {
-        super(params[0].toLowerCase().equals("rand") ? randomState(SegregationState.class) : SegregationState.valueOf(params[0].toUpperCase()));
-        satisfactionThreshold = params.length > 1 ? Double.parseDouble(params[1]) : DEFAULT_SATISFACTORY_THRESHOLD;
+        this(params[0].toLowerCase().equals("rand") ? randomState(SegregationState.class) : SegregationState.valueOf(params[0].toUpperCase()),
+                params.length > 1 ? Double.parseDouble(params[1]) : DEFAULT_SATISFACTORY_THRESHOLD);
     }
 
     /**
-     * @param sameStateNeighbors
-     * @param nonEmptyNeighbors
+     * @param sameStateNeighbors Number of neighbors that share the same state
+     * @param nonEmptyNeighbors  Total number of non-Empty neighbors
      * @return true if the ratio of same/all neighbors is greater than the satisfaction threshold
      */
     public boolean isSatisfiedByNeighbors(int sameStateNeighbors, int nonEmptyNeighbors) {
         return 1.0 * sameStateNeighbors / nonEmptyNeighbors > satisfactionThreshold;
     }
 
-    /** 
-     * Color is Blue if cell is X, red if O, and white if empty
+    /**
+     * @return Color.BLUE if cell is X, Color.RED if O, and Color.WHITE if empty
      * @see CellSociety.Abstract_CellState#getFill()
      */
     @Override
@@ -47,8 +51,8 @@ public class Segregation_CellState extends AbstractDiscrete_CellState<Segregatio
         return getState().equals(SegregationState.X) ? Color.BLUE : (getState().equals(SegregationState.O) ? Color.RED : Color.WHITE);
     }
 
-    /** 
-     * @return new state with the same values as the current one
+    /**
+     * @return successor state that inherits the same satisfaction threshold as its parent
      * @see CellSociety.Abstract_CellState#getSuccessorState()
      */
     @Override
@@ -57,8 +61,9 @@ public class Segregation_CellState extends AbstractDiscrete_CellState<Segregatio
     }
 
 
-    /* (non-Javadoc)
-     * @see CellSociety.Abstract_CellState#toString()
+    /**
+     * @return XML string representation of this CellState
+     * @see CellSociety.AbstractDiscrete_CellState#toString()
      */
     @Override
     public String toString() {

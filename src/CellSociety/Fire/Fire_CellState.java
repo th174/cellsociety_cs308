@@ -3,9 +3,11 @@ package CellSociety.Fire;
 import CellSociety.AbstractDiscrete_CellState;
 import javafx.scene.paint.Color;
 
-import java.util.Set;
-
 /**
+ * This class models a single CellState of a single Cell in the Fire simulation.
+ * Note: This class is immutable. All fields MUST be declared final.
+ *
+ * @see CellSociety.AbstractDiscrete_CellState
  * Created by th174 on 1/29/2017.
  */
 public final class Fire_CellState extends AbstractDiscrete_CellState<Fire_CellState, Fire_CellState.FireState> {
@@ -13,7 +15,7 @@ public final class Fire_CellState extends AbstractDiscrete_CellState<Fire_CellSt
     public static final Fire_CellState BURNING = new Fire_CellState(FireState.BURNING, DEFAULT_FLAMMABILITY);
     public static final Fire_CellState EMPTY = new Fire_CellState(FireState.EMPTY, DEFAULT_FLAMMABILITY);
     public static final Fire_CellState TREE = new Fire_CellState(FireState.TREE, DEFAULT_FLAMMABILITY);
-    private double flammability;
+    private final double flammability;
 
     private Fire_CellState(FireState state, double probCatch) {
         super(state);
@@ -21,25 +23,30 @@ public final class Fire_CellState extends AbstractDiscrete_CellState<Fire_CellSt
     }
 
     /**
-     * initiates state with the given parameters
-     * @param fireState of the cell
-     * @param probCatch probability of the cell catching fire
-     */
-    public Fire_CellState(Fire_CellState fireState, double probCatch) {
-        this(fireState.getState(), probCatch);
-    }
-
-    /**
-     * initializes according to an unknown size of paramaters
-     * @param params
+     * Constructs new Fire_CellState with String properties read from XML file
+     *
+     * @param params String parameters read from XML file
+     * @see #Fire_CellState(FireState, double)
      */
     public Fire_CellState(String... params) {
-        super(params[0].toLowerCase().equals("rand") ? randomState(FireState.class) : FireState.valueOf(params[0].toUpperCase()));
-        flammability = params.length > 1 ? Double.parseDouble(params[1]) : DEFAULT_FLAMMABILITY;
+        this(params[0].toLowerCase().equals("rand") ? randomState(FireState.class) : FireState.valueOf(params[0].toUpperCase()),
+                params.length > 1 ? Double.parseDouble(params[1]) : DEFAULT_FLAMMABILITY);
     }
 
     /**
-     * @return value of flammability of the cell
+     * Constructs Fire_CellState from a parent Fire_CellState
+     *
+     * @param parent    parent Fire_CellState
+     * @param probCatch probability of the new cell catching fire
+     */
+    public Fire_CellState(Fire_CellState parent, double probCatch) {
+        this(parent.getState(), probCatch);
+    }
+
+    /**
+     * Get the probability that this CellState catches fire. Returns 0 if not a tree
+     *
+     * @return probability of catching fire
      */
     public double getFlammability() {
         return equals(TREE) ? flammability : 0;
@@ -47,6 +54,7 @@ public final class Fire_CellState extends AbstractDiscrete_CellState<Fire_CellSt
 
     /**
      * @return Graphical representation of this CellState according to tree, empty, and fire states.
+     * @see AbstractDiscrete_CellState#getFill()
      */
     @Override
     public Color getFill() {
@@ -54,7 +62,7 @@ public final class Fire_CellState extends AbstractDiscrete_CellState<Fire_CellSt
     }
 
     /**
-     * @see CellSociety.Abstract_CellState#getSuccessorState()
+     * @see CellSociety.AbstractDiscrete_CellState#getSuccessorState()
      */
     @Override
     public Fire_CellState getSuccessorState() {
@@ -62,7 +70,7 @@ public final class Fire_CellState extends AbstractDiscrete_CellState<Fire_CellSt
     }
 
     /**
-     * @see CellSociety.Abstract_CellState#toString()
+     * @see CellSociety.AbstractDiscrete_CellState#toString()
      */
     @Override
     public String toString() {

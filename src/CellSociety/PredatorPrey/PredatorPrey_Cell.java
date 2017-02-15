@@ -1,5 +1,6 @@
 package CellSociety.PredatorPrey;
 
+import CellSociety.AbstractDiscrete_CellState;
 import CellSociety.Abstract_Cell;
 
 import java.util.Collection;
@@ -7,12 +8,34 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
+ * This class models a single cell in the PredatorPrey simulation.
+ *
+ * @see CellSociety.Abstract_Cell
  * Created by th174 on 1/29/2017.
  */
 public class PredatorPrey_Cell extends Abstract_Cell<PredatorPrey_Cell, PredatorPrey_CellState> {
-
+    /**
+     * Constructs new PredatorPrey_Cell from XML Properties
+     *
+     * @param x      x-position
+     * @param y      y-position
+     * @param params String paramters from xml input
+     * @see #PredatorPrey_Cell(int, int, PredatorPrey_CellState)
+     */
     public PredatorPrey_Cell(int x, int y, String... params) {
-        super(x, y, new PredatorPrey_CellState(params));
+        this(x, y, new PredatorPrey_CellState(params));
+    }
+
+    /**
+     * Constructs new PredatorPrey_Cell with initial CellState
+     *
+     * @param x     x-position
+     * @param y     y-position
+     * @param state initial CellState of this Cell
+     * @see Abstract_Cell#Abstract_Cell(int, int, AbstractDiscrete_CellState)
+     */
+    public PredatorPrey_Cell(int x, int y, PredatorPrey_CellState state) {
+        super(x, y, state);
     }
 
     /**
@@ -30,9 +53,9 @@ public class PredatorPrey_Cell extends Abstract_Cell<PredatorPrey_Cell, Predator
      */
     @Override
     public void interact() {
-        if (getTimelineIndex() % 2 != 0 && getCurrentState().equals(PredatorPrey_CellState.PREY) && !reproduced(getEmptyNeighbor())) {
+        if (getCurrentIndex() % 2 != 0 && getCurrentState().equals(PredatorPrey_CellState.PREY) && !reproduced(getEmptyNeighbor())) {
             move(getEmptyNeighbor());
-        } else if (getTimelineIndex() % 2 == 0 && getCurrentState().equals(PredatorPrey_CellState.PREDATOR)) {
+        } else if (getCurrentIndex() % 2 == 0 && getCurrentState().equals(PredatorPrey_CellState.PREDATOR)) {
             if (getCurrentState().willStarve()) {
                 setNextState(PredatorPrey_CellState.EMPTY);
             } else {

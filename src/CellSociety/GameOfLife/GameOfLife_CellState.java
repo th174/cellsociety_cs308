@@ -4,6 +4,10 @@ import CellSociety.AbstractDiscrete_CellState;
 import javafx.scene.paint.Color;
 
 /**
+ * This class models a single CellState of a single Cell in the GameOfLife simulation.
+ * Note: This class is immutable. All fields MUST be declared final.
+ *
+ * @see CellSociety.AbstractDiscrete_CellState
  * Created by th174 on 1/29/2017.
  */
 public final class GameOfLife_CellState extends AbstractDiscrete_CellState<GameOfLife_CellState, GameOfLife_CellState.GameOfLifeState> {
@@ -15,23 +19,28 @@ public final class GameOfLife_CellState extends AbstractDiscrete_CellState<GameO
     }
 
     /**
-     * Initializes the cellstate
-     * @param state 
+     * Constructs new GameOfLife_Cellstate with String properties read from XML file
+     *
+     * @param params String properties from XML file
+     * @see #GameOfLife_CellState(GameOfLifeState)
+     */
+    public GameOfLife_CellState(String... params) {
+        this(params[0].toLowerCase().equals("rand") ? randomState(GameOfLifeState.class) : GameOfLifeState.valueOf(params[0].toUpperCase()));
+    }
+
+    /**
+     * Constructs new GameOfLife_CellState from another GameOfLife_CellState
+     *
+     * @param state CellState to be copied
      */
     public GameOfLife_CellState(GameOfLife_CellState state) {
         this(state.getState());
     }
 
-    /**
-     * Initializes cellstate with unknown number of parameters
-     * @param params
-     */
-    public GameOfLife_CellState(String... params) {
-        super(params[0].toLowerCase().equals("rand") ? randomState(GameOfLifeState.class) : GameOfLifeState.valueOf(params[0].toUpperCase()));
-    }
 
     /**
-     * @return Graphical representation of this CellState according to being alive
+     * @return Graphical representation of this CellState
+     * @see AbstractDiscrete_CellState#getFill()
      */
     @Override
     public Color getFill() {
@@ -39,7 +48,7 @@ public final class GameOfLife_CellState extends AbstractDiscrete_CellState<GameO
     }
 
     /**
-     * @return the successor state of the cell
+     * @see AbstractDiscrete_CellState#getSuccessorState()
      */
     @Override
     public GameOfLife_CellState getSuccessorState() {

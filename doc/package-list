@@ -1,6 +1,13 @@
 
 CellSociety
-Fire
-GameOfLife
-PredatorPrey
-Segregation
+CellSociety.Fire
+CellSociety.ForagingAnts
+CellSociety.GameOfLife
+CellSociety.Grids
+CellSociety.LangtonsLoop
+CellSociety.PredatorPrey
+CellSociety.Segregation
+CellSociety.SlimeMold
+CellSociety.SugarScape
+CellSociety.UI
+CellSociety.UI.Shapes

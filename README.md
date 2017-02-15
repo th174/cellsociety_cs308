@@ -39,8 +39,10 @@ Extra Features included:
 * Saving simulation to XML
 * Opening multiple simulation simultaneously
 * 3 shapes can be chosen through the XML file (Square, Hexagon, Triangle)
-* 3 ways of getting neighbors can be chosen through the XML file (All neighbors, adjacent only, corners only)
+* 3 ways of getting neighbors can be chosen through the XML file (All neighbors, adjacent neighbors only, corners only)
 * 2 types of bounds can be chosen through the XML file (Finite, Toroidal)
+* Supports specifying initial conditions by individual cell, row, column, or entire grid
+* Supports specifying random initial state 
 * 1 Additional Simulation in SugarScape
 * This file can be opened on Gitlab with F1, or through the menu
 * Menu items can be accessed through default hotkeys in both Mac and Windows.
