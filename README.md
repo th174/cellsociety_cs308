@@ -49,6 +49,8 @@ Extra Features included:
 * Menu items can be accessed through default hotkeys in both Mac and Windows.
 * Run Length Encoded Game Of Life File (RLE) to XML converter included as a Perl script
 * XML Input validation and error checking
+* Opens Readme.md on Gitlab repo with default browser
+* Opens Full Javadoc with default browser
 
 Human resources used to develop the project
 ==

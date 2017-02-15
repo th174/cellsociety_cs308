@@ -485,7 +485,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
 
         private void openJavadoc() {
             try {
-                Desktop.getDesktop().browse(new URI("http://coursework.cs.duke.edu/CompSci308_2017Spring/cellsociety_team21"));
+                Desktop.getDesktop().browse(new URI("file://" + System.getProperty("user.dir").replace('\\','/') + "/doc/index.html"));
             } catch (Exception e) {
                 new Alert(Alert.AlertType.ERROR, myResources.getString("ErrorDocumentation")).show();
             }
