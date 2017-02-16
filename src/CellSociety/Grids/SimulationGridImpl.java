@@ -85,10 +85,6 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         }
     }
 
-    private static int actualMod(int dividend, int divisor) {
-        return dividend % divisor + (dividend % divisor < 0 ? divisor : 0);
-    }
-
     /**
      * updates the grid and displays the new cell configurations
      *
@@ -325,6 +321,11 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         public Pair<Integer, Integer> handleBounds(int x, int y, SimulationGrid<E, T> grid) {
             return new Pair<>(actualMod(x, grid.getColumns()), actualMod(y, grid.getRows()));
         }
+
+        private int actualMod(int dividend, int divisor) {
+            return dividend % divisor + (dividend % divisor < 0 ? divisor : 0);
+        }
+
     }
 
     /**

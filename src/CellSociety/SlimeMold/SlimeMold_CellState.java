@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_CellState, SlimeMold_CellState.SlimeMoldState> {
-    public static final double DEFAULT_CHEMICAL=1.0;
-    public static final double DEFAULT_EVAP=0.9;
-    public static final double DEFAULT_DIFF=1.0;
-    public static final double DEFAULT_THRESHOLD=0.5;
-	
-	private double chemical;
+    public static final double DEFAULT_CHEMICAL = 1.0;
+    public static final double DEFAULT_EVAP = 0.9;
+    public static final double DEFAULT_DIFF = 1.0;
+    public static final double DEFAULT_THRESHOLD = 0.5;
+
+    private double chemical;
     private double evaporationRate;
     private double diffusionRate;
     private Collection<Turtle> myTurtles;
@@ -28,6 +28,7 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
 
     /**
      * constructs new cellstate according to state, but with defautl values
+     *
      * @param state
      */
     public SlimeMold_CellState(SlimeMoldState state) {
@@ -36,6 +37,7 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
 
     /**
      * Uses default values except for turtles and state
+     *
      * @param state
      * @param turtles
      */
@@ -45,6 +47,7 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
 
     /**
      * Constructs the cellstate with the values given, not the default values
+     *
      * @param state
      * @param turtles
      * @param chem
@@ -56,7 +59,7 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
     public SlimeMold_CellState(SlimeMoldState state, Collection<Turtle> turtles, double chem, double evaporation,
                                double diffusion, double threshold, Collection<Turtle> nextTurts) {
         super(state);
-        myTurtles = turtles==null? new ArrayList<Turtle>():turtles;
+        myTurtles = turtles == null ? new ArrayList<Turtle>() : turtles;
         chemical = chem;
         evaporationRate = evaporation;
         diffusionRate = diffusion;
@@ -67,17 +70,18 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
 
     /**
      * constructs a cell state with default values and name of param
+     *
      * @param params
      */
-    public SlimeMold_CellState( String... params) {
+    public SlimeMold_CellState(String... params) {
         this(params[0].toLowerCase().equals("rand") ? randomState(SlimeMoldState.class) :
                 SlimeMoldState.valueOf(params[0].toUpperCase()));
-    }	
+    }
 
 
-
-    /** 
+    /**
      * Colors according to how much chemical there is. Color gets lighter with more chemical
+     *
      * @see CellSociety.Abstract_CellState#getFill()
      */
     @Override
@@ -88,6 +92,7 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
 
     /**
      * Gets successorState according to the current values
+     *
      * @see CellSociety.Abstract_CellState#getSuccessorState()
      */
     @Override
@@ -120,7 +125,8 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
 
     /**
      * sets chemical of the next state of this cell
-     * @param nextChem 
+     *
+     * @param nextChem
      */
     public void setNextChemical(double nextChem) {
         nextChemical = nextChem;
@@ -145,7 +151,8 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
 
     /**
      * Adds amount of chemical to the next state's chemical
-     * @param addChem 
+     *
+     * @param addChem
      */
     public void addNextChemical(double addChem) {
         nextChemical += addChem;
@@ -153,6 +160,7 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
 
     /**
      * Adds turtle to the next state
+     *
      * @param t
      */
     public void addNextTurtle(Turtle t) {
@@ -161,6 +169,7 @@ public class SlimeMold_CellState extends AbstractDiscrete_CellState<SlimeMold_Ce
 
     /**
      * returns collection of turtles in the next state
+     *
      * @return
      */
     public Collection<Turtle> getNextTurtle() {
