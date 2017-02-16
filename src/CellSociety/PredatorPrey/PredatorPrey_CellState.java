@@ -1,3 +1,6 @@
+//This entire file is part of my masterpiece
+//Tim Overeem (to41)
+
 package CellSociety.PredatorPrey;
 
 import CellSociety.AbstractDiscrete_CellState;
@@ -8,12 +11,14 @@ import javafx.scene.paint.Color;
  * Note: This class is immutable. All fields MUST be declared final.
  *
  * @see CellSociety.AbstractDiscrete_CellState
- * Created by th174 on 1/29/2017.
  */
 public final class PredatorPrey_CellState extends AbstractDiscrete_CellState<PredatorPrey_CellState, PredatorPrey_CellState.PredatorPreyState> {
     public static final PredatorPrey_CellState PREDATOR = new PredatorPrey_CellState(PredatorPreyState.PREDATOR, Integer.MAX_VALUE, Integer.MAX_VALUE);
     public static final PredatorPrey_CellState EMPTY = new PredatorPrey_CellState(PredatorPreyState.EMPTY, Integer.MAX_VALUE, Integer.MAX_VALUE);
     public static final PredatorPrey_CellState PREY = new PredatorPrey_CellState(PredatorPreyState.PREY, Integer.MAX_VALUE, Integer.MAX_VALUE);
+    private static final int DEFAULT_MAX_REPRODUCTION_TIMER=5;
+    private static final int DEFAULT_MAX_STARVATION_TIMER=10;
+
     private final int maxReproductionTimer;
     private final int maxStarvationTimer;
     private final int starvationTimer;
@@ -39,7 +44,7 @@ public final class PredatorPrey_CellState extends AbstractDiscrete_CellState<Pre
     }
 
     /**
-     * Constructs new PredatorPrey_CellState with String properties read from XML file
+     * Constructs new PredatorPrey_CellState with String properties read from XML file.
      *
      * @param params String parameters from XML file
      * @see #PredatorPrey_CellState(PredatorPreyState, int, int)
@@ -89,7 +94,8 @@ public final class PredatorPrey_CellState extends AbstractDiscrete_CellState<Pre
      */
     @Override
     public Color getFill() {
-        return getState().equals(PredatorPreyState.EMPTY) ? Color.BLUE : getState().equals(PredatorPreyState.PREDATOR) ? Color.YELLOW : Color.GREEN;
+        return getState().equals(PredatorPreyState.EMPTY) ? Color.BLUE : 
+        	getState().equals(PredatorPreyState.PREDATOR) ? Color.YELLOW : Color.GREEN;
     }
 
     /**

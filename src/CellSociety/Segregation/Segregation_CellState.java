@@ -1,3 +1,6 @@
+//This entire fire is part of my masterpiece
+//Tim Overeem (to41)
+
 package CellSociety.Segregation;
 
 import CellSociety.AbstractDiscrete_CellState;
@@ -36,10 +39,10 @@ public class Segregation_CellState extends AbstractDiscrete_CellState<Segregatio
     /**
      * @param sameStateNeighbors Number of neighbors that share the same state
      * @param nonEmptyNeighbors  Total number of non-Empty neighbors
-     * @return true if the ratio of same/all neighbors is greater than the satisfaction threshold
+     * @return true if the ratio of same/all neighbors is greater than or equal to the satisfaction threshold
      */
     public boolean isSatisfiedByNeighbors(int sameStateNeighbors, int nonEmptyNeighbors) {
-        return 1.0 * sameStateNeighbors / nonEmptyNeighbors > satisfactionThreshold;
+        return 1.0 * sameStateNeighbors / nonEmptyNeighbors >= satisfactionThreshold;
     }
 
     /**
@@ -59,7 +62,6 @@ public class Segregation_CellState extends AbstractDiscrete_CellState<Segregatio
     public Segregation_CellState getSuccessorState() {
         return new Segregation_CellState(getState(), satisfactionThreshold);
     }
-
 
     /**
      * @return XML string representation of this CellState

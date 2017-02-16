@@ -1,3 +1,7 @@
+//This entire fire is part of my masterpiece
+//Tim Overeem (to41)
+
+
 package CellSociety.Segregation;
 
 import CellSociety.AbstractDiscrete_CellState;
@@ -40,8 +44,8 @@ public class Segregation_Cell extends Abstract_Cell<Segregation_Cell, Segregatio
 
     /**
      * A given cell will either move to a random cell or stay where it is based on its satisfaction.
-     * If the proportion of neighbors with the same state are below its threshold, it will not move.
-     *
+     * If the proportion of neighbors with the same state are above or equal to its threshold, it will not move.
+     * Otherwise, it will move to a random anywhere cell on the grid this is open next turn.
      * @see CellSociety.Abstract_Cell#interact()
      */
     @Override

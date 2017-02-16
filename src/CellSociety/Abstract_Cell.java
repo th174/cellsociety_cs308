@@ -1,3 +1,6 @@
+//This entire fire is part of my masterpiece
+//Tim Overeem (to41)
+
 package CellSociety;
 
 import CellSociety.Grids.SimulationGrid;

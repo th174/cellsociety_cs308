@@ -1,3 +1,14 @@
+//This entire fire is part of my masterpiece
+//Tim Overeem (to41)
+
+/*
+ * Note that ideally, I would have liked to get rid of the extension of Abstract_CellState for the reasons in my 
+ * analysis (basically, every simulation's cellstate class extends this class only, and having both Abstract_CellState
+ * and AbstractDiscrete_CellState is confusing for someone not familiar with our code. However, this would require
+ *  me to change several other classes. At this point, it seems easier to blatantly comment on the Abstract_CellState
+ *  class that it should not be extended by simulations. 
+ */
+
 package CellSociety;
 
 
@@ -6,10 +17,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * This class provides a general implementation of a Discrete CellState, where the state can be represented in the form of an Enumeration. In addition, this also provides a method to obtain a random state from an enum of sttates
+ * This class provides a general implementation of a Discrete CellState, where the state can be represented 
+ * in the form of an Enumeration. In addition, this also provides a method to obtain a random state from an enum of states
+ * 
  * @param <E> The AbstractDiscrete_CellState type subclass
  * @param <T> The type extending Enum used to represent the CellState
- * Created by th174 on 1/31/2017.
  */
 public abstract class AbstractDiscrete_CellState<E extends AbstractDiscrete_CellState<E, T>, T extends Enum<T>> extends Abstract_CellState<E, T> {
 
@@ -22,6 +34,7 @@ public abstract class AbstractDiscrete_CellState<E extends AbstractDiscrete_Cell
     }
 
     /**
+     * Returns a set of Distinct States in the grid.
      * @see CellSociety.Abstract_CellState#getDistinctCellStates()
      */
     @Override
@@ -42,6 +55,7 @@ public abstract class AbstractDiscrete_CellState<E extends AbstractDiscrete_Cell
     }
 
     /**
+     * Returns an int based on the ordering of the states. 
      * @see CellSociety.Abstract_CellState#compareTo(CellSociety.Abstract_CellState)
      */
     @Override

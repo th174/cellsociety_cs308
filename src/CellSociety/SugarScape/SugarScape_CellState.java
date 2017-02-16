@@ -70,7 +70,10 @@ public final class SugarScape_CellState extends AbstractDiscrete_CellState<Sugar
     }
 
     private SugarScape_CellState(SugarScape_CellState parent) {
-        this(Math.min(parent.currentSugar + parent.sugarGrowBackRate, parent.maxCapacity), parent.maxCapacity, parent.sugarGrowBackRate, parent.equals(OCCUPIED), parent.agentMetabolism, parent.agentCurrentSugar - parent.agentMetabolism, parent.agentSugarCapacity, parent.reproduceTimer - 1, parent.maxReproduceTimer);
+        this(Math.min(parent.currentSugar + parent.sugarGrowBackRate, parent.maxCapacity), parent.maxCapacity, 
+        		parent.sugarGrowBackRate, parent.equals(OCCUPIED), parent.agentMetabolism, 
+        		parent.agentCurrentSugar - parent.agentMetabolism, parent.agentSugarCapacity, 
+        		parent.reproduceTimer - 1, parent.maxReproduceTimer);
     }
 
     /**
@@ -81,7 +84,9 @@ public final class SugarScape_CellState extends AbstractDiscrete_CellState<Sugar
      * @param agentSugar agent sugar amount
      */
     public SugarScape_CellState(SugarScape_CellState parent, boolean agent, double agentSugar) {
-        this(agent ? 0 : parent.currentSugar, parent.maxCapacity, parent.sugarGrowBackRate, agent, agent ? parent.agentMetabolism : 0, Math.min(agentSugar, parent.agentSugarCapacity) - parent.agentMetabolism, parent.agentSugarCapacity, parent.reproduceTimer - 1, parent.maxReproduceTimer);
+        this(agent ? 0 : parent.currentSugar, parent.maxCapacity, parent.sugarGrowBackRate, agent, 
+        		agent ? parent.agentMetabolism : 0, Math.min(agentSugar, parent.agentSugarCapacity) - parent.agentMetabolism, 
+        				parent.agentSugarCapacity, parent.reproduceTimer - 1, parent.maxReproduceTimer);
     }
 
     /**
@@ -91,7 +96,9 @@ public final class SugarScape_CellState extends AbstractDiscrete_CellState<Sugar
      * @param agent  new agent exists
      */
     public SugarScape_CellState(SugarScape_CellState parent, boolean agent) {
-        this(agent ? 0 : parent.currentSugar, parent.maxCapacity, parent.sugarGrowBackRate, agent, agent ? parent.agentMetabolism : 0, parent.agentSugarCapacity, parent.agentSugarCapacity, parent.maxReproduceTimer, parent.maxReproduceTimer);
+        this(agent ? 0 : parent.currentSugar, parent.maxCapacity, parent.sugarGrowBackRate, agent, 
+        		agent ? parent.agentMetabolism : 0, parent.agentSugarCapacity, parent.agentSugarCapacity, 
+        				parent.maxReproduceTimer, parent.maxReproduceTimer);
     }
 
     /**

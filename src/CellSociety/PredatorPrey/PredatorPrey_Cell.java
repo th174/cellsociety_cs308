@@ -1,3 +1,6 @@
+//This entire file is part of my masterpiece
+//Tim Overeem (to41)
+
 package CellSociety.PredatorPrey;
 
 import CellSociety.AbstractDiscrete_CellState;
