@@ -4,9 +4,12 @@
 
 import CellSociety.UI.CellSocietyView;
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class CellSocietyMain extends Application {
+	private Scene myScene;
+
 
     public static void main(String[] args) {
         launch(args);
@@ -16,9 +19,9 @@ public class CellSocietyMain extends Application {
     public void start(Stage primaryStage) {
         CellSocietyView myUI = new CellSocietyView();
         primaryStage.setResizable(false);
-        primaryStage.setScene(myUI.getScene());
+        primaryStage.setScene(myUI.myScene);
         primaryStage.sizeToScene();
-        primaryStage.setTitle(myUI.getTitle());
+        primaryStage.setTitle(myUI. myResources.getString("Title"));
         primaryStage.show();
     }
 }

@@ -49,6 +49,8 @@ import static javafx.application.Platform.exit;
  *
  * @param <T> The type of CellView to be drawn to be the simulation window
  */
+//The first Class is part of my masterpiece
+//sea26
 public class CellSocietyView<T extends Abstract_CellView> {
     public static final boolean SYSTEM_MENU_BAR = true;
     public static final double ANIMATION_RATE_STEP = 5.0 / 4;
@@ -57,9 +59,9 @@ public class CellSocietyView<T extends Abstract_CellView> {
     public static final String RESOURCES_LOCATION = "resources/Strings";
     public static final double ZOOM_STEP = 11.0 / 10;
     public static final double DEFAULT_SIZE = 900;
-    private static final ResourceBundle myResources = ResourceBundle.getBundle(RESOURCES_LOCATION);
-    private Timeline myAnimation;
-    private Scene myScene;
+    public static final ResourceBundle myResources = ResourceBundle.getBundle(RESOURCES_LOCATION);
+    protected Timeline myAnimation;
+    public Scene myScene;
     private SimulationGrid<? extends Abstract_Cell, ? extends AbstractDiscrete_CellState> mySimulationGrid;
     private Collection<T> cellViews;
     private double windowWidth;
@@ -98,24 +100,12 @@ public class CellSocietyView<T extends Abstract_CellView> {
         myAnimation.play();
     }
 
-    /**
-     * @return scene of the animation
-     */
-    public Scene getScene() {
-        return myScene;
-    }
-
-    /**
-     * @return Title of myResources
-     */
-    public String getTitle() {
-        return myResources.getString("Title");
-    }
+  
 
     /**
      * Updates simulation state
      */
-    private void update() {
+     public void update() {
         mySimulationGrid.update();
         cellViews.forEach(e -> e.updateView(mySimulationGrid.getColumns() * zoom, mySimulationGrid.getRows() * zoom, windowWidth, windowHeight));
         updateData();
@@ -151,7 +141,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
         return simulationPane;
     }
 
-    private T instantiateCellView(Abstract_Cell<? extends Abstract_Cell, ? extends AbstractDiscrete_CellState> cell) {
+    public T instantiateCellView(Abstract_Cell<? extends Abstract_Cell, ? extends AbstractDiscrete_CellState> cell) {
         try {
             return (T) Class.forName("CellSociety.UI.Shapes." + myInputData.getCellShape()).getConstructor(Abstract_Cell.class, String.class).newInstance(cell, myInputData.getGridOutline());
         } catch (Exception e1) {
@@ -160,7 +150,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
         }
     }
 
-    private LineChart createChart() {
+    protected LineChart createChart() {
         int maxTime = mySimulationGrid.getMaxTimelineIndex();
         NumberAxis xAxis = new NumberAxis("Time", 0, maxTime, maxTime / 10);
         NumberAxis yAxis = new NumberAxis(0, mySimulationGrid.size(), mySimulationGrid.getColumns());
@@ -320,9 +310,9 @@ public class CellSocietyView<T extends Abstract_CellView> {
             Stage newStage = new Stage();
             CellSocietyView newUI = new CellSocietyView();
             newStage.setResizable(false);
-            newStage.setScene(newUI.getScene());
+            newStage.setScene(newUI.myScene);
             newStage.sizeToScene();
-            newStage.setTitle(newUI.getTitle());
+            newStage.setTitle(newUI.myResources.getString("Title"));
             newStage.show();
         }
 
