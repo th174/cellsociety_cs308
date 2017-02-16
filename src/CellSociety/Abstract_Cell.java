@@ -8,6 +8,10 @@
  *  This class is relatively short, the proper methods are abstract or implemented. 
  *  The SimulationGrid can call on this class and be sure that it will interact properly and perform the proper
  *  functions, based on which subclass is actually relevant.
+ *  
+ *  Although Timmy laid out the foundation for this class, I was very involved in the brainstorming and would
+ *  give him a lot of feedback. This class is definitely a collaborative effort between us two. It was just a 
+ *  nature of our teamwork and flexibility that determined who actually wrote and committed the code.
  */
 
 package CellSociety;

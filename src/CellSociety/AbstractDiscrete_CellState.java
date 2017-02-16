@@ -12,6 +12,10 @@
  *  open for extension. The Segregation_CellState subclass shows how this is done, and I can be certain that
  *  any new simulation that inherits this class with perform all the methods it needs to for the program to work.
  *  This class is relatively short, the proper methods are abstract or implemented. 
+ *  
+ *  Although Timmy laid out the foundation for this class, I was very involved in the brainstorming and would
+ *  give him a lot of feedback. This class is definitely a collaborative effort between us two. It was just a 
+ *  nature of our teamwork and flexibility that determined who actually wrote and committed the code.
  */
 
 package CellSociety;
