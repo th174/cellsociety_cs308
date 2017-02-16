@@ -5,9 +5,10 @@ import javafx.scene.shape.Shape;
 
 /**
  * Base class providing a resizable graphical representation of a Abstract_Cell. The color of that graphical representation can be modified with setHueShift, setSaturationShift, and setLightnessShift.
+ * <p>
+ * Created by th174 on 2/7/2017.
  *
  * @param <E> Type of Abstract_Cell represented by this CellView
- *            Created by th174 on 2/7/2017.
  */
 public abstract class Abstract_CellView<E extends Abstract_Cell> {
     private E myCell;

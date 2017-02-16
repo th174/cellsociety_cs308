@@ -1,15 +1,16 @@
 package CellSociety;
 
-
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * This class provides a general implementation of a Discrete CellState, where the state can be represented in the form of an Enumeration. In addition, this also provides a method to obtain a random state from an enum of sttates
+ * This class provides a general implementation of a Discrete CellState, where the state can be represented in the form of an Enumeration. In addition, this also provides a method to obtain a random state from an enum of states
+ * <p>
+ * Created by th174 on 1/31/2017.
+ *
  * @param <E> The AbstractDiscrete_CellState type subclass
  * @param <T> The type extending Enum used to represent the CellState
- * Created by th174 on 1/31/2017.
  */
 public abstract class AbstractDiscrete_CellState<E extends AbstractDiscrete_CellState<E, T>, T extends Enum<T>> extends Abstract_CellState<E, T> {
 

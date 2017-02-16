@@ -10,10 +10,11 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
- * Implementation of SimulationGrid for Cell Society
+ * Implementation of SimulationGrid for Cell Society.
+ * <p>
+ * Created by th174 on 2/7/2017.
  *
  * @see SimulationGrid
- * Created by th174 on 2/7/2017.
  */
 public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends AbstractDiscrete_CellState<T, ? extends Enum<?>>> implements SimulationGrid<E, T>, Iterable<E> {
     public static final int LEFT = 0;

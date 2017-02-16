@@ -5,7 +5,8 @@ import CellSociety.Abstract_CellState;
 import CellSociety.Grids.SimulationGrid;
 
 /**
- * Provides a uniform API to get initial configuration and state of simulation
+ * This class provides a uniform API to get initial configuration and state of simulation.
+ * <p>
  * Created by th174 on 1/31/2017.
  */
 public interface InputDataGetter {

@@ -4,11 +4,12 @@ import CellSociety.Abstract_Cell;
 import CellSociety.UI.AbstractRegularPolygon_CellView;
 
 /**
- * This class provides a square graphical representation of an Abstract_Cell
+ * This class provides a square graphical representation of an Abstract_Cell.
+ * <p>
+ * Created by th174 on 2/11/2017.
  *
  * @param <E> Type of Abstract_Cell represented by this CellView
  * @see AbstractRegularPolygon_CellView
- * Created by th174 on 2/11/2017.
  */
 public final class Square<E extends Abstract_Cell> extends AbstractRegularPolygon_CellView<E> {
     public static final int SQUARE_SIDES = 4;

@@ -9,9 +9,10 @@ import java.util.stream.Collectors;
 
 /**
  * This class models a single cell in the PredatorPrey simulation.
+ * <p>
+ * Created by th174 on 1/29/2017.
  *
  * @see CellSociety.Abstract_Cell
- * Created by th174 on 1/29/2017.
  */
 public class PredatorPrey_Cell extends Abstract_Cell<PredatorPrey_Cell, PredatorPrey_CellState> {
     /**

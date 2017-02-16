@@ -6,11 +6,13 @@ import java.util.Set;
 
 /**
  * Base class for representing the CellState of a Cell at any particular instance in time.
- * NOTE: All concrete implementation MUST be immutable.
+ * <p>
+ * Note: All concrete implementations of this class should be immutable.
+ * <p>
+ * Created by th174 on 1/29/2017.
  *
  * @param <E> The Abstract_CellState type subclass
  * @param <T> The type of object used to represent the current state
- *            Created by th174 on 1/29/2017.
  */
 public abstract class Abstract_CellState<E extends Abstract_CellState<E, T>, T> implements Comparable<E> {
 

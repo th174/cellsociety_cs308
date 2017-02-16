@@ -6,9 +6,10 @@ import javafx.scene.shape.Polygon;
 
 /**
  * Base class providing a resizable graphical representation of an Cell as a regular polygon.
+ * <p>
+ * Created by th174 on 2/8/2017.
  *
  * @param <E> Type of Abstract_Cell represented by this CellView
- *            Created by th174 on 2/8/2017.
  * @see Abstract_CellView
  */
 public abstract class AbstractRegularPolygon_CellView<E extends Abstract_Cell> extends Abstract_CellView<E> {
@@ -17,7 +18,7 @@ public abstract class AbstractRegularPolygon_CellView<E extends Abstract_Cell> e
     /**
      * Constructs regular polygonal cell view of a regular polygon (e.g. triangle)
      *
-     * @param cell Abstract_Cell that this CellView represents
+     * @param cell         Abstract_Cell that this CellView represents
      * @param outlineColor String representing the color of the grid outline of this CellView. The format of the string representation is the same as in web(String)
      */
     public AbstractRegularPolygon_CellView(E cell, String outlineColor) {

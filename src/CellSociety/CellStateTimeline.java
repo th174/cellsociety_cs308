@@ -5,8 +5,10 @@ import java.util.List;
 
 /**
  * This class stores all previously visited CellStates on a navigable timeline. It can be advanced, appended to, seeked, and reversed.
- * @param <T> Type of CellStates on this Timeline
+ * <p>
  * Created by th174 on 1/31/2017.
+ *
+ * @param <T> Type of CellStates on this Timeline
  */
 public class CellStateTimeline<T extends Abstract_CellState<T, ?>> {
     private int currentIndex;
@@ -15,6 +17,7 @@ public class CellStateTimeline<T extends Abstract_CellState<T, ?>> {
 
     /**
      * initializes timeline from initial state
+     *
      * @param initialState The initial state to be stored on the timeline.
      */
     public CellStateTimeline(T initialState) {
@@ -34,6 +37,7 @@ public class CellStateTimeline<T extends Abstract_CellState<T, ?>> {
 
     /**
      * Advances in the timeline to the specified index
+     *
      * @param index index of timeline to jump to
      */
     public void seek(int index) {
@@ -80,6 +84,7 @@ public class CellStateTimeline<T extends Abstract_CellState<T, ?>> {
 
     /**
      * Appends the next state of the cell to the index immediately after the currentIndex. Does nothing if the currentIndex is not at the end of the timeline
+     *
      * @param newState The successor to the current CellState
      * @return true if can set the next state was set successfully
      */

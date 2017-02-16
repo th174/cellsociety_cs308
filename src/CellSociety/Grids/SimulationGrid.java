@@ -10,11 +10,12 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
- * Interface provides basic API for a Grid of Abstract_Cells with Abstract_CellStates to run the simulation on
+ * Interface provides basic API for a Grid of Abstract_Cells with Abstract_CellStates to run the simulation on.
+ * <p>
+ * Created by th174 on 2/12/2017.
  *
  * @param <E> Type of Abstract_Cell contained by the grid
  * @param <T> Type of AbstractDiscrete_CellState contained by the Cells of the grid
- *            Created by th174 on 2/12/2017.
  */
 public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends AbstractDiscrete_CellState<T, ? extends Enum<?>>> {
     /**

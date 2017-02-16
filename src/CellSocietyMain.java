@@ -1,11 +1,12 @@
-/**
- * Created by th174 on 1/29/2017.
- */
-
 import CellSociety.UI.CellSocietyView;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+/**
+ * Main Application Class.
+ * <p>
+ * Created by th174 on 1/29/2017.
+ */
 public class CellSocietyMain extends Application {
 
     public static void main(String[] args) {

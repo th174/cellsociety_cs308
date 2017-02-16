@@ -6,10 +6,12 @@ import javafx.scene.paint.Color;
 
 /**
  * This class models a single CellState of a single Cell in the SugarScape simulation.
+ * <p>
  * Note: This class is immutable. All fields MUST be declared final.
+ * <p>
+ * Created by th174 on 2/10/2017.
  *
  * @see CellSociety.AbstractDiscrete_CellState
- * Created by th174 on 2/10/2017.
  */
 public final class SugarScape_CellState extends AbstractDiscrete_CellState<SugarScape_CellState, SugarScape_CellState.SugarScapeState> {
     public static final SugarScape_CellState EMPTY = new SugarScape_CellState(SugarScapeState.EMPTY);
