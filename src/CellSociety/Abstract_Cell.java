@@ -1,6 +1,15 @@
 //This entire fire is part of my masterpiece
 //Tim Overeem (to41)
 
+/*
+ *  I think this represents good design because it a good use of inheritance and this feature is very clearly
+ *  open for extension. The Segregation_Cell subclass shows how this is done, and I can be certain that
+ *  any new simulation that inherits this class with perform all the methods it needs to for the program to work.
+ *  This class is relatively short, the proper methods are abstract or implemented. 
+ *  The SimulationGrid can call on this class and be sure that it will interact properly and perform the proper
+ *  functions, based on which subclass is actually relevant.
+ */
+
 package CellSociety;
 
 import CellSociety.Grids.SimulationGrid;

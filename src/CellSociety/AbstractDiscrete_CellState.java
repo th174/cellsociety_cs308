@@ -7,6 +7,11 @@
  * and AbstractDiscrete_CellState is confusing for someone not familiar with our code. However, this would require
  *  me to change several other classes. At this point, it seems easier to blatantly comment on the Abstract_CellState
  *  class that it should not be extended by simulations. 
+ *  
+ *  I think this represents good design because it a good use of inheritance and this feature is very clearly
+ *  open for extension. The Segregation_CellState subclass shows how this is done, and I can be certain that
+ *  any new simulation that inherits this class with perform all the methods it needs to for the program to work.
+ *  This class is relatively short, the proper methods are abstract or implemented. 
  */
 
 package CellSociety;

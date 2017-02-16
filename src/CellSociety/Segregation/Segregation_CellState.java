@@ -1,6 +1,29 @@
 //This entire fire is part of my masterpiece
 //Tim Overeem (to41)
 
+
+/*
+ * IMPORTANT NOTE: At one point, Timmy create a duplicate of all files. I'm not sure why; I think maybe he wanted to
+ * try to do them without having to push to git/cause errors. The result of this was when he pushed, we had a bunch
+ * of duplicate old versions of these files, which we had to delete. This is why the commit history for the files
+ * are really messed up and this doesn't show my contributions. This and the Segregation_Cell classes
+ * are two classes where I did almost all of the thinking/implementation behind this. I thought this would is 
+ * important in case you look at the commit history.
+ */
+
+/*
+ * I think this class illustrates good design because it is short, readable, good use of a subclass, and the details
+ * are encapsulated. It does what it is supposed to do: interact with others based on its/their states, and nothing else.
+ * It has one responsibility that it forms and the superclass can count on it to perform. It is very easy to read
+ * and understand how it works.
+ * Also, compared with some of the other CellState classes, this one does not have a list of various constructors
+ * (which is made easier because not a lot of fields are required). Although it is very short and may not be
+ * considered "intelligent" it is still necessary to have because putting all of these methods in the Cell class
+ * would make that class have multiple responsibilities, and the distinction we made throughout our program that
+ * cells do things, states hold information and calculate things based on these methods, would no longer hold.
+ * Further, itis likely that if we were to make this simulation more realistic and robust, we would add more methods to
+ * this class. 
+ */
 package CellSociety.Segregation;
 
 import CellSociety.AbstractDiscrete_CellState;
