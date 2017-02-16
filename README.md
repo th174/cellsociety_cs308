@@ -1,4 +1,4 @@
-TODO: WRITE A README SOMEONE PLS
+README
 =======
 Abraham, Salo;
 Huang, Timmy;
