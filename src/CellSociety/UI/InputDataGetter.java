@@ -1,3 +1,5 @@
+//This entire class is part of my masterpiece
+
 package CellSociety.UI;
 
 import CellSociety.Abstract_Cell;
@@ -5,7 +7,7 @@ import CellSociety.Abstract_CellState;
 import CellSociety.Grids.SimulationGrid;
 
 /**
- * This class provides a uniform API to get initial configuration and state of simulation.
+ * This class provides a uniform API to get initial configuration and state of simulation. It abstracts the process reading input data, so the simulation does not have to rely on an XML file.
  * <p>
  * Created by th174 on 1/31/2017.
  */
