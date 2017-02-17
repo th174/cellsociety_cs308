@@ -1,7 +1,3 @@
-/**
- * Created by th174 on 1/29/2017.
- */
-
 import CellSociety.UI.CellSocietyView;
 import javafx.application.Application;
 import javafx.scene.Scene;

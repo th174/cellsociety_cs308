@@ -5,9 +5,10 @@ import CellSociety.Abstract_Cell;
 
 /**
  * This class models a single cell in the Fire simulation.
+ * <p>
+ * Created by th174 on 1/29/2017.
  *
  * @see CellSociety.Abstract_Cell
- * Created by th174 on 1/29/2017.
  */
 public class Fire_Cell extends Abstract_Cell<Fire_Cell, Fire_CellState> {
 

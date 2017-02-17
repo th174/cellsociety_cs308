@@ -5,11 +5,12 @@ import CellSociety.Grids.SimulationGrid;
 import java.util.Objects;
 
 /**
- * Base class for modeling a single Cell with a CellState inside a SimulationGrid
+ * Base class for modeling a single Cell with a CellState inside a SimulationGrid.
+ * <p>
+ * Created by th174 on 1/29/2017.
  *
  * @param <E> The Abstract_Cell type subclass
  * @param <T> The AbstractDiscrete_CellState type of this cell at any moment in time
- *            Created by th174 on 1/29/2017.
  */
 public abstract class Abstract_Cell<E extends Abstract_Cell<E, T>, T extends AbstractDiscrete_CellState<T, ? extends Enum<?>>> {
     private final int xPos;

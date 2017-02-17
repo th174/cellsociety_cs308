@@ -20,9 +20,10 @@ import java.util.ResourceBundle;
 
 /**
  * This class implements InputDataGetter by reading initial configuration from an XML file.
+ * <p>
+ * Created by th174 on 1/31/2017.
  *
  * @see CellSociety.UI.InputDataGetter
- * Created by th174 on 1/31/2017.
  */
 public class InputDataGetterXML implements InputDataGetter {
     private final ResourceBundle myResources;

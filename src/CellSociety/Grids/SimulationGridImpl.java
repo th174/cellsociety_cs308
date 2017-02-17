@@ -10,10 +10,11 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
- * Implementation of SimulationGrid for Cell Society
+ * Implementation of SimulationGrid for Cell Society.
+ * <p>
+ * Created by th174 on 2/7/2017.
  *
  * @see SimulationGrid
- * Created by th174 on 2/7/2017.
  */
 public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends AbstractDiscrete_CellState<T, ? extends Enum<?>>> implements SimulationGrid<E, T>, Iterable<E> {
     public static final int LEFT = 0;
@@ -82,10 +83,6 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
                 instantiateCell(i, j, paramsArray[i][j]);
             }
         }
-    }
-
-    private static int actualMod(int dividend, int divisor) {
-        return dividend % divisor + (dividend % divisor < 0 ? divisor : 0);
     }
 
     /**
@@ -324,6 +321,11 @@ public class SimulationGridImpl<E extends Abstract_Cell<E, T>, T extends Abstrac
         public Pair<Integer, Integer> handleBounds(int x, int y, SimulationGrid<E, T> grid) {
             return new Pair<>(actualMod(x, grid.getColumns()), actualMod(y, grid.getRows()));
         }
+
+        private int actualMod(int dividend, int divisor) {
+            return dividend % divisor + (dividend % divisor < 0 ? divisor : 0);
+        }
+
     }
 
     /**

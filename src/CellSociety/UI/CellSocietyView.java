@@ -47,7 +47,9 @@ import static javafx.application.Platform.exit;
 
 /**
  * This class handles all graphical UI/UX for the CellSociety Simulation. It draws each of the cell views to the screen, updates the simulation state on a timeline, and allows for zooming and panning of the the simulation.
- * Additionally, the CellSocietyView.CellSocietyMenu class handles all user program interaction through the Menu bar
+ * Additionally, the CellSocietyView.CellSocietyMenu class handles all user program interaction through the Menu bar.
+ * <p>
+ * Created by th174 on 1/31/2016.
  *
  * @param <T> The type of CellView to be drawn to be the simulation window
  */
@@ -476,7 +478,7 @@ public class CellSocietyView<T extends Abstract_CellView> {
 
         private void openJavadoc() {
             try {
-                Desktop.getDesktop().browse(new URI("file://" + System.getProperty("user.dir").replace('\\','/') + "/doc/index.html"));
+                Desktop.getDesktop().browse(new URI("file://" + System.getProperty("user.dir").replace('\\', '/') + "/doc/index.html"));
             } catch (Exception e) {
                 new Alert(Alert.AlertType.ERROR, myResources.getString("ErrorDocumentation")).show();
             }

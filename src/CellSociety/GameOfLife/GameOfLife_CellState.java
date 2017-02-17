@@ -5,10 +5,12 @@ import javafx.scene.paint.Color;
 
 /**
  * This class models a single CellState of a single Cell in the GameOfLife simulation.
+ * <p>
  * Note: This class is immutable. All fields MUST be declared final.
+ * <p>
+ * Created by th174 on 1/29/2017.
  *
  * @see CellSociety.AbstractDiscrete_CellState
- * Created by th174 on 1/29/2017.
  */
 public final class GameOfLife_CellState extends AbstractDiscrete_CellState<GameOfLife_CellState, GameOfLife_CellState.GameOfLifeState> {
     public static final GameOfLife_CellState DEAD = new GameOfLife_CellState(GameOfLifeState.DEAD);

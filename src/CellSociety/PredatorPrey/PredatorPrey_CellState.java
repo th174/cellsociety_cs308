@@ -5,10 +5,12 @@ import javafx.scene.paint.Color;
 
 /**
  * This class models a single CellState of a single Cell in the PredatorPrey simulation.
+ * <p>
  * Note: This class is immutable. All fields MUST be declared final.
+ * <p>
+ * Created by th174 on 1/29/2017.
  *
  * @see CellSociety.AbstractDiscrete_CellState
- * Created by th174 on 1/29/2017.
  */
 public final class PredatorPrey_CellState extends AbstractDiscrete_CellState<PredatorPrey_CellState, PredatorPrey_CellState.PredatorPreyState> {
     public static final PredatorPrey_CellState PREDATOR = new PredatorPrey_CellState(PredatorPreyState.PREDATOR, Integer.MAX_VALUE, Integer.MAX_VALUE);

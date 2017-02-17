@@ -10,9 +10,10 @@ import java.util.stream.Collectors;
 
 /**
  * This class models a single cell in the SugarScape simulation.
+ * <p>
+ * Created by th174 on 2/10/2017.
  *
  * @see CellSociety.Abstract_Cell
- * Created by th174 on 2/10/2017.
  */
 public class SugarScape_Cell extends Abstract_Cell<SugarScape_Cell, SugarScape_CellState> implements Comparable<SugarScape_Cell> {
 

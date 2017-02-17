@@ -5,10 +5,12 @@ import javafx.scene.paint.Color;
 
 /**
  * This class models a single CellState of a single Cell in the Segregation simulation.
+ * <p>
  * Note: This class is immutable. All fields MUST be declared final.
+ * <p>
+ * Created by th174 on 1/29/2017.
  *
  * @see CellSociety.AbstractDiscrete_CellState
- * Created by th174 on 1/29/2017.
  */
 public class Segregation_CellState extends AbstractDiscrete_CellState<Segregation_CellState, Segregation_CellState.SegregationState> {
     private static final double DEFAULT_SATISFACTORY_THRESHOLD = 0.5;

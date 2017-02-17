@@ -8,9 +8,10 @@ import java.util.stream.Collectors;
 
 /**
  * This class models a single cell in the Segregation simulation.
+ * <p>
+ * Created by th174 on 1/29/2017.
  *
  * @see CellSociety.Abstract_Cell
- * Created by th174 on 1/29/2017.
  */
 public class Segregation_Cell extends Abstract_Cell<Segregation_Cell, Segregation_CellState> {
 
