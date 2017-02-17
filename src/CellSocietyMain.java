@@ -6,7 +6,8 @@ import CellSociety.UI.CellSocietyView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
+//This entire file is part of my masterpiece
+//sea26
 public class CellSocietyMain extends Application {
 	private Scene myScene;
 

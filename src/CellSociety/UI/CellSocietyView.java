@@ -1,3 +1,5 @@
+//The first Class is part of my masterpiece
+//sea26
 package CellSociety.UI;
 
 import CellSociety.AbstractDiscrete_CellState;
@@ -49,8 +51,7 @@ import static javafx.application.Platform.exit;
  *
  * @param <T> The type of CellView to be drawn to be the simulation window
  */
-//The first Class is part of my masterpiece
-//sea26
+
 public class CellSocietyView<T extends Abstract_CellView> {
     public static final boolean SYSTEM_MENU_BAR = true;
     public static final double ANIMATION_RATE_STEP = 5.0 / 4;
