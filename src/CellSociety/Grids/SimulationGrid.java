@@ -14,7 +14,6 @@ import java.util.stream.Stream;
  *
  * @param <E> Type of Abstract_Cell contained by the grid
  * @param <T> Type of AbstractDiscrete_CellState contained by the Cells of the grid
- *            Created by th174 on 2/12/2017.
  */
 public interface SimulationGrid<E extends Abstract_Cell<E, T>, T extends AbstractDiscrete_CellState<T, ? extends Enum<?>>> {
     /**
